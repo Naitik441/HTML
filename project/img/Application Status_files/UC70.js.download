@@ -1,0 +1,5510 @@
+function getDistrictsListForPerm() {
+	// alert('Inside Functionoooooo');
+	var stateCode = $('#prState').val();
+	// alert('State Code : '+stateCode);
+	$.ajax({
+		type : 'POST',
+		url : 'getDistrictListForPerm.do?prState=' + stateCode,
+		dataType : 'json',
+		success : function(data) {
+			var options = "<option value='-1'>Select</option>";
+			$.each(data.distList,
+					function(key, value) {
+						options += "<option value='" + key + "'>" + value
+								+ "</option>";
+					});
+			$("#prDistrict").html(options);
+			$('#presSubDistrict_label').text(data.subDistLabel);
+		}
+	});
+}
+
+function getDistrictsListForPerm2() {
+	// alert('Inside Function');
+	var stateCode = $('#pmState').val();
+	// alert('State Code : '+stateCode);
+	$.ajax({
+		type : 'POST',
+		url : 'getDistrictListForPerm2.do?pmState=' + stateCode,
+		dataType : 'json',
+		success : function(data) {
+			var options = "<option value='-1'>Select</option>";
+			$.each(data.distList,
+					function(key, value) {
+						options += "<option value='" + key + "'>" + value
+								+ "</option>";
+					});
+			$("#pmDistrict").html(options);
+			$('#permSubDistrict_label').text(data.subDistLabel);
+		}
+	});
+}
+
+function displaySubDistricts() {
+	// alert("SubDistrict0000---");
+	var prDistrict = $("#prDistrict").val();
+	// alert(prDistrict)
+	$
+			.ajax({
+				type : 'POST',
+				url : 'getSubDistrict123.do?prDistrict=' + prDistrict,
+				dataType : 'json',
+				success : function(data) {
+					var options = "<option value='-1' selected='selected'>Select Sub District</option>";
+					$.each(data, function(key, value) {
+						options += "<option value='" + key + "'>"
+								+ value.toUpperCase() + "</option>";
+					});
+					$("#prSubDistrict").html(options);
+
+				}
+			});
+	return false;
+}
+function displaySubDistricts1() {
+	// alert("SubDistrict11111111");
+	var pmDistrict = $("#pmDistrict").val();
+	// alert(pmDistrict );
+	$
+			.ajax({
+				type : 'POST',
+				url : 'getSubDistrictPm.do?pmDistrict=' + pmDistrict,
+				dataType : 'json',
+				success : function(data) {
+					var options = "<option value='-1' selected='selected'>Select Sub District</option>";
+					$.each(data, function(key, value) {
+						options += "<option value='" + key + "'>"
+								+ value.toUpperCase() + "</option>";
+					});
+					$("#pmSubDistrict").html(options);
+
+				}
+			});
+	return false;
+}
+
+function displayVillageList() {
+	// alert("Viollege List..........1111");
+	var village = false;
+	var town = false;
+	// alert("get District Detais ! ");
+	var prSubDistrict = $("#prSubDistrict").val();
+	village = $('#presVillageOrTown1').is(':checked');
+	town = $('#presVillageOrTown2').is(':checked');
+	// alert("State = == = ? " + prState);
+	if (village && !town) {
+		// alert("village");
+		$
+				.ajax({
+					type : 'POST',
+					url : 'getVillagesbyDistrict.do?prSubDistrict='
+							+ prSubDistrict,
+					dataType : 'json',
+					success : function(data) {
+						var options = "<option value='-1' selected='selected'>Select Village</option>";
+						// alert(" data= " + data.length);
+						// alert(" value= " + key + " "+value);
+						$.each(data, function(key, value) {
+
+							options += "<option value='" + key + "'>"
+									+ value.toUpperCase() + "</option>";
+						});
+						$("#prTown").html(options);
+					}
+				});
+	} else {
+		// alert("town");
+		// $("#prTown").html("");
+		$
+				.ajax({
+					type : 'POST',
+					url : 'getTownsbyDistrict.do?prSubDistrict='
+							+ prSubDistrict,
+					dataType : 'json',
+					success : function(data) {
+						var options = "<option value='-1' selected='selected'>Select Town</option>";
+						// alert(" data= " + data );
+						if (data != null) {
+							$.each(data, function(key, value) {
+
+								options += "<option value='" + key + "'>"
+										+ value.toUpperCase() + "</option>";
+							});
+						}
+						// alert(options);
+						$("#prTown").html(options);
+					}
+				});
+	}
+
+	// document.LLbacklogForm.action = "LLBacklog.do";
+	// document.LLbacklogForm.submit();
+}
+
+function displayVillageList1() {
+	// alert("Villege List..........222222");
+	var village = false;
+	var town = false;
+	// alert("get District Detais ! ");
+	var pmSubDistrict = $("#pmSubDistrict").val();
+	village = $('#permVillageOrTown1').is(':checked');
+	town = $('#permVillageOrTown2').is(':checked');
+	// alert("State = == = ? " + prState);
+	if (village && !town) {
+		$
+				.ajax({
+					type : 'POST',
+					url : 'getVillagesbyDistrict1.do?pmSubDistrict='
+							+ pmSubDistrict,
+					dataType : 'json',
+					success : function(data) {
+						var options = "<option value='-1' selected='selected'>Select Village</option>";
+						// alert(" data= " + data);
+						// alert(" value= " + key + " "+value);
+
+						$.each(data, function(key, value) {
+							// alert(" value= " + value + " ");
+							options += "<option value='" + key + "'>"
+									+ value.toUpperCase() + "</option>";
+						});
+						$("#pmTown").html(options);
+					}
+				});
+	} else {
+
+		$
+				.ajax({
+					type : 'POST',
+					url : 'getTownsbyDistrict1.do?pmSubDistrict='
+							+ pmSubDistrict,
+					dataType : 'json',
+					success : function(data) {
+						var options = "<option value='-1' selected='selected'>Select Town</option>";
+						// alert(" data= " + data);
+						// alert(" value= " + key + " "+value);
+						if (data != null) {
+							$.each(data, function(key, value) {
+								// alert(" value= " + value + " ");
+								options += "<option value='" + key + "'>"
+										+ value.toUpperCase() + "</option>";
+							});
+						}
+						$("#pmTown").html(options);
+					}
+				});
+	}
+	// document.LLbacklogForm.action = "LLBacklog.do";
+	// document.LLbacklogForm.submit();
+}
+
+
+//Check valid pin or not in permanent addesssu
+function isValidPinOrNot(addressType) {
+	//alert("pincode");
+	var pincode;
+	var district;
+	if(addressType == 'permanent'){
+		pincode = $("#pmPinCode").val();
+		district = $("#pmDistrict").val();
+		state = $("#pmState").val();		
+	}else if(addressType == 'present'){
+		pincode = $("#prPinCode").val();
+		district = $("#prDistrict").val();
+		state1 = $("#prState").val();
+	}
+	//alert("addressType---"+addressType);
+	//alert("state---"+state)
+	$.ajax({
+		type : 'POST',
+		url : 'checkValidPinInPermAddressInBacklog.do?',
+		data:{
+			permPinCodeBacklog :pincode,
+			permDistrictBacklog :district,
+		},
+		dataType : 'json',
+		success : function(data) {
+			if(addressType=='permanent'){
+				if(state == '00'){
+					if(!data.checkValidPin){
+						alert("Enter Valid Pincode");
+						$("#pmPinCode").val('');
+						$("#pmPinCode").focus();
+					}
+				}
+			}else if(addressType=='present'){
+				if(state1 == 'MP'){
+					if(!data.checkValidPin){
+						alert("Entered present Pincode is not mapped with present District. So please change or contact RTO Office.");
+						$("#prPinCode").val('');
+						$("#prPinCode").focus();
+					}
+				}
+			}
+		}
+	});
+}
+
+
+/*
+ * function displayVillageList1() { var village = false; var town = false; //
+ * alert("get District Detais ! "); var pmSubDistrict =
+ * $("#pmSubDistrict").val(); village = $('#permVillageOrTown1').is(':checked');
+ * town = $('#permVillageOrTown2').is(':checked'); // alert("State = == = ? " +
+ * prState); if(village && !town){ $ .ajax({ type : 'POST', url :
+ * 'getVillagesbyDistrict1.do?pmSubDistrict=' + pmSubDistrict, dataType :
+ * 'json', success : function(data) { var options = "<option value='-1'
+ * selected='selected'>Select Village</option>"; // alert(" data= " + data); //
+ * alert(" value= " + key + " "+value); $.each(data, function(key, value) { //
+ * alert(" value= " + value + " "); options += "<option value='" + key + "'>" +
+ * value.toUpperCase() + "</option>"; }); $("#pmTown").html(options); } });
+ * }else{ $ .ajax({ type : 'POST', url : 'getTownsbyDistrict1.do?pmSubDistrict=' +
+ * pmSubDistrict, dataType : 'json', success : function(data) { var options = "<option
+ * value='-1' selected='selected'>Select Town</option>"; // alert(" data= " +
+ * data); // alert(" value= " + key + " "+value); $.each(data, function(key,
+ * value) { // alert(" value= " + value + " "); options += "<option value='" +
+ * key + "'>" + value.toUpperCase() + "</option>"; });
+ * $("#pmTown").html(options); } }); } // document.LLbacklogForm.action =
+ * "LLBacklog.do"; // document.LLbacklogForm.submit(); }
+ */
+/*
+ * function addresscopy() {
+ * 
+ * if (document.getElementById("copy").checked) {
+ * 
+ * 
+ * document.getElementById("pmState").value =
+ * document.getElementById("prState").value; var options1 = "<option
+ * value='select'>Select</option>"; options1 += "<option value='" +
+ * $('#prDistrict').val() + "'>" + $("#prDistrict
+ * option[value='"+$('#prDistrict').val()+"']").text() + "</option>";
+ * $("#pmDistrict").html(options1); document.getElementById("pmDistrict").value =
+ * $('#prDistrict').val();
+ * 
+ * options = "<option value='select'>Select</option>"; options += "<option
+ * value='" + $('#prSubDistrict').val() + "'>" + $("#prSubDistrict
+ * option[value='"+$('#prSubDistrict').val()+"']").text() + "</option>";
+ * $("#pmSubDistrict").html(options);
+ * document.getElementById("pmSubDistrict").value = $('#prSubDistrict').val();
+ * 
+ * var options = "<option value='select'>Select</option>"; options += "<option
+ * value='" + $('#prTown').val() + "'>" + $("#prTown
+ * option[value='"+$('#prTown').val()+"']").text() + "</option>";
+ * $("#pmTown").html(options); document.getElementById("pmTown").value =
+ * $('#prTown').val();
+ * 
+ * if($('#presVillageOrTown1').is(':checked')) {
+ * $('#permVillageOrTown1').prop('checked', true); }else{
+ * $('#permVillageOrTown2').prop('checked', true); }
+ * 
+ * $('label[for="pmSD"]').text($('label[for="prSD"]').text());
+ * 
+ * document.getElementById("pmLocation").value = document
+ * .getElementById("prLocation").value;
+ * 
+ * document.getElementById("pmHouseNo").value = document
+ * .getElementById("prHouseNo").value; document.getElementById("pmStreet").value =
+ * document .getElementById("prStreet").value;
+ * 
+ * document.getElementById("pmPinCode").value = document
+ * .getElementById("prPinCode").value; // alert("prState : " +
+ * document.getElementById("prState").value);
+ * document.getElementById("pmState").value = document
+ * .getElementById("prState").value;
+ * 
+ * 
+ * document.getElementById("pmHouseNo").disabled = true;
+ * document.getElementById("pmStreet").disabled = true;
+ * document.getElementById("pmTown").disabled = true;
+ * document.getElementById("pmPinCode").disabled = true;
+ * document.getElementById("pmState").disabled = true;
+ * document.getElementById("pmDistrict").disabled = true;
+ * document.getElementById("pmSubDistrict").disabled = true; } else {
+ * document.getElementById("pmSubDistrict").disabled = false;
+ * document.getElementById("pmHouseNo").disabled = false;
+ * document.getElementById("pmStreet").disabled = false;
+ * document.getElementById("pmTown").disabled = false;
+ * document.getElementById("pmDistrict").disabled = false;
+ * document.getElementById("pmPinCode").disabled = false;
+ * document.getElementById("pmState").disabled = false; } }
+ */
+
+/* <sample */
+function setLocation(id, v) {
+	// alert(id + " . . " + v);
+	if (id == 'present') {
+		if (v == 'S' && $("#prState").val() != '-1') {
+			$("#prLocation").val($("#prState").val());
+		}
+
+		if (v == 'S' && $("#prState").val() == '-1') {
+
+			$("#prLocation").val('');
+		}
+
+		if (v == 'D' && $("#prDistrict").val() != '-1') {
+			$("#prLocation").val(
+					$(
+							"#prDistrict option[value='"
+									+ $("#prDistrict").val() + "']").text()
+							+ "," + $("#prState").val());
+		}
+		if (v == 'D' && $("#prDistrict").val() == '-1') {
+			$("#prLocation").val($("#prState").val());
+		}
+
+		if (v == 'SD' && $("#prSubDistrict").val() != '-1') {
+			$("#prLocation").val(
+					$(
+							"#prSubDistrict option[value='"
+									+ $("#prSubDistrict").val() + "']").text()
+							+ ","
+							+ $(
+									"#prDistrict option[value='"
+											+ $("#prDistrict").val() + "']")
+									.text() + "," + $("#prState").val());
+		}
+
+		if (v == 'SD' && $("#prSubDistrict").val() == '-1') {
+			$("#prLocation").val(
+					$(
+							"#prDistrict option[value='"
+									+ $("#prDistrict").val() + "']").text()
+							+ "," + $("#prState").val());
+		}
+		if (v == 'TV' && $("#prTown").val() != '-1') {
+			$("#prLocation").val(
+					$("#prTown option[value='" + $("#prTown").val() + "']")
+							.text()
+							+ ","
+							+ $(
+									"#prDistrict option[value='"
+											+ $("#prDistrict").val() + "']")
+									.text() + "," + $("#prState").val());
+		}
+		if (v == 'TV' && $("#prTown").val() == '-1') {
+			$("#prLocation").val(
+					$(
+							"#prSubDistrict option[value='"
+									+ $("#prSubDistrict").val() + "']").text()
+							+ ","
+							+ $(
+									"#prDistrict option[value='"
+											+ $("#prDistrict").val() + "']")
+									.text() + "," + $("#prState").val());
+		}
+	}
+	if (id == 'permanent') {
+
+		if (v == 'S' && $("#pmState").val() != '-1') {
+			$("#pmLocation").val($("#pmState").val());
+		}
+
+		if (v == 'S' && $("#pmState").val() == '-1') {
+
+			$("#pmLocation").val('');
+		}
+
+		if (v == 'D' && $("#pmDistrict").val() != '-1') {
+			$("#pmLocation").val(
+					$(
+							"#pmDistrict option[value='"
+									+ $("#pmDistrict").val() + "']").text()
+							+ "," + $("#pmState").val());
+		}
+		if (v == 'D' && $("#pmDistrict").val() == '-1') {
+			$("#pmLocation").val($("#pmState").val());
+		}
+
+		if (v == 'SD' && $("#pmSubDistrict").val() != '-1') {
+			$("#pmLocation").val(
+					$(
+							"#pmSubDistrict option[value='"
+									+ $("#pmSubDistrict").val() + "']").text()
+							+ ","
+							+ $(
+									"#pmDistrict option[value='"
+											+ $("#pmDistrict").val() + "']")
+									.text() + "," + $("#pmState").val());
+		}
+
+		if (v == 'SD' && $("#pmSubDistrict").val() == '-1') {
+			$("#pmLocation").val(
+					$(
+							"#pmDistrict option[value='"
+									+ $("#pmDistrict").val() + "']").text()
+							+ "," + $("#pmState").val());
+		}
+		if (v == 'TV' && $("#pmTown").val() != '-1') {
+			$("#pmLocation").val(
+					$("#pmTown option[value='" + $("#pmTown").val() + "']")
+							.text()
+							+ ","
+							+ $(
+									"#pmDistrict option[value='"
+											+ $("#pmDistrict").val() + "']")
+									.text() + "," + $("#pmState").val());
+		}
+		if (v == 'TV' && $("#pmTown").val() == '-1') {
+			$("#pmLocation").val(
+					$(
+							"#pmSubDistrict option[value='"
+									+ $("#pmSubDistrict").val() + "']").text()
+							+ ","
+							+ $(
+									"#pmDistrict option[value='"
+											+ $("#pmDistrict").val() + "']")
+									.text() + "," + $("#pmState").val());
+		}
+
+	}
+}
+
+/* End Sample */
+
+function checkRelation() {
+	if ($('#relation').val() == 'H') {
+		if ($('#gender1').is('checked'))
+			$('#gender1').prop('checked', false);
+		$('#gender1').prop('disabled', true);
+	} else {
+		$('#gender1').prop('disabled', false);
+	}
+}
+function displayRtoList(val) {
+
+	// alert("State--1");
+	// alert(val);
+	var state;
+	if (val == 1) {
+		state = $("#state").val();
+	} else if (val == 2) {
+		state = $("#state2").val();
+	} else if (val == 3) {
+		state = $("#have_state").val();
+	} 
+	else if (val == 4) {
+		state = $("#trstate").val();
+		//alert("St4--"+state);
+	}else {
+		state = $("#state1").val();
+	}
+	 //alert("val-----"+val);
+
+	$
+			.ajax({
+				type : 'POST',
+				url : 'getRTOsbyStateForDLBacklog.do?state=' + state +'&val='+val,
+				dataType : 'json',
+				success : function(data) {
+					var options = "<option value='-1' selected='selected'>SELECT RTO NAME</option>";
+					var options1 = "<option value='-1' selected='selected'>SELECT RTO CODE</option>";
+					$.each(data, function(key, value) {
+						// alert(" value= " + value + " ");
+						options += "<option value='" + key + "'>" + value
+								+ "</option>";
+						options1 += "<option value='" + key.toUpperCase()
+								+ "'>" + key.toUpperCase() + "</option>";
+					});
+					// alert(val);
+					if (val == 1) {
+						// alert("Rto Code 1 First Issued");
+						$("#rtoCode").html(options1);
+						$("#rtoCodeissvalue").html(options);
+						$("#issuAuthList").html(options);
+					} else if (val == 2) {
+						// $("#rtoCode").html(options);
+						$("#rtoCode1").html(options);
+						$("#rtoCodevalue").html(options1);
+					} else if (val == 3) {
+						// $("#rtoCode").html(options);
+						$("#have_rto_name").html(options);
+						// $("#rtoCodevalue").html(options1);
+					} 
+					else if (val == 4) {
+						//alert("in 4----1-----");
+						// $("#trrtoCode1").html(options);
+						$("#trrtoCode").html(options);
+						// $("#rtoCodevalue").html(options1);
+					}else {
+
+						$("#issuAuthList").html(options);
+					}
+
+					// $("#issuAuthList").html(options);
+
+				}
+			});
+
+	// document.LLbacklogForm.action = "LLBacklog.do";
+	// document.LLbacklogForm.submit();
+}
+
+function displayRtoListForPublic() {
+
+	var state;
+	state = $("#state2").val();
+	// alert(state+"------State");
+
+	$
+			.ajax({
+				type : 'POST',
+				url : 'getRTOsbyStateForDLBacklogPublic.do?state2=' + state,
+				dataType : 'json',
+				success : function(data) {
+
+					var options = "<option value='-1' selected='selected'>SELECT RTO NAME</option>";
+					var options1 = "<option value='-1' selected='selected'>SELECT RTO CODE</option>";
+
+					$.each(data, function(key, value) {
+
+						if (key == '1') {
+							alert(value);
+							$("#state2").val("-1");
+						} else {
+							options += "<option value='" + key.toUpperCase()
+									+ "'>" + value.toUpperCase() + "</option>";
+							options1 += "<option value='" + key.toUpperCase()
+									+ "'>" + key.toUpperCase() + "</option>";
+						}
+
+					});
+					$("#rtoCode1").html(options);
+					$("#rtoCodevalue").html(options1);
+
+				}
+			});
+}
+
+function addresscopy() {
+
+	if (document.getElementById("copy").checked) {
+
+		document.getElementById("pmState").value = document
+				.getElementById("prState").value;
+		var options1 = "<option value='select'>Select</option>";
+		options1 += "<option value='"
+				+ $('#prDistrict').val()
+				+ "'>"
+				+ $(
+						"#prDistrict option[value='" + $('#prDistrict').val()
+								+ "']").text() + "</option>";
+		$("#pmDistrict").html(options1);
+		document.getElementById("pmDistrict").value = $('#prDistrict').val();
+
+		options = "<option value='select'>Select</option>";
+		options += "<option value='"
+				+ $('#prSubDistrict').val()
+				+ "'>"
+				+ $(
+						"#prSubDistrict option[value='"
+								+ $('#prSubDistrict').val() + "']").text()
+				+ "</option>";
+		$("#pmSubDistrict").html(options);
+		document.getElementById("pmSubDistrict").value = $('#prSubDistrict')
+				.val();
+
+		var options = "<option value='select'>Select</option>";
+		options += "<option value='"
+				+ $('#prTown').val()
+				+ "'>"
+				+ $("#prTown option[value='" + $('#prTown').val() + "']")
+						.text() + "</option>";
+		$("#pmTown").html(options);
+		document.getElementById("pmTown").value = $('#prTown').val();
+
+		$('label[for="pmSD"]').text($('label[for="prSD"]').text());
+
+		if ($('#presVillageOrTown1').is(':checked')) {
+			$('#permVillageOrTown1').prop('checked', true);
+		} else {
+			$('#permVillageOrTown2').prop('checked', true);
+		}
+		document.getElementById("pmLocation").value = document
+				.getElementById("prLocation").value;
+		document.getElementById("pmHouseNo").value = document
+				.getElementById("prHouseNo").value;
+		document.getElementById("pmStreet").value = document
+				.getElementById("prStreet").value;
+
+		document.getElementById("pmPinCode").value = document
+				.getElementById("prPinCode").value;
+
+		// alert("prState : " + document.getElementById("prState").value);
+		document.getElementById("pmState").value = document
+				.getElementById("prState").value;
+
+		document.getElementById("pmHouseNo").disabled = true;
+		document.getElementById("pmStreet").disabled = true;
+		document.getElementById("pmTown").disabled = true;
+		document.getElementById("pmPinCode").disabled = true;
+		document.getElementById("pmState").disabled = true;
+		document.getElementById("pmDistrict").disabled = true;
+		document.getElementById("pmSubDistrict").disabled = true;
+
+	} else {
+
+		document.getElementById("pmSubDistrict").disabled = false;
+		document.getElementById("pmHouseNo").disabled = false;
+		document.getElementById("pmStreet").disabled = false;
+		document.getElementById("pmTown").disabled = false;
+		document.getElementById("pmDistrict").disabled = false;
+		document.getElementById("pmPinCode").disabled = false;
+		document.getElementById("pmState").disabled = false;
+
+	}
+}
+
+/*
+ * function addresscopy() {
+ * 
+ * if (document.getElementById("copy").checked) {
+ * 
+ * document.getElementById("pmHouseNo").value =
+ * document.getElementById("prHouseNo").value;
+ * document.getElementById("pmStreet").value = document
+ * .getElementById("prStreet").value; var options="<option
+ * value='select'>Select</option>"; options += "<option
+ * value='"+$('#prTown').val()+"'>"+$('#prTown').val()+"</option>";
+ * $("#pmTown").html(options);
+ * document.getElementById("pmTown").value=$('#prTown').val();
+ * 
+ * var options1="<option value='select'>Select</option>"; options1 += "<option
+ * value='"+$('#prDistrict').val()+"'>"+$('#prDistrict').val()+"</option>";
+ * $("#pmDistrict").html(options1);
+ * document.getElementById("pmDistrict").value=$('#prDistrict').val();
+ * 
+ * document.getElementById("pmPinCode").value = document
+ * .getElementById("prPinCode").value; document.getElementById("pmState").value =
+ * document .getElementById("prState").value;
+ * 
+ * document.getElementById("pmHouseNo").disabled = true;
+ * document.getElementById("pmStreet").disabled = true;
+ * document.getElementById("pmTown").disabled = true;
+ * document.getElementById("pmDistrict").disabled = true;
+ * document.getElementById("pmPinCode").disabled = true;
+ * document.getElementById("pmState").disabled = true; } else {
+ * document.getElementById("pmHouseNo").disabled = false;
+ * document.getElementById("pmStreet").disabled = false;
+ * document.getElementById("pmTown").disabled = false;
+ * document.getElementById("pmDistrict").disabled = false;
+ * document.getElementById("pmPinCode").disabled = false;
+ * document.getElementById("pmState").disabled = false;
+ * 
+ * document.getElementById("pmHouseNo").value = "";
+ * document.getElementById("pmStreet").value = ""; // $("#pmTown").html(""); //
+ * $("#pmDistrict").html(""); document.getElementById("pmTown").value =
+ * "select"; document.getElementById("pmDistrict").value = "select";
+ * document.getElementById("pmPinCode").value = "";
+ * document.getElementById("pmState").value = "-1"; } }
+ * 
+ */
+
+/*
+ * function getVillagesListForPres() { var distCode = $('#prDistrict').val();
+ * $.ajax({ type:'POST', url:'getVillageListForPerm.do?prDistrict='+distCode,
+ * dataType: 'json', success: function(data) { var options="<option
+ * value='-1'>Select</option>"; $.each(data.villageList, function(key, value) {
+ * options += "<option value='"+value+"'>"+value+"</option>"; });
+ * $("#prTown").html(options); } }); }
+ */
+
+/*
+ * function getDistrictsListForPerm2() { alert('Inside Function'); var stateCode =
+ * $('#pmState').val(); //alert('State Code : '+stateCode); $.ajax({
+ * type:'POST', url:'getDistrictListForPerm.do?pmState='+stateCode, dataType:
+ * 'json', success: function(data) { var options="<option value='-1'>Select</option>";
+ * $.each(data.distList, function(key, value) { options += "<option
+ * value='"+key+"'>"+value+"</option>"; }); $("#pmDistrict").html(options);
+ * $('#permSubDistrict_label').text(data.subDistLabel); } }); }
+ */
+
+/*
+ * function getVillagesListForPres2() { var distCode = $('#pmDistrict').val();
+ * $.ajax({ type:'POST', url:'getVillageListForPerm2.do?pmDistrict='+distCode,
+ * dataType: 'json', success: function(data) { var options="<option
+ * value='-1'>Select</option>"; $.each(data.villageList, function(key, value) {
+ * options += "<option value='"+value+"'>"+value+"</option>"; });
+ * $("#pmTown").html(options); } }); }
+ */
+
+/*
+ * window.onload = function() { // alert("In onload");
+ * 
+ * 
+ * $('#badgeNO').prop('readonly',true); $('#badgeDate').prop('readonly',true);
+ * $('#badgeIssuedBy').prop('readonly',true);
+ * 
+ * document.getElementById("badgeNO").disabled = true; //
+ * document.getElementById("vehicleNO").disabled=true;hzFrDatehzToDate
+ * 
+ * document.getElementById("badgeDate").disabled = true; //
+ * document.getElementById("vehicleNO").disabled=true; //
+ * document.getElementById("badgeIssuedBy").readOnly=true;
+ * document.getElementById("hzFrDate").disabled = true;
+ * document.getElementById("hzToDate").disabled = true; //
+ * document.getElementById("dlIssueDate").disabled = true;//dlIssueDate //
+ * document.getElementById("ndlNo").disabled = true;//murali
+ * document.getElementById("sdlNo").disabled = true;
+ * 
+ * 
+ * document.getElementById("idpno").disabled = true;
+ * document.getElementById("idpIssuDate").disabled = true;
+ *  // document.getElementById("trFrDate").disabled = true; //
+ * document.getElementById("trToDate").disabled = true;
+ * 
+ * document.getElementById("hzFrDate").disabled = true;
+ * 
+ * document.getElementById("hzToDate").disabled = true;
+ * 
+ * document.getElementById("hillFrDate").disabled = true;
+ * document.getElementById("hillToDate").disabled = true; //
+ * document.getElementById("issuAuthList1").disabled = true;NT Validities // are
+ * more than 20 var issuDate = document.getElementById("dlIssueDate"); if
+ * (issuDate.value == "") { // document.getElementById("dob").disabled =
+ * true;//changed // document.getElementById("age").disabled = true;//changed }
+ * 
+ * showHideIDPDef();
+ * 
+ * 
+ * 
+ * 
+ * 
+ * //var selTex= $( "#selectCov option:selected" ).text();
+ * 
+ * var js_state1=document.getElementById("state").value;
+ * 
+ * alert("State------>"+js_state1);
+ * 
+ * var ex = document.getElementById("selectCov"); var selTex =
+ * ex[$('#selectCov').val()].value;
+ * 
+ * //var selTex=document.getElementById("selectCov").value; // alert("selected
+ * enabled...cov"+selTex);
+ * 
+ * var xmlhttp, result;
+ * 
+ * if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+ * xmlhttp = new XMLHttpRequest(); } else {// code for IE6, IE5 xmlhttp = new
+ * ActiveXObject("Microsoft.XMLHTTP"); } xmlhttp.onreadystatechange = function() {
+ * if (xmlhttp.readyState == 4 && xmlhttp.status == 200) { result =
+ * JSON.parse(xmlhttp.responseText);
+ *  } };
+ * 
+ * alert("sgfdj,khvds"); var query = "<s:url action='DLBacklogAction'
+ * method='StateNotAllowforDS'/>"+"?state="+js_state1; xmlhttp.open("GET",
+ * query, false); xmlhttp.send();
+ * 
+ * 
+ * if (result =="enable") {
+ * 
+ * badgeStatus = document.getElementById("badgeNO").disabled=false;
+ * 
+ * document.getElementById("badgeDate").disabled=false;
+ * 
+ * 
+ * //document.getElementById("badgeIssuedBy").disabled=false;
+ * //document.getElementById("trFrDate").value=document.getElementById("covIssuDate").value;
+ * document.getElementById("trFrDate").value=document.getElementById("trFrDate").value; }
+ * else { badgeStatus = document.getElementById("badgeNO").disabled=true;
+ * 
+ * document.getElementById("badgeDate").disabled=true; }
+ * 
+ * 
+ *  // Expire(); };
+ */
+
+/*
+ * function Expire() { var js_ntToDate = document.getElementById("ntToDate");
+ * var serday = parseInt(document.getElementById("serday").value); var sermth =
+ * parseInt(document.getElementById("sermth").value); var seryr =
+ * parseInt(document.getElementById("seryr").value); var servDate = new
+ * Date(parseInt(seryr), parseInt(sermth - 1),parseInt(serday));
+ * 
+ * if(js_ntToDate<servDate) { alert("Your Licence is expaired please renewal
+ * "); js_ntToDate.focus(); } else { alert("Your Licence is expaired please
+ * renewal "); } }
+ */
+
+function image() {
+	document.getElementById("ok").value;
+	var js_ntToDate = document.getElementById("ntToDate");
+	var serday = parseInt(document.getElementById("serday").value);
+	var sermth = parseInt(document.getElementById("sermth").value);
+	var seryr = parseInt(document.getElementById("seryr").value);
+	var servDate = new Date(parseInt(seryr), parseInt(sermth - 1),
+			parseInt(serday));
+	if (servdate > js_ntToDate) {
+		document.getElementById("ok").style.display = "block";
+	} else {
+		document.getElementById("ok").style.display = "block";
+	}
+
+	alert(servDate);
+}
+
+function showHideIDPDef() {
+	/*
+	 * if($("input[name=idpdefence]:checked").val()==-1){
+	 * $("#idpDetails").hide(); $("#defenceDetails").hide();
+	 * $("#foriegnDetails").hide(); }
+	 */
+
+	if ($("input[name=idpdefence]:checked").val() == 1) {
+
+		$("#idpDetails").show('slow');
+		$("#defenceDetails").hide();
+		$("#foriegnDetails").hide();
+	} else if ($("input[name=idpdefence]:checked").val() == 2) {
+		$("#foriegnDetails").show('slow');
+		$("#idpDetails").hide();
+		$("#defenceDetails").hide();
+	} else if ($("input[name=idpdefence]:checked").val() == 3) {
+		$("#defenceDetails").show('slow');
+		$("#idpDetails").hide();
+		$("#foriegnDetails").hide();
+	} else {
+		$("#idpDetails").hide();
+		$("#defenceDetails").hide();
+		$("#foriegnDetails").hide();
+	}
+}
+
+function checkPinCodeInServices(addressType) {
+	//alert("pincode--->");
+	var pinCode = null;
+	var url = null;
+
+	if (addressType == 'permanent') {
+		pinCode = $('#pmPinCode').val();
+		url = 'checkPinCodeInBacklog.do?pmPinCode=' + pinCode;
+	} else if (addressType == 'present') {
+		pinCode = $('#prPinCode').val();
+		url = 'checkPinCodeInBacklog.do?prPinCode=' + pinCode;
+	}
+	//alert("pincode--->"+pinCode);
+	if (pinCode.length == 6) {
+		$.ajax({
+
+			type : 'POST',
+			dataType : 'json',
+			url : url,
+			success : function(data) {
+				//alert("pincode--1->"+pinCode);
+				if (data.pmState == null || data.pmState == 'null') {
+					//alert("pincode--2->"+pinCode);
+					if (addressType == 'permanent') {
+						alert('Enter Valid Pincode in Permanent Address');
+						$('#pmPinCode').val('');
+						$('#pmPinCode').focus();
+					} else if (addressType == 'present') {
+						alert('Enter Valid Pincode in Present Address');
+						$('#prPinCode').val('');
+						$('#prPinCode').focus();
+					}
+				}
+			}
+
+		});
+	}
+}
+function submitDLBacklogForm() {
+	alert("submit");
+	var val = $("#selectCov option:selected").val();
+	// alert("Val===="+val);
+	/* $("#myTab").tabs(); */
+	// var tabSelection1=$('#myTab a[href="#one"]');
+	// var tabSelection=$('#myTab a[href="#two"]');
+	// alert("Tabb--"+tabSelection.hide());
+	/*
+	 * var objTable = document.getElementById("covTable"); alert("id of
+	 * tab="+objTable); var counter = 0, intialtotalRows = 0; intialtotalRows =
+	 * objTable.rows.length; alert("intialtotalRows------"+intialtotalRows);
+	 */
+
+	// Expire();
+	// document.getElementById("badgeIssuedBy").readOnly=true;
+	var pmTown = document.getElementById("pmTown").value;
+	// alert(pmTown);
+	document.getElementById("dlIssueDate").disabled = false;
+	document.getElementById("ndlNo").disabled = false;
+	document.getElementById("sdlNo").disabled = false;
+	document.getElementById("dob").disabled = false;
+	document.getElementById("age").disabled = false;
+	// document.getElementById("dob").readOnly = true;
+	// document.getElementById("age").readOnly = true;
+	var js_dob = document.getElementById("dob");
+	var dob = document.getElementById("dob").value;
+	var age = document.getElementById("age").value;
+	var sdlNo = document.getElementById("sdlNo").value;
+
+	if (sdlNo != null) {
+		document.getElementById("sdlNo").readOnly = true;
+	}
+	/*
+	 * if(dlIssueDate!=null) { document.getElementById("dlIssueDate").readOnly =
+	 * true; } if(dob!=null) { document.getElementById("dob").readOnly = true; }
+	 * if(age!=null) { document.getElementById("age").readOnly = true; }
+	 */
+
+	var serday = parseInt(document.getElementById("serday").value);
+	var sermth = parseInt(document.getElementById("sermth").value);
+	var seryr = parseInt(document.getElementById("seryr").value);
+	var servDate = new Date(parseInt(seryr), parseInt(sermth - 1),
+			parseInt(serday));
+
+
+	var js_dlNo = document.getElementById("ndlNo");
+	var js_odlNo = document.getElementById("odlNo");
+	var issuDate = document.getElementById("dlIssueDate");
+	//var lastEndDate = document.getElementById("lastEndDate");
+	var js_state = document.getElementById("state");
+	var js_rtoCode = document.getElementById("rtoCode");
+
+	var edDate = issuDate.value.substring(0, 2);
+	var hiphen1 = issuDate.value.substring(2, 3);
+	var hiphen2 = issuDate.value.substring(5, 6);
+	var edMonth = issuDate.value.substring(3, 5);
+	var edYear = issuDate.value.substring(6, 10);
+
+	var js_fname = document.getElementById("fname");
+	var js_mname = document.getElementById("mname");
+	var js_lname = document.getElementById("lname");
+
+	var gender_check = $('input:radio[name=gender]:checked').val();
+	// var gender_check = $('input:radio[name=gender]:checked').val();
+	// var gender=document.getElementById("gender");
+
+	/*
+	 * var len = gender.length; var selectedGender = null; for (var i = 0; i
+	 * <len; i++) { if (gender[i].checked) { selectedGender = gender[i].value; } }
+	 */
+
+	var js_rfname = document.getElementById("rfname");
+	var js_relation = document.getElementById("relation");
+	// alert("Relation::::::"+js_relation.value);
+	var js_rmname = document.getElementById("rmname");
+	var js_rlname = document.getElementById("rlname");
+
+	var js_citizen = document.getElementsByName("citizen")[0];
+	var js_bloodgrp = document.getElementsByName("bloodgrp")[0];
+	var js_eduqua = document.getElementsByName("eduqua")[0];
+	var js_idmarks1 = document.getElementById("idfm1");
+	var js_idmarks2 = document.getElementById("idfm2");
+
+	var js_email_id = document.getElementById("email");
+	var js_moblie_no = document.getElementById("mobile");
+
+	var js_prHouseNo = document.getElementById("prHouseNo");
+	var js_prStreet = document.getElementById("prStreet");
+	var js_prTown = document.getElementById("prTown");
+	var js_prDistrict = document.getElementById("prDistrict");
+	var js_prPinCode = document.getElementById("prPinCode");
+	var js_prState = document.getElementsByName("prState")[0];
+	var js_prSubDistrict = document.getElementById("prSubDistrict");
+
+	var js_pmHouseNo = document.getElementById("pmHouseNo");
+	var js_pmStreet = document.getElementById("pmStreet");
+	var js_pmTown = document.getElementById("pmTown");
+	// alert(js_pmTown.value);
+	var js_pmDistrict = document.getElementById("pmDistrict");
+	var js_pmPinCode = document.getElementById("pmPinCode");
+	var js_pmState = document.getElementsByName("pmState")[0];
+	var js_pmSubDistrict = document.getElementById("pmSubDistrict");
+
+	var js_covIssuDate = document.getElementById("covIssuDate");
+
+	var hiphen3 = js_covIssuDate.value.substring(2, 3);
+	var hiphen4 = js_covIssuDate.value.substring(5, 6);
+
+	var js_ntFrDate = document.getElementById("ntFrDate");
+	var js_ntToDate = document.getElementById("ntToDate");
+	var js_trFrDate = document.getElementById("trFrDate");
+	var js_trToDate = document.getElementById("trToDate");
+	var js_hzFrDate = document.getElementById("hzFrDate");
+	var js_hzToDate = document.getElementById("hzToDate");
+	var js_hillFrDate = document.getElementById("hillFrDate");
+	var js_hillToDate = document.getElementById("hillToDate");
+
+	/* Start IDP */
+
+	var js_foriegnno = document.getElementById("foriegnno");
+	var js_foriegnIssueAuth = document.getElementById("foriegnIssueAuth");
+	var js_foriegnIssuDate = document.getElementById("foriegnIssuDate");
+	var js_foriegnvalidfrom = document.getElementById("foriegnvalidfrom");
+	var js_foriegnvalidTo = document.getElementById("foriegnvalidTo");
+	var js_foriegncov = document.getElementById("foriegncov");
+	var js_foriegnvisano = document.getElementById("foriegnvisano");
+	var js_foriegnvisavalidupto = document
+			.getElementById("foriegnvisavalidupto");
+	var js_visaIssuecountry = document.getElementById("visaIssuecountry");
+	var js_foriegnPassportNo = document.getElementById("foriegnPassportNo");
+	var js_DLIssuecountry = document.getElementById("DLIssuecountry");
+	var state2 = document.getElementById("state2");
+	var rtoCode1 = document.getElementById("rtoCode1");
+	
+	var trstate = document.getElementById("trstate");
+	var trrtoCode = document.getElementById("trrtoCode");
+
+	/* End IDP */
+
+	var ntfDate = js_ntFrDate.value.substring(0, 2);
+	var hiphen5 = js_ntFrDate.value.substring(2, 3);
+	var hiphen6 = js_ntFrDate.value.substring(5, 6);
+	var ntfMonth = js_ntFrDate.value.substring(3, 5);
+	var ntfYear = js_ntFrDate.value.substring(6, 10);
+	var nttDate = js_ntToDate.value.substring(0, 2);
+	var hiphen7 = js_ntToDate.value.substring(2, 3);
+	var hiphen8 = js_ntToDate.value.substring(5, 6);
+	var nttMonth = js_ntToDate.value.substring(3, 5);
+	var nttYear = js_ntToDate.value.substring(6, 10);
+
+	var trfDate = js_trFrDate.value.substring(0, 2);
+	var hiphen9 = js_trFrDate.value.substring(2, 3);
+	var hiphen10 = js_trFrDate.value.substring(5, 6);
+	var trfMonth = js_trFrDate.value.substring(3, 5);
+	var trfYear = js_trFrDate.value.substring(6, 10);
+	var trtDate = js_trToDate.value.substring(0, 2);
+	var hiphen11 = js_trToDate.value.substring(2, 3);
+	var hiphen12 = js_trToDate.value.substring(5, 6);
+	var trtMonth = js_trToDate.value.substring(3, 5);
+	var trtYear = js_trToDate.value.substring(6, 10);
+
+	var date = js_dob.value.substring(0, 2);
+	var month = js_dob.value.substring(3, 5);
+	var year = js_dob.value.substring(6, 10);
+
+	// alert(js_relation);
+
+	/*
+	 * if(js_ntToDate<servDate){
+	 * 
+	 * 
+	 * alert("Your Licence is expaired please renewal ");
+	 * 
+	 * js_ntToDate.focus(); } else { alert("Your Licence is expaired please
+	 * renewal "); }
+	 */
+
+	if (state2.value == "-1") {
+		alert("Please Select Applied State");
+
+		state2.focus();
+		return false;
+	}
+
+	if (rtoCode1.value == "-1") {
+		alert("Please Select Applied RTO");
+
+		rtoCode1.focus();
+		return false;
+	}
+
+	if (js_state.value == "-1") {
+		alert("Please Select Issued State");
+
+		js_state.focus();
+		return false;
+	}
+
+	if (js_rtoCode.value == "-1") {
+		alert("Please Select Issued RTO");
+
+		js_rtoCode.focus();
+		return false;
+	}
+
+	if (issuDate.value == "") {
+		alert("Please Enter the Date of Issue of the Licence");
+
+		issuDate.focus();
+		return false;
+
+	}
+
+	/*
+	 * if(issuDate.value!=null) { //alert("Inside Issuedate");
+	 * document.getElementById("dlIssueDate").disabled = true; }
+	 */
+
+	if (edYear > seryr) {
+		alert("License Issue Date should be less than or equal to current Date");
+		document.backlogForm.dlIssueDate.value = '';
+		document.backlogForm.covIssuDate.value = '';
+		document.backlogForm.ntFrDate.value = '';
+
+		issuDate.focus();
+		return false;
+	}
+	if (edYear == seryr) {
+		if (edMonth > sermth) {
+			alert("License Issue Date should be less than or equal to current Date");
+			document.backlogForm.dlIssueDate.value = '';
+			document.backlogForm.covIssuDate.value = '';
+			document.backlogForm.ntFrDate.value = '';
+
+			issuDate.focus();
+			return false;
+		}
+
+		if (edMonth == sermth) {
+			if (edDate > serday) {
+				alert("License Issue Date should be less than or equal to current Date");
+				document.backlogForm.dlIssueDate.value = '';
+				document.backlogForm.covIssuDate.value = '';
+				document.backlogForm.ntFrDate.value = '';
+
+				issuDate.focus();
+				return false;
+			}
+		}
+
+	}
+
+	
+	
+	
+	if (js_dlNo.value == "") {
+
+		alert("Please enter the Driving Licence Number");
+
+		js_dlNo.focus();
+		return false;
+	}
+
+	/*
+	 * if(sdlNo=="") { alert("Scosta DL Number should not empty");
+	 * 
+	 * 
+	 * return false; }
+	 */
+
+	if (js_odlNo.value.trim() == "") {
+
+		alert("Please enter the Original Driving Licence Number");
+
+		js_odlNo.focus();
+		return false;
+	}
+	
+	
+	
+	if (trstate.value == "-1") {
+		alert("Please Select Last Transaction State");
+
+		trstate.focus();
+		return false;
+	}
+
+	if (trrtoCode.value == "-1") {
+		alert("Please Select Last Transaction RTO");
+
+		trrtoCode.focus();
+		return false;
+	}
+	
+	/*if(lastEndDate.value == "")
+		{
+		alert("Please enter Last Transaction Date");
+		lastEndDate.focus();
+		return false;
+		}*/
+	
+
+	if (js_fname.value.trim() == "") {
+		alert(" Applicant First Name is Mandatory");
+
+		// tabContainer.selectTab('one');
+
+		js_fname.focus();
+		// tabContainer.selectTab('one');
+		return false;
+	}
+
+	/*
+	 * if (js_fname.value.trim().length <= 2) { alert("Applicant First Name must
+	 * have minimum 3 characters !"); js_fname.focus(); return false; }
+	 */
+
+	/*
+	 * var words = "abcdefghijklmnopqrstuvwxyz".toUpperCase();
+	 * 
+	 * for (var jjj = 0; jjj < js_fname.value.trim().length; jjj++) { var cons =
+	 * js_fname.value.trim().charAt(jjj);
+	 * 
+	 * if (js_fname.value.trim().indexOf(cons + cons + cons) > -1 ||
+	 * words.indexOf(js_fname.value.trim()) > -1) { alert("Applicant First Name
+	 * is contains improper letters"); js_fname.value = ""; js_fname.focus();
+	 * return false; } }
+	 */
+
+	/*
+	 * if (js_mname.value.length != 0 ) { if (js_mname.value.length <= 2) {
+	 * 
+	 * alert("Applicant Middle Name must have minimum 3 characters !");
+	 * js_mname.focus();
+	 * 
+	 * return false; } }
+	 */
+
+	/*
+	 * if (js_lname.value.trim() == "") {
+	 * 
+	 * alert("Applicant Last Name Is Mandatory");
+	 * //tabContainer.selectTab('one');
+	 * 
+	 * js_lname.focus(); return false; }
+	 */
+
+	/*
+	 * if (js_lname.value.length>=1 && js_lname.value.length <= 2) {
+	 * 
+	 * alert("Applicant Last Name must have minimum 3 characters !");
+	 * js_lname.focus(); return false; }
+	 */
+
+	/*
+	 * for (var jjj = 0; jjj < js_mname.value.trim().length; jjj++) { var cons =
+	 * js_mname.value.trim().charAt(jjj);
+	 * 
+	 * if (js_mname.value.trim().indexOf(cons + cons + cons) > -1 ||
+	 * words.indexOf(js_mname.value.trim()) > -1) { alert("Applicant Middle Name
+	 * is contains improper letters"); js_mname.value = ""; js_mname.focus();
+	 * return false; } }
+	 */
+
+	/*
+	 * for (var jjj = 0; jjj < js_lname.value.trim().length; jjj++) { var cons =
+	 * js_lname.value.trim().charAt(jjj);
+	 * 
+	 * if (js_lname.value.trim().indexOf(cons + cons + cons) > -1 ||
+	 * words.indexOf(js_lname.value.trim()) > -1) { alert("Applicant Last Name
+	 * is contains improper letters"); js_lname.value = ""; js_lname.focus();
+	 * return false; } }
+	 */
+
+	/*
+	 * if (document.getElementById("fname").value.length>=1 &&
+	 * document.getElementById("mname").value.length>=1 &&
+	 * document.getElementById("fname").value.trim() ==
+	 * document.getElementById("mname").value.trim()) { alert("Applicant First
+	 * Name and Middle Name should not equal");
+	 * document.getElementById("mname").focus(); return false; } if
+	 * (document.getElementById("fname").value.length>=1 &&
+	 * document.getElementById("lname").value.length>=1 &&
+	 * document.getElementById("fname").value.trim() ==
+	 * document.getElementById("lname").value.trim()) { alert("Applicant First
+	 * Name and Last Name should not equal");
+	 * document.getElementById("lname").focus(); return false; } if
+	 * (document.getElementById("mname").value.length>=1 &&
+	 * document.getElementById("mname").value.length>=1 &&
+	 * document.getElementById("mname").value.trim() ==
+	 * document.getElementById("lname").value.trim() ) { alert("Applicant Middle
+	 * Name and Last Name should not equal");
+	 * document.getElementById("lname").focus(); return false; }
+	 */
+
+	/*
+	 * if (js_lname.value.length>=1 && js_lname.value.length <= 2) {
+	 * alert("Applicant Last Name must have minimum 3 characters !");
+	 * js_lname.focus(); return false; }
+	 */
+
+	/*
+	 * else if (!gender_check) { alert("Please select your gender...");
+	 * gender_check.focus(); return false; }
+	 */
+
+	if (js_relation.value == "-1") {
+		alert("Please Select the Relation");
+		// tabContainer.selectTab('one');
+		js_relation.focus();
+		return false;
+	} else if (js_rfname.value.trim() == "") {
+		alert("Relation First Name Is Mandatory");
+		// tabContainer.selectTab('one');
+		js_rfname.focus();
+		return false;
+	}
+	/*
+	 * if (js_rfname.value.trim().length >= 1 && js_rfname.value.trim().length <=
+	 * 2) {
+	 * 
+	 * alert("Relation First Name must have minimum 3 characters !");
+	 * js_rfname.focus(); return false; }
+	 */
+	/*
+	 * for (var jjj = 0; jjj < js_rfname.value.trim().length; jjj++) { var cons =
+	 * js_rfname.value.trim().charAt(jjj);
+	 * 
+	 * if (js_rfname.value.trim().indexOf(cons + cons + cons) > -1 ||
+	 * words.indexOf(js_rfname.value.trim()) > -1) { alert("Relation First Name
+	 * is contains improper letters"); js_rfname.value = ""; js_rfname.focus();
+	 * return false; } }
+	 */
+	/*
+	 * if (js_rmname.value.length != 0 ) { if (js_rmname.value.length >=1 &&
+	 * js_rmname.value.length <= 2) {
+	 * 
+	 * alert("Relation Middle Name must have minimum 3 characters !");
+	 * js_rmname.focus();
+	 * 
+	 * return false; } }
+	 */
+
+	/*
+	 * if (js_rlname.value.trim() == "") { alert(" Relation Last Name Is
+	 * Mandatory");
+	 * 
+	 * //tabContainer.selectTab('one'); js_rlname.focus(); return false; }
+	 */
+	/*
+	 * if (js_rlname.value.length >=1 && js_rlname.value.length <= 2) {
+	 * 
+	 * alert("Relation Last Name must have minimum 3 characters !");
+	 * js_rlname.focus(); return false; }
+	 */
+
+	/*
+	 * for (var jjj = 0; jjj < js_rlname.value.trim().length; jjj++) { var cons =
+	 * js_rlname.value.trim().charAt(jjj);
+	 * 
+	 * if (js_rlname.value.trim().indexOf(cons + cons + cons) > -1 ||
+	 * words.indexOf(js_rlname.value.trim()) > -1) { alert("Relation Last Name
+	 * is contains improper letters"); js_rlname.value = ""; js_rlname.focus();
+	 * return false; } }
+	 */
+
+	/*
+	 * if (document.getElementById("rfname").value.length>=1 && document
+	 * .getElementById("rmname").value.length>=1 &&
+	 * document.getElementById("rfname").value.trim() == document
+	 * .getElementById("rmname").value) { alert("Applicant Relation First Name
+	 * and Middle Name should not equal");
+	 * document.getElementById("rmname").focus(); return false; } if
+	 * (document.getElementById("rfname").value.length>=1 && document
+	 * .getElementById("rlname").value.length>=1 &&
+	 * document.getElementById("rfname").value == document
+	 * .getElementById("rlname").value) { alert("Applicant Relation First Name
+	 * and Last Name should not equal");
+	 * document.getElementById("rlname").focus(); return false; } if
+	 * (document.getElementById("rmname").value.length>=1 && document
+	 * .getElementById("rlname").value.length>=1 &&
+	 * document.getElementById("rmname").value == document
+	 * .getElementById("rlname").value) { alert("Applicant Relation Middle Name
+	 * and Last Name should not equal");
+	 * document.getElementById("rlname").focus(); return false; }
+	 */
+
+	if (!gender_check) {
+		alert("Please select your gender.");
+		return false;
+	}
+	/* else if (document.getElementsByName("relation")[0].value == "-1") { */
+
+	/*
+	 * if($("input[name=gender]:checked").val()==0) { //alert("Just check 1
+	 * relation"+js_relation.value); if(js_relation.value.length!= 0) {
+	 * 
+	 * if (js_relation.value=="H") { alert("Please Select Correct Gender or
+	 * Relation "); js_relation.focus(); return false; } } }
+	 */
+
+	if (js_dob.value == "") {
+		alert("Please Enter Date of Birth");
+		// tabContainer.selectTab('one');
+		js_dob.focus();
+		return false;
+	}
+
+	/*
+	 * if(js_dob.value!=null) { alert("Inside DOB");
+	 * document.getElementById("dob").disabled = true; } if(age.value!=null) {
+	 * alert("Inside Age"); document.getElementById("age").disabled = true; }
+	 */
+
+	if (js_citizen.value == "-1") {
+		alert("please select nationality");
+		// tabContainer.selectTab('one');
+		js_citizen.focus();
+		return false;
+	} /*
+		 * else if (js_bloodgrp.value == "-1") { alert("please select blood
+		 * group"); //tabContainer.selectTab('one'); js_bloodgrp.focus(); return
+		 * false; }
+		 */
+
+	else if (js_eduqua.value == "-1") {
+		alert("Qualification Is Mandatory");
+		// tabContainer.selectTab('one');
+		js_eduqua.focus();
+		return false;
+	}
+
+	/*
+	 * else if (js_idmarks1 == "") { alert("Identification Marks1 Is
+	 * Mandatory"); return false; } if (js_idmarks2 != "") {
+	 * 
+	 * if (/[^a-zA-Z]/.test(js_idmarks)) { alert("Identification Marks Must be
+	 * Alphabetcis"); return false; } }
+	 */
+
+	/* if (js_email_id.value != "") { */
+	if (js_email_id.value != "") {
+
+		if (!(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/
+				.test(js_email_id.value))) {
+			alert("Invalid Email Id, Please enter correct Email ID");
+			// tabContainer.selectTab('one');
+
+			js_email_id.focus();
+			return false;
+		}
+	}
+	// if(mobileNumber.value.trim().length!=10)
+	if (document.getElementById('fromDLSerFlag').value == "true") {
+		if (js_moblie_no.value == "") {
+			alert("Mobile Number Is Mandatory");
+			// tabContainer.selectTab('one');
+			js_moblie_no.focus();
+			return false;
+		}
+		if (js_moblie_no.value.trim().length != 10) {
+			alert("Enter valid Mobile Number");
+			// tabContainer.selectTab('one');
+			js_moblie_no.focus();
+			return false;
+		}
+		if (/[^0-9]/.test(js_moblie_no.value)) {
+			alert("Invalid Mobile Number");
+
+			js_moblie_no.focus();
+			return false;
+		}
+	}
+	
+	if (state2.value== "GJ" || state2.value== "KL" || state2.value== "PB") {
+		if (js_moblie_no.value == "") {
+			alert("Mobile Number Is Mandatory");
+			// tabContainer.selectTab('one');
+			js_moblie_no.focus();
+			return false;
+		}
+		if (js_moblie_no.value.trim().length != 10) {
+			alert("Enter valid Mobile Number");
+			// tabContainer.selectTab('one');
+			js_moblie_no.focus();
+			return false;
+		}
+		if (/[^0-9]/.test(js_moblie_no.value)) {
+			alert("Invalid Mobile Number");
+
+			js_moblie_no.focus();
+			return false;
+		}
+	}
+	
+
+	if (js_prState.value == "-1") {
+		alert("Present Address State Mandatory");
+		js_prState.focus();
+		return false;
+
+	}
+
+	if (js_prDistrict.value == "-1") {
+
+		alert("Present District Mandatory");
+		js_prDistrict.focus();
+		return false;
+
+	}
+
+	if (js_prSubDistrict.value == "-1") {
+
+		alert("Present Sub District Mandatory");
+		js_prSubDistrict.focus();
+		return false;
+
+	}
+
+	/*
+	 * if (js_prHouseNo.value.trim() == "") {
+	 * 
+	 * alert("Present Flat/House No: Mandatory "); js_prHouseNo.focus(); return
+	 * false; } if (js_prStreet.value == "") {
+	 * 
+	 * alert("Present Street/Locality: Mandatory"); js_prStreet.focus(); return
+	 * false; }
+	 */
+
+	/*
+	 * if (js_prTown.value.trim() == "") {
+	 * 
+	 * alert("Present Town/Village/City: Mandatory"); js_prTown.focus(); return
+	 * false; }
+	 */
+
+	if (js_prPinCode.value.trim() == "") {
+		alert("Present Address Pin-Code Mandatory");
+		js_prPinCode.focus();
+		return false;
+	}
+
+	/*
+	 * if(js_prPinCode.value.trim().length!=6) { alert("Pincode should contain
+	 * only 6 Numbers"); js_prPinCode.focus(); return false; }
+	 */
+
+	if (js_prPinCode.value.trim().length != 6) {
+		alert("Pincode should contain only 6 Numbers");
+		// tabContainer.selectTab('one');
+		js_prPinCode.focus();
+		return false;
+	}
+	
+	/*if ($("#Ekyc").val() == 'true') {
+		
+	}*/
+	/*else
+		{*/
+
+	if (js_pmState.value == "-1") {
+		alert("Permanent Address State Mandatory");
+		js_pmState.focus();
+		return false;
+
+	}
+
+	if (js_pmDistrict.value == "-1") {
+
+		alert("Permanent District:	Mandatory");
+		js_pmDistrict.focus();
+		return false;
+
+	}
+
+	if (js_pmSubDistrict.value == "-1") {
+
+		alert("Permanent Sub District:	Mandatory");
+		js_pmSubDistrict.focus();
+		return false;
+
+	}
+
+	/*
+	 * if (js_pmHouseNo.value.trim() == "") {
+	 * 
+	 * alert("Permanent Flat/House No: Mandatory "); //
+	 * tabContainer.selectTab('one');
+	 * 
+	 * js_pmHouseNo.focus(); return false; }
+	 * 
+	 * if (js_pmStreet.value.trim() == "") {
+	 * 
+	 * alert("Permanent Street/Locality: Mandatory"); //
+	 * tabContainer.selectTab('one');
+	 * 
+	 * js_pmStreet.focus(); return false; }
+	 */
+
+	/*
+	 * if (js_pmTown.value.trim() == "") {
+	 * 
+	 * alert("Permanent Town/Village/City: Mandatory"); //
+	 * tabContainer.selectTab('one');
+	 * 
+	 * js_pmTown.focus(); return false; }
+	 */
+
+	if (js_pmPinCode.value.trim() == "") {
+		alert("Permanent Address Pin-Code Mandatory");
+		// tabContainer.selectTab('one');
+
+		js_pmPinCode.focus();
+		return false;
+	}
+
+	if (js_pmPinCode.value.trim().length != 6) {
+		alert("Pincode should contain only 6 Numbers");
+		// tabContainer.selectTab('one');
+		js_pmPinCode.focus();
+		return false;
+	}
+		//}
+
+	// selectCov
+	/*
+	 * var js_selectCov = document.getElementById("selectCov"); var selTex= $(
+	 * "#selectCov option:selected" ).text(); var val=$( "#selectCov
+	 * option:selected" ).val(); //var selTex =
+	 * document.getElementById("selectCov").value;
+	 * if(selTex=="Select"||selTex==""){ alert("Please select the COV");
+	 * js_selectCov.focus(); return false; }
+	 */
+
+	/*
+	 * if (js_ntFrDate.value == "") {
+	 * 
+	 * alert("Enter NT Validity From Date");
+	 * 
+	 * js_ntFrDate.focus(); return false; }
+	 */
+
+	if (js_ntFrDate.value != "") {
+		if (hiphen5 !== "-" && hiphen6 !== "-") {
+			alert("Enter NT Validity From Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.ntFrDate.value = '';
+
+			js_ntFrDate.focus();
+			return false;
+		}
+		if (js_ntFrDate.value.length != 10) {
+			alert("Enter NT Validity From Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.ntFrDate.value = '';
+
+			js_ntFrDate.focus();
+			return false;
+		}
+
+		if (ntfYear > seryr) {
+			alert("NT Valid From Date should less than  Today's date");
+			document.backlogForm.ntFrDate.value = '';
+
+			js_ntFrDate.focus();
+			return false;
+		}
+		if (ntfYear == seryr) {
+			if (ntfMonth > sermth) {
+				alert("NT Valid From Date should less than  Today's date");
+				document.backlogForm.ntFrDate.value = '';
+
+				js_ntFrDate.focus();
+				return false;
+			}
+
+			if (ntfMonth == sermth) {
+				if (ntfDate > serday) {
+					alert("NT Valid From Date should less than  Today's date");
+					document.backlogForm.ntFrDate.value = '';
+
+					js_ntFrDate.focus();
+					return false;
+				}
+
+			}
+		}
+	}
+
+	// var ExpiryDate = serday + "-" + sermth + "-" + seryr;
+	// alert("Expiry Date:..."+ExpiryDate);
+	//	
+	// if(seryr>splitVal[2])
+	//		
+	// {
+	// if(sermth>splitVal[1])
+	// {
+	// if(serday>splitVal[0])
+	// {
+	// alert("Your Licence Expired");
+	// js_ntFrDate.focus();
+	//				
+	// return false;
+	//
+	//			
+	// }
+	// }
+	// }
+
+	/*
+	 * if(ExpiryDate>NTTodate) { alert("Your Licence Expired");
+	 * js_ntFrDate.focus();
+	 * 
+	 * return false; }
+	 */
+
+	/* <Expire */
+
+	/* End Expire */
+	if (js_ntFrDate.value != "") {
+
+		if (ntfYear < edYear) {
+			alert("NT Valid From Date should  not be less than the First Issue Date");
+			document.backlogForm.ntFrDate.value = '';
+			js_ntFrDate.focus();
+
+			return false;
+
+		}
+
+		if (ntfYear == edYear) {
+			if (ntfMonth < edMonth) {
+				alert("NT Valid From Date should  not be less than the First Issue Date");
+				document.backlogForm.ntFrDate.value = '';
+
+				js_ntFrDate.focus();
+				return false;
+			}
+
+			else if (ntfMonth == edMonth) {
+				if (ntfDate < edDate) {
+					alert("NT Valid From Date should  not be less than the First Issue Date");
+					document.backlogForm.ntFrDate.value = '';
+
+					js_ntFrDate.focus();
+					return false;
+				}
+			}
+		}
+	}
+	/*
+	 * if (ntfYear > edYear) { alert("NT Valid From Date should not be greater
+	 * than the First Issue Date"); document.backlogForm.ntFrDate.value = '';
+	 * js_ntFrDate.focus();
+	 * 
+	 * return false; } if (ntfYear == edYear) { if (ntfMonth > edMonth) {
+	 * alert("NT Valid From Date should not be greater than the First Issue
+	 * Date"); document.backlogForm.ntFrDate.value = '';
+	 * 
+	 * js_ntFrDate.focus(); return false; }
+	 * 
+	 * else if (ntfMonth == edMonth) { if (ntfDate > edDate) { alert("NT Valid
+	 * From Date should not be greater than the First Issue Date");
+	 * document.backlogForm.ntFrDate.value = '';
+	 * 
+	 * js_ntFrDate.focus(); return false; } } }
+	 */
+	// var rowcount = document.getElementById('covTable').rows.length;
+	// alert("Row Count----->"+rowcount);
+	var rowcount = document.getElementById('covTable').rows.length;
+	// alert("Row Count111----->"+rowcount);
+
+	if (rowcount == 1) {
+
+		// alert("In Firstttt---");
+		alert("Please Add  COV Details");
+		$('#myTab [role="presentation"]').removeClass('active');
+		$('#myTab [href="#two"]').closest('li').addClass('active');
+		$('#one[role="tabpanel"]').removeClass('active');
+		$('#two[role="tabpanel"]').addClass('active');
+
+		return false;
+
+		// $('#myTab').tabs().find('a[href="#two"]').trigger('click');
+		// $('#myTab a[href="#two"]').trigger('click');
+		// show $("#ntToDate").focus();
+		// js_ntToDate.focus();
+
+	}
+
+	if (js_ntFrDate.value == "" && js_trFrDate.value == "")
+
+	{
+		alert("Validities should not be empty");
+		return false;
+
+	}
+
+	var ntFrDate = js_ntFrDate.value;
+	var ntFrDate1 = ntFrDate.split("-");
+
+	var ntToDate = js_ntToDate.value;
+	var ntToDate1 = ntToDate.split("-");
+	// alert("From");
+	ntFrDateVal = Date.UTC(ntFrDate1[2], ntFrDate1[1] - 1, ntFrDate1[0], 0, 0,
+			0, 0);
+	ntToDateVal = Date.UTC(ntToDate1[2], ntToDate1[1] - 1, ntToDate1[0], 0, 0,
+			0, 0);
+
+	if (ntFrDateVal > ntToDateVal) {
+		alert("NT Valid From Date should less than or equal to  NT To Date")
+		js_ntToDate.focus();
+		return false;
+	}
+
+	var trFrDate = js_trFrDate.value;
+	var trFrDate1 = trFrDate.split("-");
+
+	var trToDate = js_trToDate.value;
+	var trToDate1 = trToDate.split("-");
+	// alert("From");
+	trFrDateVal = Date.UTC(trFrDate1[2], trFrDate1[1] - 1, trFrDate1[0], 0, 0,
+			0, 0);
+	trToDateVal = Date.UTC(trToDate1[2], trToDate1[1] - 1, trToDate1[0], 0, 0,
+			0, 0);
+
+	if (trFrDateVal > trToDateVal) {
+		alert("TR Valid From Date should less than or equal to  TR To Date")
+		js_trToDate.focus();
+		return false;
+	}
+
+	/*
+	 * if (js_ntToDate.value == "") {
+	 * 
+	 * 
+	 * alert("Enter NT Validity To Date"); alert("Please Add COV Details");
+	 * //tabSelection2.tab('show'); //js_ntToDate.focus(); return false; }
+	 */
+	/*
+	 * if(rowcount!=1) { document.getElementById("ntToDate").disabled=false; }
+	 */
+
+	// alert("Serv Day...."+serday);
+	// alert("Serv Month...."+sermth);
+	// alert("Serv Year...."+seryr);
+	// alert("NT To date...."+js_ntToDate.value);
+	var NTDate = js_ntToDate.value.substring(0, 2);
+	var NTMonth = js_ntToDate.value.substring(3, 5);
+	var NTYear = js_ntToDate.value.substring(6, 10);
+
+	var TRDate = js_trToDate.value.substring(0, 2);
+
+	var TRMonth = js_trToDate.value.substring(3, 5);
+	var TRYear = js_trToDate.value.substring(6, 10);
+	// alert("Validities1234");
+	/*if (js_ntToDate.value.length > 0) {
+		if (js_ntFrDate.value == "") {
+			alert("Please Select NT Form date.");
+			js_ntFrDate.focus();
+			return false;
+		}
+	}*/
+	if (js_ntToDate.value.length > 0) {
+		if (NTYear < seryr) {
+			if (confirm("NT Licence is expired please confirm...! ") == true) {
+				return true;
+
+			} else {
+				js_ntFrDate.focus();
+				return false;
+			}
+		}
+		if (NTYear == seryr) {
+
+			if (NTMonth < sermth) {
+				if (confirm("NT Licence is expired please confirm...! ") == true) {
+					return true;
+
+				} else {
+					js_ntFrDate.focus();
+					return false;
+				}
+			}
+
+			if (NTMonth == sermth) {
+				if (NTDate < serday) {
+					if (confirm("NT Licence is expired please confirm...! ") == true) {
+						return true;
+
+					} else {
+						js_ntFrDate.focus();
+						return false;
+					}
+				}
+			}
+		}
+
+		if (js_trToDate.value.length > 0) {
+
+			if (TRYear < seryr) {
+				if (confirm("TR Licence is expired please confirm...! ") == true) {
+					return true;
+
+				} else {
+					js_trFrDate.focus();
+					return false;
+				}
+			}
+			if (TRYear == seryr) {
+
+				if (TRMonth < sermth) {
+					if (confirm("TR Licence is expired please confirm...! ") == true) {
+						return true;
+
+					} else {
+						js_trFrDate.focus();
+						return false;
+					}
+				}
+
+				if (TRMonth == sermth) {
+					if (TRDate < serday) {
+						if (confirm("TR Licence is expired please confirm...! ") == true) {
+							return true;
+
+						} else {
+							js_trFrDate.focus();
+							return false;
+						}
+					}
+				}
+			}
+		}
+		
+
+	}
+
+	if (js_trToDate.value.length > 0) {
+
+		if (TRYear < seryr) {
+			if (confirm("TR Licence is expired please confirm...! ") == true) {
+				return true;
+
+			} else {
+				js_ntFrDate.focus();
+				return false;
+			}
+		}
+		if (TRYear == seryr) {
+
+			if (TRMonth < sermth) {
+				if (confirm("TR Licence is expired please confirm...! ") == true) {
+					return true;
+
+				} else {
+					js_trFrDate.focus();
+					return false;
+				}
+			}
+
+			if (TRMonth == sermth) {
+				if (TRDate < serday) {
+					if (confirm("TR Licence is expired please confirm...! ") == true) {
+						return true;
+
+					} else {
+						js_trFrDate.focus();
+						return false;
+					}
+				}
+			}
+		}
+	}
+
+	/* Expire Msg */
+	/*
+	 * var NTTodate = js_ntToDate.value; var splitVal = NTTodate.split("-"); var
+	 * TransTDate = js_trToDate.value; alert("Value--------"+js_trToDate.value);
+	 * 
+	 * var TransplitVal = TransTDate.split("-"); // var curdate = new Date(); //
+	 * get system date // convert system date to milliseconds from 1-1-1970
+	 * using UTC function of // Date object ExpiryDate = Date.UTC(seryr, sermth,
+	 * serday, 0, 0, 0, 0); alert("Today Dateee-----"+ExpiryDate); // convert
+	 * date selected by user also to milliseconds from 1-1-1970 NTTodate =
+	 * Date.UTC(splitVal[2], splitVal[1] - 1, splitVal[0], 0, 0, 0, 0); // month //
+	 * is 0 // to // 11 // not // 1 to // 12 TransTDate =
+	 * Date.UTC(TransplitVal[2], TransplitVal[1] - 1, TransplitVal[0], 0, 0, 0,
+	 * 0);
+	 * 
+	 * if (ExpiryDate > NTTodate) { if (confirm("NT Licence is expired please
+	 * confirm...! ") == true) { return true; } else { js_ntFrDate.focus();
+	 * return false; } // confirm(" Licence is expired please confirm...! "); //
+	 * return false; }
+	 * 
+	 * var TRTodate = js_trToDate.value; var splitVal1 = TRTodate.split("-"); //
+	 * var curdate = new Date(); // get system date // convert system date to
+	 * milliseconds from 1-1-1970 using UTC function of // Date object//TR Valid
+	 * to Date should less than NT valid To date ExpiryDate1 = Date.UTC(seryr,
+	 * sermth, serday, 0, 0, 0, 0); // convert date selected by user also to
+	 * milliseconds from 1-1-1970 TRTodate = Date.UTC(splitVal1[2], splitVal1[1] -
+	 * 1, splitVal1[0], 0, 0, 0, 0); // month is 0 to 11 not 1 to 12 //
+	 * TransTDate=Date.UTC( TransplitVal1[2], TransplitVal1[1]-1, //
+	 * TransplitVal1[0],0,0,0,0); if (ExpiryDate > TransTDate) { if (confirm("TR
+	 * Licence is expired please confirm...! ") == true) { return true; } else {
+	 * js_trFrDate.focus(); return false; } // confirm(" Licence is expired
+	 * please confirm...! "); // return false; }
+	 */
+
+	/* Expire Msg */
+
+	/*
+	 * if ( ExpiryDate > TransTDate) { alert("Your Licence is expaired please
+	 * renewal.! "); js_trFrDate.focus();
+	 * document.getElementById("trToDate").disabled=true; return false; }
+	 */
+
+	/*
+	 * if(servDate>js_ntToDate) {
+	 * document.getElementById("expired").style.display = "block"; } if(servDate<ntToDate) {
+	 * document.getElementById("expired").style.display = "block"; }
+	 */
+	if (js_ntFrDate.value != "") {
+		if (hiphen7 !== "-" && hiphen8 !== "-") {
+			alert("Enter NT Validity To Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.ntToDate.value = '';
+
+			js_ntToDate.focus();
+			return false;
+		}
+		if (js_ntToDate.value.length != 10) {
+			alert("Enter NT Validity To Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.ntToDate.value = '';
+
+			js_ntToDate.focus();
+			return false;
+		}
+
+		if (ntfYear > nttYear) {
+
+			alert("NT valid from Date should not be Greater than the NT valid to date");
+			document.backlogForm.ntFrDate.value = '';
+			js_ntFrDate.focus();
+			return false;
+		}
+
+		if (ntfYear == nttYear) {
+			if (ntfMonth > nttMonth) {
+				alert("NT valid From Date should not be Greater than the NT valid to date");
+				document.backlogForm.ntFrDate.value = '';
+
+				js_ntFrDate.focus();
+				return false;
+			}
+
+			if (ntfMonth == nttMonth) {
+				if (ntfDate > nttDate) {
+					alert("NT valid from Date should not be Greater than the NT valid to date");
+					document.backlogForm.ntFrDate.value = '';
+
+					js_ntFrDate.focus();
+					return false;
+				}
+				if (ntfDate == nttDate) {
+					alert("NT valid to Date should  be Greater than the NT from to date");
+					document.backlogForm.ntToDate.value = '';
+
+					js_ntToDate.focus();
+					return false;
+
+				}
+
+			}
+		}
+	}
+
+	/*
+	 * if(js_trFrDate.value==""){ alert("Enter TR From Date");
+	 * document.backlogForm.trFrDate.value = ''; js_trFrDate.focus(); return
+	 * false; }
+	 */
+
+	if (js_trFrDate.value != "") {
+		// alert("In TRRRRRRRRRR");
+
+		if (hiphen9 !== "-" && hiphen10 !== "-") {
+			alert("Enter TR Validity From Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.trFrDate.value = '';
+
+			js_trFrDate.focus();
+			return false;
+		}
+
+		if (js_trFrDate.value.length != 10) {
+			alert("Enter TR Validity from Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.trFrDate.value = '';
+
+			js_trFrDate.focus();
+			return false;
+		}
+		if (js_trFrDate.value != "" && js_trToDate.value == "") {
+
+			alert("Please Enter TR  Valid to Date");
+			js_trToDate.focus();
+
+			return false;
+		}
+
+		if (trfYear > seryr) {
+			alert("TR Valid From Date should less than  Today's date");
+			document.backlogForm.trFrDate.value = '';
+
+			js_trFrDate.focus();
+			return false;
+		}
+		if (trfYear == seryr) {
+			if (trfMonth > sermth) {
+				alert("TR Valid From Date should less than  Today's date");
+				document.backlogForm.trFrDate.value = '';
+
+				js_trFrDate.focus();
+				return false;
+			}
+
+			if (trfMonth == sermth) {
+				if (trfDate > serday) {
+					alert("TR Valid From Date should less than  Today's date");
+					document.backlogForm.trFrDate.value = '';
+
+					js_trFrDate.focus();
+					return false;
+				}
+
+			}
+		}
+		/*
+		 * if (trfYear < ntfYear) { alert("TR Valid From Date should not be Less
+		 * than the NT From Date"); document.backlogForm.trFrDate.value = '';
+		 * js_trFrDate.focus();
+		 * 
+		 * return false; }
+		 */
+		/*if (trfYear == ntfYear) {*/
+			/*
+			 * if (trfMonth < ntfMonth) { alert("TR Valid From Date should not
+			 * be Less than the NT From Date");
+			 * document.backlogForm.trFrDate.value = '';
+			 * 
+			 * js_trFrDate.focus(); return false; }
+			 */
+
+			/*
+			 * else if (ntfMonth == ntfMonth) { if (trfDate < ntfDate) {
+			 * alert("TR Valid From Date should not be Less than the NT From
+			 * Date"); document.backlogForm.trFrDate.value = '';
+			 * 
+			 * js_trFrDate.focus(); return false; } }
+			 */
+
+			var trfDate = js_trFrDate.value.substring(0, 2);
+			var hiphen9 = js_trFrDate.value.substring(2, 3);
+			var hiphen10 = js_trFrDate.value.substring(5, 6);
+			var trfMonth = js_trFrDate.value.substring(3, 5);
+			var trfYear = js_trFrDate.value.substring(6, 10);
+			var trtDate = js_trToDate.value.substring(0, 2);
+			var hiphen11 = js_trToDate.value.substring(2, 3);
+			var hiphen12 = js_trToDate.value.substring(5, 6);
+			var trtMonth = js_trToDate.value.substring(3, 5);
+			var trtYear = js_trToDate.value.substring(6, 10);
+
+			var date = js_dob.value.substring(0, 2);
+			var month = js_dob.value.substring(3, 5);
+			var year = js_dob.value.substring(6, 10);
+			var serday = parseInt(document.getElementById("serday").value);
+			var sermth = parseInt(document.getElementById("sermth").value);
+			var seryr = parseInt(document.getElementById("seryr").value);
+
+			if (js_trToDate.value != "") {
+				// alert("js_trToDate");
+
+				if (hiphen11 !== "-" && hiphen12 !== "-") {
+					alert("Enter TR  Validity To Date in dd-MM-yyyy Format \nEx:22-04-1991");
+					document.backlogForm.trToDate.value = '';
+
+					js_trToDate.focus();
+					return false;
+				}
+				if (js_trToDate.value.length != 10) {
+					alert("Enter TR  Validity To Date in dd-MM-yyyy Format \nEx:22-04-1991");
+					document.backlogForm.trToDate.value = '';
+
+					js_trToDate.focus();
+					return false;
+				}
+
+				// today
+
+				/*
+				 * if (trfYear > seryr) { alert("TR Valid From Date should less
+				 * than Today's date"); document.backlogForm.trFrDate.value =
+				 * '';
+				 * 
+				 * js_trFrDate.focus(); return false; } if (trfYear == seryr) {
+				 * if (trfMonth > sermth) { alert("TR Valid From Date should
+				 * less than Today's date"); document.backlogForm.trFrDate.value =
+				 * '';
+				 * 
+				 * js_trFrDate.focus(); return false; }
+				 * 
+				 * if (trfMonth == sermth) { if (trtDate > serday) { alert("TR
+				 * Valid From Date should less than Today's date");
+				 * document.backlogForm.trFrDate.value = '';
+				 * 
+				 * js_trFrDate.focus(); return false; } } }
+				 */
+
+				// end
+				/*
+				 * if (trtYear > nttYear) { alert("TR Valid to Date should less
+				 * than NT valid To date11");
+				 * document.backlogForm.trToDate.value = '';
+				 * 
+				 * js_trToDate.focus(); return false; } if (trtYear == nttYear) {
+				 * if (trtMonth > nttMonth) { alert("TR Valid to Date should
+				 * less than NT valid To date");
+				 * document.backlogForm.trToDate.value = '';
+				 * 
+				 * js_trToDate.focus(); return false; }
+				 * 
+				 * if (ntfMonth == sermth) { if (ntfDate > serday) { alert("TR
+				 * Valid to Date should less than NT valid To date");
+				 * document.backlogForm.trToDate.value = '';
+				 * 
+				 * js_trToDate.focus(); return false; } } }
+				 */
+			}
+			var trFromDate = new Date(trfYear, trfMonth - 1, trfDate - 1);
+			
+			
+			var cutOfDateforTR="31-12-2018";
+			
+			var edDate = cutOfDateforTR.substring(0, 2);
+			var hiphen1 = cutOfDateforTR.substring(2, 3);
+			var hiphen2 = cutOfDateforTR.substring(5, 6);
+			var edMonth = cutOfDateforTR.substring(3, 5);
+			var edYear = cutOfDateforTR.substring(6, 10);
+			
+			var FinalTRDate = new Date(parseInt(edYear),
+					parseInt(edMonth - 1), parseInt(edDate));
+			//alert("FinalTRDate----"+FinalTRDate);
+			
+			var FDate = js_trFrDate.value.substring(0, 2);
+			
+			var FMonth = js_trFrDate.value.substring(3, 5);
+			var FYear = js_trFrDate.value.substring(6, 10);
+			
+			
+			var FinalTRFrDate = new Date(parseInt(FYear),
+					parseInt(FMonth - 1), parseInt(FDate));
+			
+			//alert("FinalTRDate---->"+FinalTRDate);
+			//alert("compare-------->"+FinalTRDate.compareTo(FinalTRFrDate));
+			
+			//trFromDate.setFullYear(3 + trFromDate.getFullYear());
+			var fvalue=3;
+			 if(FinalTRDate.compareTo(FinalTRFrDate)<0)
+				{
+				//alert("Yes----");
+				fvale=5;
+				trFromDate.setFullYear(5 + trFromDate.getFullYear());
+				}
+			else
+				{
+			//	alert("No----");
+				
+				trFromDate.setFullYear(3 + trFromDate.getFullYear());
+				} 
+
+			
+			var trFromDay = ('0' + trFromDate.getDate()).slice(-2);
+			var trFromMonth = ('0' + (trFromDate.getMonth() + 1)).slice(-2);
+			var trFromYear = trFromDate.getFullYear();
+
+			if (hiphen11 !== "-" && hiphen12 !== "-") {
+				alert("Enter TR  Validity To Date in dd-MM-yyyy Format \nEx:22-04-1991");
+				document.backlogForm.trToDate.value = '';
+
+				js_trToDate.focus();
+				return false;
+			}
+			if (js_trToDate.value.length != 10) {
+				alert("Enter TR  Validity To Date in dd-MM-yyyy Format \nEx:22-04-1991");
+				document.backlogForm.trToDate.value = '';
+
+				js_trToDate.focus();
+				return false;
+			}
+
+			if (trfYear > seryr) {
+				alert("TR Valid From Date should less than  Today's date");
+				document.backlogForm.trFrDate.value = '';
+
+				js_trFrDate.focus();
+				return false;
+			}
+			if (trfYear == seryr) {
+				if (trfMonth > sermth) {
+					alert("TR Valid From Date should less than  Today's date");
+					document.backlogForm.trFrDate.value = '';
+
+					js_trFrDate.focus();
+					return false;
+				}
+
+				if (trfMonth == sermth) {
+					if (trtDate > serday) {
+						alert("TR Valid From Date should less than  Today's date");
+						document.backlogForm.trFrDate.value = '';
+
+						js_trFrDate.focus();
+						return false;
+					}
+				}
+			}
+//alert("fvale-----"+fvale);
+			if (trtYear > trFromYear) {
+
+				alert("TR Validities are more than "+fvale+" years please correct it..");
+				document.backlogForm.trToDate.value = '';
+				js_trToDate.focus();
+				return false;
+			}
+
+			if (trtYear == trFromYear) {
+				if (trtMonth > trFromMonth) {
+					alert("TR Validities are more than "+fvale+" years please correct it..");
+					document.backlogForm.trToDate.value = '';
+
+					js_trToDate.focus();
+					return false;
+				}
+
+				if (trtMonth == trFromMonth) {
+					if (trtDate > trFromDay) {
+						alert("TR Validities are more than "+fvale+" years please correct it..");
+						document.backlogForm.trToDate.value = '';
+
+						js_trToDate.focus();
+						return false;
+					}
+				}
+			}
+
+		/*}*/
+		var ntFromDate = new Date(ntfYear, ntfMonth - 1, ntfDate - 1);
+		ntFromDate.setFullYear(20 + ntFromDate.getFullYear());
+		var day = ('0' + ntFromDate.getDate()).slice(-2);
+		var month = ('0' + (ntFromDate.getMonth() + 1)).slice(-2);
+		var year = ntFromDate.getFullYear();
+
+		if (nttYear > year) {
+
+			alert("NT Validities are more than 20 years please correct it..");
+			document.backlogForm.ntToDate.value = '';
+			js_ntToDate.focus();
+			return false;
+		}
+
+		if (nttYear == year) {
+			if (nttMonth > month) {
+				alert("NT Validities are more than 20 years please correct it..");
+				document.backlogForm.ntToDate.value = '';
+
+				js_ntToDate.focus();
+				return false;
+			}
+
+			if (nttMonth == month) {
+				if (nttDate > day) {
+					alert("NT Validities are more than 20 years please correct it..");
+					document.backlogForm.ntToDate.value = '';
+
+					js_ntToDate.focus();
+					return false;
+				}
+
+			}
+		}
+
+	}
+
+	/*
+	 * var ntFrDate = js_ntFrDate .value; var ntFrDate1 = ntFrDate.split("-");
+	 * 
+	 * 
+	 * var ntToDate = js_ntToDate .value; var ntToDate1 = ntToDate.split("-");
+	 * alert("From"); ntFrDateVal = Date.UTC(ntFrDate1[2], ntFrDate1[1] - 1,
+	 * ntFrDate1[0], 0, 0, 0,0); ntToDateVal = Date.UTC(ntToDate1[2],
+	 * ntToDate1[1] - 1, ntToDate1[0], 0, 0, 0,0);
+	 * 
+	 * if (ntFrDateVal > ntToDateVal) { alert("NT Valid From Date should less
+	 * than NT To date") }
+	 */
+
+	/*
+	 * if(js_trToDate.value!="" && js_ntFrDate.value == "") {
+	 * 
+	 * if (confirm("Your Selected only Transport COVs Please Confirm...! ") ==
+	 * true) { return true; } else { js_trFrDate.focus(); return false; }
+	 *  }
+	 */
+
+	var idpno = document.getElementById("idpno").value;
+	var doiidp = document.getElementById("doiidp").value;
+	var idpvalidfrom = document.getElementById("idpvalidfrom").value;
+	var idpvalidto = document.getElementById("idpvalidto").value;
+	var dblIdpInfo = document.getElementById("dblIdpInfo").value;
+	var LicenseNO = document.getElementById("LicenseNO").value;
+	var frIssueauthority = document.getElementById("frIssueauthority").value;
+	var frissuedt = document.getElementById("frissuedt").value;
+	var frvldfrom = document.getElementById("frvldfrom").value;
+	var frvldto = document.getElementById("frvldto").value;
+	var frclassofvehicle = document.getElementById("frclassofvehicle").value;
+	var dlissuecntry = document.getElementById("dlissuecntry").value;
+	var purposeofvisit = document.getElementById("purposeofvisit").value;
+	var residentnum = document.getElementById("residentnum").value;
+	var resissuedt = document.getElementById("resissuedt").value;
+	var resvalidity = document.getElementById("resvalidity").value;
+	var nativeaddr1 = document.getElementById("nativeaddr1").value;
+	var nativeaddr2 = document.getElementById("nativeaddr2").value;
+	var nativeaddr3 = document.getElementById("nativeaddr3").value;
+
+	if (idpno.trim() == "" && dlissuecntry.trim() == '-1'
+			&& frvldto.trim() == '' && frvldfrom.trim() == ''
+			&& frissuedt.trim() == '' && LicenseNO.trim() == ''
+			&& frIssueauthority.trim() == '' && frclassofvehicle.trim() == ''
+			&& idpvalidto.trim() == '' && idpvalidfrom.trim() == ''
+			&& doiidp.trim() == '') {
+		document.getElementById("dblIdpInfo").value = false;
+	} else {
+
+		document.getElementById("dblIdpInfo").value = true;
+
+	}
+
+	/*
+	 * if(idpno.trim() != "" || nativeaddr3.trim() != '' || nativeaddr2.trim() != '' ||
+	 * nativeaddr1.trim() != '' || dlissuecntry.trim() != '-1' ||
+	 * resvalidity.trim() != '' || resissuedt.trim() != '' || residentnum.trim() != '' ||
+	 * purposeofvisit.trim() != '' || frvldto.trim() != '' || frvldfrom.trim() != '' ||
+	 * frissuedt.trim() != '' || frIssueauthority.trim() == '' ||
+	 * idpvalidto.trim() != '' || idpvalidfrom.trim() != '' || doiidp.trim() == '' ){
+	 * alert("Please Enter complete Foreign and IDP details"); return false; }
+	 */
+
+	var doiidpCond = doiidp.split("-");
+	var idpvalidfromCond = idpvalidfrom.split("-");
+
+	doiidpCondValue = Date.UTC(doiidpCond[2], doiidpCond[1] - 1, doiidpCond[0],
+			0, 0, 0, 0);
+	idpvalidfromCondValue = Date.UTC(idpvalidfromCond[2],
+			idpvalidfromCond[1] - 1, idpvalidfromCond[0], 0, 0, 0, 0);
+	/*
+	 * if(idpno!=null && doiidp==null && idpvalidfrom==null && idpvalidto==null) {
+	 * alert("Please Enter Complete IDP details"); return false; }
+	 */
+	if (doiidp != null && doiidp != "" && idpvalidfrom != null
+			&& idpvalidfrom != "" && doiidpCondValue != idpvalidfromCondValue) {
+		alert("IDP issuedate and ValidFrom date Must be equal");
+		return false;
+	}
+	
+	$('#PmState').prop("disabled", false);
+	$('#PmDistrict').prop("disabled", false);
+	$('#PmSubDistrict').prop("disabled", false);
+	$('#PermVillageOrTown').prop("disabled", false);
+
+	$('#PrState').prop("disabled", false);
+	$('#PrDistrict').prop("disabled", false);
+	$('#PrSubDistrict').prop("disabled", false);
+	$('#presVillageOrTown').prop("disabled", false);
+
+	$('#relation').prop("disabled", false);
+	$('#dob').prop("disabled", false);
+	
+	var submit=confirm("Are you sure to submit the details?");
+	if(submit==true){
+		document.getElementById("Submit").disabled=true;
+		return true;
+		
+	}
+	else if(submit==false){
+		return false;
+	}
+	
+	
+	
+
+}
+
+function LastTrDate()
+{
+	
+//alert("LastTrDate-----------");
+	var serday = parseInt(document.getElementById("serday").value);
+	var sermth = parseInt(document.getElementById("sermth").value);
+	var seryr = parseInt(document.getElementById("seryr").value);
+
+	var issuDate = document.getElementById("lastEndDate");
+	
+	
+	
+	var edDate = issuDate.value.substring(0, 2);
+	var hiphen1 = issuDate.value.substring(2, 3);
+	var hiphen2 = issuDate.value.substring(5, 6);
+	var edMonth = issuDate.value.substring(3, 5);
+	var edYear = issuDate.value.substring(6, 10);
+	
+/*//alert("After0-----1-2--");
+	
+	var fstIssuDate = document.getElementById("dlIssueDate");
+	//alert("fstIssuDate------->"+fstIssuDate.value);
+	var fedDate1 = fstIssuDate.value.substring(0, 2);
+	//alert("fedDate1-----"+fedDate1);
+	var fedMonth1 = fstIssuDate.value.substring(3, 5);
+	//alert("fedMonth1---"+fedMonth1);
+	var fedYear1 = fstIssuDate.value.substring(6, 10);
+	//alert("fedYear1----"+fedYear1);
+	//alert("edYear--------111------>"+edYear);
+*/
+	
+
+	if (issuDate.value == "") {
+		alert("Please Enter Last Transaction Date");
+		issuDate.focus();
+		return false;
+	}
+	if (hiphen1 !== "-" && hiphen2 !== "-") {
+		alert("Please Enter the Last Transaction Date\n in dd-MM-yyyy Format \nEx:22-04-1991");
+		document.backlogForm.dlIssueDate.value = '';
+		document.getElementById("lastEndDate").disabled = false;
+
+		issuDate.focus();
+		return false;
+	}
+	if (issuDate.value.length != 10) {
+		alert("Please Enter the Last Transaction Date\n in dd-MM-yyyy Format \nEx:22-04-1991");
+		document.backlogForm.dlIssueDate.value = '';
+		document.getElementById("lastEndDate").disabled = false;
+		issuDate.focus();
+		return false;
+	}
+
+	if (edYear > seryr) {
+		/*
+		 * alert("License Issue Date should be less than or equal to current
+		 * Date-y");
+		 */
+		alert("License Last Transaction Date should be less than or equal to current Date");
+		document.backlogForm.lastEndDate.value = '';
+		
+
+		issuDate.focus();
+		return false;
+	}
+	
+	if (edYear == seryr) {
+
+		if (edMonth > sermth) {
+			/*
+			 * alert("License Issue Date should be less than or equal to current
+			 * Date-m");
+			 */
+			alert("License Last Transaction Date should be less than or equal to current Date");
+			document.backlogForm.lastEndDate.value = '';
+			
+
+			issuDate.focus();
+			return false;
+		}
+
+		if (edMonth == sermth) {
+			if (edDate > serday) {
+				/*
+				 * alert("License Issue Date should be less than or equal to
+				 * current Date-d");
+				 */
+				alert("License Last Transaction Date should be less than or equal to current Date");
+				document.backlogForm.lastEndDate.value = '';
+				
+
+				issuDate.focus();
+				return false;
+			}
+		}
+
+	}
+	
+	
+
+	
+	
+	
+	
+	
+
+
+
+}
+
+function IssueDate() {
+	// alert("from service1");
+	if (document.getElementById('fromDLSerFlag').value == "true") {
+		// alert("Services");
+		var issuDate1 = document.getElementById("dlIssueDate");
+		// alert("issuDate1--"+issuDate1);
+		var stateOne1 = document.getElementById("state");
+		var rtoOne1 = document.getElementById("rtoCodeissvalue");
+		document.backlogForm.covIssuDate.value = issuDate1.value;
+		document.backlogForm.state1.value = stateOne1.value;
+		document.backlogForm.issuAuthList.value = rtoOne1.value;
+
+		// generateScosta();
+		getEligbleCovsByIssuDate();
+		getEligbleCovsByDOB();
+		calAge1();
+		// calAge(); //murali
+		// getEligbleCovsByDOB();
+		// $('#form_type2').prop('disabled',false);
+
+	} else {
+		
+		/*var issuDate2 = document.getElementById("dlIssueDate");
+		document.backlogForm.covIssuDate.value = issuDate2.value;*/
+		// alert("Out of Services");
+		// getEligbleCovsByIssuDate();
+		//alert("Ekyc---"+$("#Ekyc").val());
+		/*if ($("#Ekyc").val() == 'true') {
+			getEligbleCovsByDOB();
+			getEligbleCovsByIssuDate();
+			calAge1();
+			
+		}
+		else
+			{*/
+			getEligbleCovsByDOB();
+			//}
+			
+		
+		/*
+		 * $("#dob").prop("readonly", true); $("#age").prop("readonly", true);
+		 * $("#ndlNo").prop("readonly", true);
+		 */
+		// $('#form_type2').prop('disabled',false);
+		document.getElementById("dob").disabled = false;
+		// document.getElementById("dlIssueDate").disabled = true;
+		document.getElementById("age").disabled = false;
+		document.getElementById("ndlNo").disabled = false;
+		/* document.getElementById("ndlNo").value = ""; */
+		document.getElementById("sdlNo").value = ""; // changed2303
+		/*
+		 * document.getElementById("dob").value="";
+		 * document.getElementById("age").value="";
+		 */
+		document.getElementById("ntToDate").value = "";
+	}
+	var serday = parseInt(document.getElementById("serday").value);
+	var sermth = parseInt(document.getElementById("sermth").value);
+	var seryr = parseInt(document.getElementById("seryr").value);
+
+	var issuDate = document.getElementById("dlIssueDate");
+	var stateOne = document.getElementById("state");
+	// delete
+	document.getElementById("ndlNo").value = "";// changed2303
+	document.getElementById("sdlNo").value = "";// changed2303
+	var objTable = document.getElementById("covTable");
+	// alert("id of tab="+objTable);
+	var counter = 0, intialtotalRows = 0;
+	intialtotalRows = objTable.rows.length;
+	// alert("objTable.rows.length " + intialtotalRows);
+	// document.getElementById("dob").value = "";//changed2303
+	// document.getElementById("dlIssueDate").disabled = true;
+	// document.getElementById("age").value = "";//chaned2303
+	if (objTable.rows.length > 1) {
+		for (var i = 1; i < objTable.rows.length; i++) {
+			// var chk = objTable.rows[i].cells[0].childNodes[0];
+			// alert("chk.checked " + chk.checked);alert("js_trToDate")
+
+			// alert("deleted recodrd i val " + i);
+			// alert("delete");
+
+			objTable.deleteRow(i);
+			i--;
+			counter = counter + 1;
+
+		}
+	}
+	// end delete
+
+	// alert("ste"+stateOne);
+	var rtoOne = document.getElementById("rtoCode");
+	var rtoOne11 = document.getElementById("rtoCode");
+	// alert("RT1)--"+rtoOne.value);
+	// alert("RT)-111-"+rtoOne11.value);
+
+	// alert("afd"+rtoOne);
+	var edDate = issuDate.value.substring(0, 2);
+	var hiphen1 = issuDate.value.substring(2, 3);
+	var hiphen2 = issuDate.value.substring(5, 6);
+	var edMonth = issuDate.value.substring(3, 5);
+	var edYear = issuDate.value.substring(6, 10);
+
+	var js_ntFrDate = document.getElementById("ntFrDate");
+	// document.backlogForm.ntFrDate.value = issuDate.value;
+
+	document.backlogForm.covIssuDate.value = issuDate.value;
+	document.backlogForm.state1.value = stateOne.value;
+	document.backlogForm.issuAuthList.value = rtoOne.value;
+
+	var js_ntToDate = document.getElementById("ntToDate");
+
+	if (issuDate.value == "") {
+		alert("Please Enter DL First Issue Date");
+		issuDate.focus();
+		return false;
+	}
+	if (hiphen1 !== "-" && hiphen2 !== "-") {
+		alert("Please Enter the Date of Issue of the Licence\n in dd-MM-yyyy Format \nEx:22-04-1991");
+		document.backlogForm.dlIssueDate.value = '';
+		document.getElementById("dlIssueDate").disabled = false;
+
+		issuDate.focus();
+		return false;
+	}
+	if (issuDate.value.length != 10) {
+		alert("Please Enter the Date of Issue of the Licence\n in dd-MM-yyyy Format \nEx:22-04-1991");
+		document.backlogForm.dlIssueDate.value = '';
+		document.getElementById("dlIssueDate").disabled = false;
+		issuDate.focus();
+		return false;
+	}
+
+	if (edYear > seryr) {
+		/*
+		 * alert("License Issue Date should be less than or equal to current
+		 * Date-y");
+		 */
+		alert("License Issue Date should be less than or equal to current Date");
+		document.backlogForm.dlIssueDate.value = '';
+		document.backlogForm.covIssuDate.value = '';
+		document.backlogForm.ntFrDate.value = '';
+
+		issuDate.focus();
+		return false;
+	}
+	if (edYear == seryr) {
+
+		if (edMonth > sermth) {
+			/*
+			 * alert("License Issue Date should be less than or equal to current
+			 * Date-m");
+			 */
+			alert("License Issue Date should be less than or equal to current Date");
+			document.backlogForm.dlIssueDate.value = '';
+			document.backlogForm.covIssuDate.value = '';
+			document.backlogForm.ntFrDate.value = '';
+
+			issuDate.focus();
+			return false;
+		}
+
+		if (edMonth == sermth) {
+			if (edDate > serday) {
+				/*
+				 * alert("License Issue Date should be less than or equal to
+				 * current Date-d");
+				 */
+				alert("License Issue Date should be less than or equal to current Date");
+				document.backlogForm.dlIssueDate.value = '';
+				document.backlogForm.covIssuDate.value = '';
+				document.backlogForm.ntFrDate.value = '';
+
+				issuDate.focus();
+				return false;
+			}
+		}
+
+	}
+
+	var dateOfBirth = document.backlogForm.dob;
+	var date = dateOfBirth.value.substring(0, 2);
+	var month = dateOfBirth.value.substring(3, 5);
+	var year = dateOfBirth.value.substring(6, 10);
+
+	if (year > (edYear - 16)) {
+		alert("The Diff. between Issue Date and DOB must be greater than or equal to 16 Yrs");
+		document.getElementById("dob").disabled = false;
+		document.getElementById("age").disabled = false;
+
+		document.backlogForm.dob.value = '';
+		document.backlogForm.age.value = '';
+
+		dateOfBirth.focus();
+
+		return false;
+
+	}
+
+	if (year == (edYear - 16)) {
+		if (month > edMonth) {
+			alert("The Diff. between Issue Date and DOB must be greater than or equal to 16 Yrs");
+			document.getElementById("dob").disabled = false;
+			document.getElementById("age").disabled = false;
+
+			document.backlogForm.dob.value = '';
+			document.backlogForm.age.value = '';
+
+			dateOfBirth.focus();
+			return false;
+		} else if (month == edMonth) {
+			if (date > edDate) {
+				alert("The Diff. between Issue Date and DOB must be greater than or equal to 16 Yrs");
+				document.getElementById("dob").disabled = false;
+				document.getElementById("age").disabled = false;
+
+				document.backlogForm.dob.value = '';
+				document.backlogForm.age.value = '';
+
+				dateOfBirth.focus();
+				return false;
+			}
+		}
+	}
+
+}
+function calAge() {
+
+	var serday = parseInt(document.getElementById("serday").value);
+	var sermth = parseInt(document.getElementById("sermth").value);
+	var seryr = parseInt(document.getElementById("seryr").value);
+	var servDate = new Date(parseInt(seryr), parseInt(sermth - 1),
+			parseInt(serday));
+	var issuDate = document.getElementById("dlIssueDate");
+
+	var js_ntFrDate = document.getElementById("ntFrDate").value;
+
+	var js_ntToDate = document.getElementById("ntToDate").value;
+
+	var edDate = issuDate.value.substring(0, 2);
+	var hiphen1 = issuDate.value.substring(2, 3);
+	var hiphen2 = issuDate.value.substring(5, 6);
+	var edMonth = issuDate.value.substring(3, 5);
+	var edYear = issuDate.value.substring(6, 10);
+
+	var dateOfBirth = document.backlogForm.dob;
+
+	var date = dateOfBirth.value.substring(0, 2);
+	var month = dateOfBirth.value.substring(3, 5);
+	var year = dateOfBirth.value.substring(6, 10);
+	var hiphen1 = dateOfBirth.value.substring(2, 3);
+	var hiphen2 = dateOfBirth.value.substring(5, 6);
+
+	var age = 16;
+	var diffAge = 16;
+	if (dateOfBirth.value == "") {
+		alert("Please Enter Date of Birth");
+
+		dateOfBirth.focus();
+		return false;
+	}
+	if (hiphen1 !== "-" && hiphen2 !== "-") {
+		alert("Enter Date of Birth in dd-MM-yyyy Format \nEx:22-04-1991");
+		document.backlogForm.dob.value = '';
+
+		dateOfBirth.focus();
+		return false;
+	}
+	if (dateOfBirth.value.length != 10) {
+		alert("Enter Date of Birth in dd-MM-yyyy Format \nEx:22-04-1991");
+		document.backlogForm.dob.value = '';
+
+		dateOfBirth.focus();
+		return false;
+	}
+
+	if (month > 12) {
+		document.backlogForm.dob.value = "";
+
+		alert("Invalid Date of Birth");
+		return false;
+	}
+
+	/*
+	 * if (isLeapYear()) { alert("Is Leap Year"); if (date > 29) {
+	 * document.backlogForm.dob.value = "";
+	 * 
+	 * alert("Invalid Date of Birth"); return false; } } else { }
+	 * if(!isLeapYear()) { alert("Is Leap Year22"); if ( month == 2 && date >
+	 * 28) { document.backlogForm.dob.value = ""; alert("Invalid Date of
+	 * Birth2"); return false; } }
+	 */
+
+	if ((month == 1 && date > 31) || (month == 3 && date > 31)
+			|| (month == 4 && date > 30) || (month == 5 && date > 31)
+			|| (month == 6 && date > 30) || (month == 7 && date > 31)
+			|| (month == 8 && date > 31) || (month == 9 && date > 30)
+			|| (month == 10 && date > 31) || (month == 11 && date > 30)
+			|| (month == 12 && date > 31)) {
+		document.backlogForm.dob.value = "";
+
+		alert('Invalid Date of Birth');
+		return false;
+	}
+
+	if (year > (seryr - 16)) {
+		alert("Age must not be less than 16 Years");
+		document.backlogForm.dob.value = '';
+		dateOfBirth.focus();
+		return false;
+	} else if (year == (seryr - 16)) {
+		if (month > sermth) {
+			alert("Age must not be less than 16 Years");
+			document.backlogForm.age.value = '';
+			dateOfBirth.focus();
+			return false;
+		} else if (month == sermth) {
+			if (date > serday) {
+				alert("Age must not be less than 16 Years");
+				document.backlogForm.age.value = '';
+				dateOfBirth.focus();
+				return false;
+			}
+			if (date <= serday) {
+				age = seryr - year;
+				document.backlogForm.age.value = age;
+				return false;
+			}
+		} else if (month < sermth) {
+			age = seryr - year;
+			document.backlogForm.age.value = age;
+			if (!document.getElementById("dob").disabled) {
+				// document.getElementById("dob").disabled = true;//changed
+				// document.getElementById("age").disabled = true;//changed
+			}
+			// document.getElementById("age").readOnly = true;
+		}
+	} else if (year < (seryr - 16)) {
+		if (month > sermth) {
+			age = seryr - year - 1;
+			document.backlogForm.age.value = age;
+			if (!document.getElementById("dob").disabled) {
+				// document.getElementById("dob").disabled = true;//changed
+				// document.getElementById("age").disabled = true;//changed
+			}
+			// document.getElementById("age").readOnly = true;
+
+		} else if (month == sermth) {
+			if (date > serday) {
+				age = seryr - year - 1;
+				document.backlogForm.age.value = age;
+				if (!document.getElementById("dob").disabled) {
+					// document.getElementById("dob").disabled = true;//changed
+					// document.getElementById("age").disabled = true;//changed
+				}
+				// document.getElementById("age").readOnly = true;
+
+			}
+
+			else if (date <= serday) {
+				age = seryr - year;
+
+				document.backlogForm.age.value = age;
+				if (!document.getElementById("dob").disabled) {
+					// document.getElementById("dob").disabled = true;//changed
+					// document.getElementById("age").disabled = true;//changed
+				}
+				// document.getElementById("age").readOnly = true;
+
+			}
+		} else if (month < sermth) {
+			age = seryr - year;
+			document.backlogForm.age.value = age;
+			if (!document.getElementById("dob").disabled) {
+				// document.getElementById("dob").disabled = true;//changed
+				// document.getElementById("age").disabled = true;//changed
+			}
+			// document.getElementById("age").readOnly = true;
+
+		}
+	}
+
+	if (year > (edYear - 16)) {
+		alert("The Diff. between Issue Date and DOB must be greater than or equal to 16 Yrs");
+		document.getElementById("dob").disabled = false;
+		document.getElementById("age").disabled = false;
+
+		document.backlogForm.dob.value = '';
+		document.backlogForm.age.value = '';
+
+		dateOfBirth.focus();
+
+		return false;
+
+	}
+
+	if (year == (edYear - 16)) {
+		if (month > edMonth) {
+			alert("The Diff. between Issue Date and DOB must be greater than or equal to 16 Yrs");
+			document.getElementById("dob").disabled = false;
+			document.getElementById("age").disabled = false;
+
+			document.backlogForm.dob.value = '';
+			document.backlogForm.age.value = '';
+
+			dateOfBirth.focus();
+			return false;
+		} else if (month == edMonth) {
+			if (date > edDate) {
+				alert("The Diff. between Issue Date and DOB must be greater than or equal to 16 Yrs");
+				document.getElementById("dob").disabled = false;
+				document.getElementById("age").disabled = false;
+
+				document.backlogForm.dob.value = '';
+				document.backlogForm.age.value = '';
+
+				dateOfBirth.focus();
+				return false;
+			}
+
+			if (date <= edDate) {
+				diffAge = edYear - year;
+
+			}
+		} else if (month < edMonth) {
+
+			diffAge = edYear - year;
+
+		}
+	} else if (year < (edYear - 16)) {
+		if (month > edMonth) {
+
+			diffAge = edYear - year - 1;
+
+		} else if (month == edMonth) {
+			if (date > edDate) {
+
+				diffAge = edYear - year - 1;
+
+			}
+
+			else if (date <= edDate) {
+
+				diffAge = edYear - year;
+
+			}
+
+		} else if (month < edMonth) {
+			diffAge = edYear - year;
+
+		}
+
+	}
+	// alert(diffAge+"diff age");
+	if (diffAge <= 30) {
+
+		// alert("below 30 yearssssssss"+issuDate.value.toString());
+		ntValidToDate(issuDate);
+
+	} else {
+		// alert("above 30");
+
+		ntValidToDate1();
+	}
+
+	function ntValidToDate1() {
+		var serday = parseInt(document.getElementById("serday").value);
+		var sermth = parseInt(document.getElementById("sermth").value);
+		var seryr = parseInt(document.getElementById("seryr").value);
+		var servDate = new Date(parseInt(seryr), parseInt(sermth - 1),
+				parseInt(serday));
+		var date = dateOfBirth.value.substring(0, 2);
+		var month = dateOfBirth.value.substring(3, 5);
+		var year = dateOfBirth.value.substring(6, 10);
+		var hiphen1 = dateOfBirth.value.substring(2, 3);
+		var hiphen2 = dateOfBirth.value.substring(5, 6);
+		var today = new Date();
+		// var serday = today.getDate();
+		// var sermth = today.getMonth() + 1;
+		// var seryr = today.getFullYear();
+
+		var expiryDate = new Date(year, month - 1, date - 1);
+
+		expiryDate.setFullYear(50 + expiryDate.getFullYear());
+		var day = ('0' + expiryDate.getDate()).slice(-2);
+		var month = ('0' + (expiryDate.getMonth() + 1)).slice(-2);
+		var year = expiryDate.getFullYear();
+
+		var validToDate = day + "-" + month + "-" + year;
+
+		var js_ntFrDate = document.getElementById("ntFrDate");
+
+		if (expiryDate < servDate) {
+			// alert("Your Licence is expaired please renewal.! ");//murali
+			document.getElementById("expired").style.display = "block";
+			js_ntFrDate.focus();
+
+		}
+		document.getElementById("ntToDate").value = validToDate;
+
+	}
+
+	function ntValidToDate(issuDate) {
+
+		var serday = parseInt(document.getElementById("serday").value);
+		var sermth = parseInt(document.getElementById("sermth").value);
+		var seryr = parseInt(document.getElementById("seryr").value);
+		var servDate = new Date(parseInt(seryr), parseInt(sermth - 1),
+				parseInt(serday));
+
+		var day = issuDate.value.substring(0, 2);
+		var hiphen1 = issuDate.value.substring(2, 3);
+		var hiphen2 = issuDate.value.substring(5, 6);
+		var month = issuDate.value.substring(3, 5);
+		var year = issuDate.value.substring(6, 10);
+
+		if (day <= 31 && day >= 1 && month <= 12 && month >= 1) {
+
+			var expiryDate = new Date(year, month - 1, day - 1);
+			expiryDate.setFullYear(expiryDate.getFullYear() + 20);
+
+			var day = ('0' + expiryDate.getDate()).slice(-2);
+			var month = ('0' + (expiryDate.getMonth() + 1)).slice(-2);
+			var year = expiryDate.getFullYear();
+
+			var validToDate = day + "-" + month + "-" + year;
+			var js_ntToDate = document.getElementById("ntToDate");
+
+			if (expiryDate < servDate) {
+				// alert("Your Licence is expaired please renewal...!
+				// ");//murali changed at DOB
+
+			}
+			document.getElementById("ntToDate").value = validToDate;
+
+			js_ntToDate.value = '';
+
+		}
+
+	}
+
+}
+function disableEKey(e) {
+
+	if (window.event) {
+		if (e.keyCode == 13) {
+
+			event.returnValue = false;
+			return false;
+		}
+	} else {
+		if (e.keyCode == 13) {
+			e.preventDefault();
+			return false;
+		}
+	}
+}
+function onlyNumericsDLB(e) {
+	// alert("test");
+	var keyCode = null;
+	if (e.which) {
+		keyCode = e.which;
+		if (keyCode >= 48 && keyCode <= 57) {
+			// alert(keyCode);
+			return true;
+		} else if (keyCode == 8 || keyCode == 9) {
+			return true;
+		} else {
+			return false;
+		}
+	} else if (e.keyCode) {
+		keyCode = e.keyCode;
+		if (keyCode >= 48 && keyCode <= 57) {
+			return true;
+		} else if (keyCode == 8 || keyCode == 37 || keyCode == 39
+				|| keyCode == 46 || keyCode == 9) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
+function onlyNumerics1(e) {
+
+	var keyCode = null;
+	if (e.which) {
+		keyCode = e.which;
+		if (keyCode >= 48 && keyCode <= 57) {
+			return true;
+		} else if (keyCode == 8) {
+			return true;
+		} else {
+			alert("Enter Numerics Only");
+			return false;
+		}
+	} else if (e.keyCode) {
+		keyCode = e.keyCode;
+		if (keyCode >= 48 && keyCode <= 57) {
+			return true;
+		} else if (keyCode == 8 || keyCode == 37 || keyCode == 39
+				|| keyCode == 46 || keyCode == 9) {
+			return true;
+		} else {
+			alert("Enter Numerics Only");
+
+			return false;
+		}
+	}
+}
+
+function onlyAlphabets(e) {
+
+	var keyCode = null;
+	if (e.which) {
+		keyCode = e.which;
+		if ((keyCode >= 65 && keyCode <= 90)
+				|| (keyCode >= 97 && keyCode <= 122)) {
+			return true;
+		} else if (keyCode == 8 || keyCode == 32) {
+			return true;
+		} else {
+			return false;
+		}
+	} else if (e.keyCode) {
+		keyCode = e.keyCode;
+		if ((keyCode >= 65 && keyCode <= 90)
+				|| (keyCode >= 97 && keyCode <= 122)) {
+			return true;
+		} else if (keyCode == 8 || keyCode == 37 || keyCode == 39
+				|| keyCode == 46 || keyCode == 32 || keyCode == 9) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
+/* To Allow only Alphabets and Numerics bt not Special Characters */
+
+function onlyAlphaNumerics(e) {
+	var keyCode = null;
+	if (e.which) {
+		keyCode = e.which;
+		if ((keyCode >= 65 && keyCode <= 90)
+				|| (keyCode >= 97 && keyCode <= 122)) {
+			return true;
+		} else if (keyCode >= 48 && keyCode <= 57) {
+			return true;
+		} else if (keyCode == 8 || keyCode == 32) {
+			return true;
+		} else {
+			return false;
+		}
+	} else if (e.keyCode) {
+		keyCode = e.keyCode;
+		if ((keyCode >= 65 && keyCode <= 90)
+				|| (keyCode >= 97 && keyCode <= 122)) {
+			return true;
+		} else if (keyCode >= 48 && keyCode <= 57) {
+			return true;
+		} else if (keyCode == 8 || keyCode == 37 || keyCode == 39
+				|| keyCode == 46 || keyCode == 32 || keyCode == 9) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
+/* For Door Number / Flat Number Fields */
+
+function allowHiphenAndSlash(e) {
+	var keyCode = null;
+	if (e.which) {
+		keyCode = e.which;
+		if ((keyCode >= 65 && keyCode <= 90)
+				|| (keyCode >= 97 && keyCode <= 122)) {
+			return true;
+		} else if (keyCode >= 48 && keyCode <= 57) {
+			return true;
+		} else if (keyCode == 45 || keyCode == 47 || keyCode == 32) {
+			return true;
+		} else if (keyCode == 8) {
+			return true;
+		} else {
+			return false;
+		}
+	} else if (e.keyCode) {
+		keyCode = e.keyCode;
+		if ((keyCode >= 65 && keyCode <= 90)
+				|| (keyCode >= 97 && keyCode <= 122)) {
+			return true;
+		} else if (keyCode >= 48 && keyCode <= 57) {
+			return true;
+		} else if (keyCode == 45 || keyCode == 47) {
+			return true;
+		} else if (keyCode == 8 || keyCode == 37 || keyCode == 39
+				|| keyCode == 46 || keyCode == 9) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
+/* For Licence Number Fields */
+
+function allowAlphaNumericWithSlash(e) {
+	var keyCode = null;
+	if (e.which) {
+		keyCode = e.which;
+		if ((keyCode >= 65 && keyCode <= 90)
+				|| (keyCode >= 97 && keyCode <= 122)) {
+			return true;
+		} else if (keyCode >= 48 && keyCode <= 57) {
+			return true;
+		} else if (keyCode == 47) {
+			return true;
+		} else if (keyCode == 8 || keyCode == 32) {
+			return true;
+		} else {
+			return false;
+		}
+	} else if (e.keyCode) {
+		keyCode = e.keyCode;
+		if ((keyCode >= 65 && keyCode <= 90)
+				|| (keyCode >= 97 && keyCode <= 122)) {
+			return true;
+		} else if (keyCode >= 48 && keyCode <= 57) {
+			return true;
+		} else if (keyCode == 47) {
+			return true;
+		} else if (keyCode == 8 || keyCode == 37 || keyCode == 39
+				|| keyCode == 46 || keyCode == 32 || keyCode == 9) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
+/* For Datae Of Birth Fields */
+
+function onlyHiphensWithNumerics(e) {
+	var keyCode = null;
+	if (e.which) {
+		keyCode = e.which;
+		if (keyCode >= 48 && keyCode <= 57) {
+			return true;
+		} else if (keyCode == 8 || keyCode == 32 || keyCode == 45) {
+			return true;
+		} else {
+			return false;
+		}
+	} else if (e.keyCode) {
+		keyCode = e.keyCode;
+		if ((keyCode >= 65 && keyCode <= 90)
+				|| (keyCode >= 97 && keyCode <= 122)) {
+			return true;
+		} else if (keyCode >= 48 && keyCode <= 57) {
+			return true;
+		} else if (keyCode == 8 || keyCode == 37 || keyCode == 39
+				|| keyCode == 46 || keyCode == 32 || keyCode == 9
+				|| keyCode == 45) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
+function calculateNTTdate() {
+	var js_ntFrDate = document.getElementById("ntFrDate");
+	var ntfDate = js_ntFrDate.value.substring(0, 2);
+	var hiphen5 = js_ntFrDate.value.substring(2, 3);
+	var hiphen6 = js_ntFrDate.value.substring(5, 6);
+	var ntfMonth = js_ntFrDate.value.substring(3, 5);
+	var ntfYear = js_ntFrDate.value.substring(6, 10);
+	
+	if (js_ntFrDate.value != "") {
+		if (hiphen5 !== "-" && hiphen6 !== "-") {
+			alert("Enter NT Validity From Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.ntFrDate.value = '';
+
+			js_ntFrDate.focus();
+			return false;
+		}
+		if (js_ntFrDate.value.length != 10) {
+			alert("Enter NT Validity From Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.ntFrDate.value = '';
+
+			js_ntFrDate.focus();
+			return false;
+		}
+	}
+
+	var ntFromDate = new Date(ntfYear, ntfMonth - 1, ntfDate - 1);
+	ntFromDate.setFullYear(5 + ntFromDate.getFullYear());
+	var day = ('0' + ntFromDate.getDate()).slice(-2);
+	var month = ('0' + (ntFromDate.getMonth() + 1)).slice(-2);
+	var year = ntFromDate.getFullYear();
+
+	var validToDate = day + "-" + month + "-" + year;
+
+	document.getElementById("ntToDate").value = validToDate;
+
+}
+
+function trToDate()
+{
+	var js_trToDate = document.getElementById("trToDate");
+	//var ntfDate = js_trToDate.value.substring(0, 2);
+	var hiphen5 = js_trToDate.value.substring(2, 3);
+	var hiphen6 = js_trToDate.value.substring(5, 6);
+	
+	
+	if (js_trToDate.value != "") {
+		if (hiphen5 !== "-" && hiphen6 !== "-") {
+			alert("Enter TR Validity To Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.trToDate.value = '';
+
+			js_trToDate.focus();
+			return false;
+		}
+		
+		if (js_trToDate.value.length != 10) {
+			alert("Enter TR Validity To Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.trToDate.value = '';
+
+			js_trToDate.focus();
+			return false;
+		}
+	}
+
+}
+
+function calculateNTTdate1() {
+	//alert("To---");
+	var js_ntFrDate = document.getElementById("ntFrDate");
+	var js_ntToDate = document.getElementById("ntToDate");
+	var ntfDate = js_ntFrDate.value.substring(0, 2);
+	var hiphen1 = js_ntToDate.value.substring(2, 3);
+	var hiphen2 = js_ntToDate.value.substring(5, 6);
+	
+	if(js_ntFrDate.value == "")
+		{
+		alert("Please enter Non Transaport validity From Date");
+		document.backlogForm.ntToDate.value = '';
+        
+		return false;
+		}
+	
+	if (js_ntToDate.value != "") {
+		if (hiphen1 !== "-" && hiphen2 !== "-") {
+			alert("Enter NT Validity To Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.ntToDate.value = '';
+
+			js_ntToDate.focus();
+			return false;
+		}
+		if (js_ntToDate.value.length != 10) {
+			alert("Enter NT Validity To Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.ntToDate.value = '';
+
+			js_ntFrDate.focus();
+			return false;
+		}
+	}
+
+	var ntfDate = js_ntFrDate.value.substring(0, 2);
+	var hiphen5 = js_ntFrDate.value.substring(2, 3);
+	var hiphen6 = js_ntFrDate.value.substring(5, 6);
+	var ntfMonth = js_ntFrDate.value.substring(3, 5);
+	var ntfYear = js_ntFrDate.value.substring(6, 10);
+
+	var ntFromDate = new Date(ntfYear, ntfMonth - 1, ntfDate - 1);
+	ntFromDate.setFullYear(5 + ntFromDate.getFullYear());
+	var day = ('0' + ntFromDate.getDate()).slice(-2);
+	var month = ('0' + (ntFromDate.getMonth() + 1)).slice(-2);
+	var year = ntFromDate.getFullYear();
+
+	var validToDate = day + "-" + month + "-" + year;
+
+	// var ntFromDate=js_ntFrDate.value;
+	var vaDtSplitVal = validToDate.split("-");
+	var ntToDate = js_ntToDate.value;
+	var toDtSplitVal = ntToDate.split("-");
+	// var curdate = new Date(); // get system date
+	// convert system date to milliseconds from 1-1-1970 using UTC function of
+	// Date object
+	// ExpiryDate = Date.UTC( seryr, sermth, serday,0,0,0,0);
+	// convert date selected by user also to milliseconds from 1-1-1970
+	vaDt = Date.UTC(vaDtSplitVal[2], vaDtSplitVal[1] - 1, vaDtSplitVal[0], 0,
+			0, 0, 0); // month is 0 to 11 not 1 to 12
+	ntToDt = Date.UTC(toDtSplitVal[2], toDtSplitVal[1] - 1, toDtSplitVal[0], 0,
+			0, 0, 0);
+
+	/*
+	 * if (ntToDt <= vaDt) { // alert("In check"); //
+	 * document.getElementById("trToDate").value = js_ntToDate.value; } else {
+	 * alert("NT validity To date not more than 5 yrs from NT validity From
+	 * date"); document.getElementById("ntToDate").value = validToDate; }
+	 */
+
+}
+
+function calculateTRTdate() {
+	var js_trFrDate = document.getElementById("trFrDate");
+	var js_trToDate = document.getElementById("trToDate");
+	var js_ntToDate = document.getElementById("ntToDate");
+
+	var trfDate = js_trFrDate.value.substring(0, 2);
+	var hiphen5 = js_trFrDate.value.substring(2, 3);
+	var hiphen6 = js_trFrDate.value.substring(5, 6);
+	var trfMonth = js_trFrDate.value.substring(3, 5);
+	var trfYear = js_trFrDate.value.substring(6, 10);
+	
+	if (js_trFrDate.value != "") {
+		if (hiphen5 !== "-" && hiphen6 !== "-") {
+			alert("Enter TR Validity From Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.trFrDate.value = '';
+
+			js_trFrDate.focus();
+			return false;
+		}
+		if (js_trFrDate.value.length != 10) {
+			alert("Enter TR Validity From Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.trFrDate.value = '';
+
+			js_trFrDate.focus();
+			return false;
+		}
+	}
+
+	var trFromDate = new Date(trfYear, trfMonth - 1, trfDate - 1);
+	trFromDate.setFullYear(3 + trFromDate.getFullYear());
+	var day = ('0' + trFromDate.getDate()).slice(-2);
+	var month = ('0' + (trFromDate.getMonth() + 1)).slice(-2);
+	var year = trFromDate.getFullYear();
+
+	var validToDate = day + "-" + month + "-" + year;
+
+	var vaDtSplitVal = validToDate.split("-");
+	var ntToDate = js_trToDate.value;
+	var toDtSplitVal = ntToDate.split("-");
+	// var curdate = new Date(); // get system date
+	// convert system date to milliseconds from 1-1-1970 using UTC function of
+	// Date object
+	// ExpiryDate = Date.UTC( seryr, sermth, serday,0,0,0,0);
+	// convert date selected by user also to milliseconds from 1-1-1970
+	vaDt = Date.UTC(vaDtSplitVal[2], vaDtSplitVal[1] - 1, vaDtSplitVal[0], 0,
+			0, 0, 0); // month is 0 to 11 not 1 to 12
+	ntToDt = Date.UTC(toDtSplitVal[2], toDtSplitVal[1] - 1, toDtSplitVal[0], 0,
+			0, 0, 0);
+
+	/*
+	 * if(ntToDt<=vaDt) { //alert("In check"); //
+	 * document.getElementById("trToDate").value = js_ntToDate.value; } else {
+	 * alert("Tr validity To date not more than 3 yrs from TR validity From
+	 * date"); document.getElementById("trToDate").value = validToDate; }
+	 */
+
+	/*
+	 * if(TransTDate>NTTodate) { //alert("In check");
+	 * document.getElementById("trToDate").value = js_ntToDate.value; } else {
+	 * document.getElementById("trToDate").value = validToDate; }
+	 */
+
+	document.getElementById("trToDate").value = validToDate;
+
+}
+
+/*
+ * function calculateTRTdate1() { var js_trFrDate =
+ * document.getElementById("trFrDate"); var js_trToDate =
+ * document.getElementById("trToDate"); var js_ntToDate =
+ * document.getElementById("ntToDate");
+ * 
+ * var trfDate = js_trFrDate.value.substring(0, 2); var hiphen5 =
+ * js_trFrDate.value.substring(2, 3); var hiphen6 =
+ * js_trFrDate.value.substring(5, 6); var trfMonth =
+ * js_trFrDate.value.substring(3, 5); var trfYear =
+ * js_trFrDate.value.substring(6, 10);
+ * 
+ * var trFromDate = new Date(trfYear, trfMonth - 1, trfDate - 1);
+ * trFromDate.setFullYear(3 + trFromDate.getFullYear()); var day = ('0' +
+ * trFromDate.getDate()).slice(-2); var month = ('0' + (trFromDate.getMonth() +
+ * 1)).slice(-2); var year = trFromDate.getFullYear();
+ * 
+ * var validToDate = day + "-" + month + "-" + year;
+ * 
+ * var vaDtSplitVal = validToDate.split("-"); var ntToDate = js_trToDate.value;
+ * var toDtSplitVal = ntToDate.split("-"); // var curdate = new Date(); // get
+ * system date // convert system date to milliseconds from 1-1-1970 using UTC
+ * function of // Date object // ExpiryDate = Date.UTC( seryr, sermth,
+ * serday,0,0,0,0); // convert date selected by user also to milliseconds from
+ * 1-1-1970 vaDt = Date.UTC(vaDtSplitVal[2], vaDtSplitVal[1] - 1,
+ * vaDtSplitVal[0], 0, 0, 0, 0); // month is 0 to 11 not 1 to 12 ntToDt =
+ * Date.UTC(toDtSplitVal[2], toDtSplitVal[1] - 1, toDtSplitVal[0], 0, 0, 0, 0);
+ * 
+ * if (ntToDt <= vaDt) { // alert("In check"); //
+ * document.getElementById("trToDate").value = js_ntToDate.value; } else {
+ * alert("Tr validity To date not more than 3 yrs from TR validity From date");
+ * document.getElementById("trToDate").value = validToDate; }
+ * 
+ * 
+ * if(TransTDate>NTTodate) { //alert("In check");
+ * document.getElementById("trToDate").value = js_ntToDate.value; } else {
+ * document.getElementById("trToDate").value = validToDate; }
+ *  // document.getElementById("trToDate").value = validToDate; }
+ */
+
+function calculateHZTdate() {
+	var js_hzFrDate = document.getElementById("hzFrDate");
+	var js_trToDate = document.getElementById("hzToDate");
+
+	var trfDate = js_hzFrDate.value.substring(0, 2);
+	var hiphen5 = js_hzFrDate.value.substring(2, 3);
+	var hiphen6 = js_hzFrDate.value.substring(5, 6);
+	var trfMonth = js_hzFrDate.value.substring(3, 5);
+	var trfYear = js_hzFrDate.value.substring(6, 10);
+
+	var trFromDate = new Date(trfYear, trfMonth - 1, trfDate - 1);
+	trFromDate.setFullYear(1 + trFromDate.getFullYear());
+	var day = ('0' + trFromDate.getDate()).slice(-2);
+	var month = ('0' + (trFromDate.getMonth() + 1)).slice(-2);
+	var year = trFromDate.getFullYear();
+
+	var validToDate = day + "-" + month + "-" + year;
+
+	var js_trToDate = document.getElementById("trToDate");
+	var trToDate = js_trToDate.value;
+	// alert(trToDate);
+	var js_hzFromDate = document.getElementById("hzFrDate").value;
+
+	var hzvalToSplitDt = validToDate.split("-");
+	var toDtSplitVal = trToDate.split("-");
+	vaDt = Date.UTC(hzvalToSplitDt[2], hzvalToSplitDt[1] - 1,
+			hzvalToSplitDt[0], 0, 0, 0, 0); // month is 0 to 11 not 1 to 12
+	hzToDt = Date.UTC(toDtSplitVal[2], toDtSplitVal[1] - 1, toDtSplitVal[0], 0,
+			0, 0, 0);
+
+	if (hzToDt >= vaDt) {
+		// alert("wrong 1");
+		document.getElementById("hzToDate").value = validToDate;
+	} else {
+		// alert("wrong 2");
+		document.getElementById("hzToDate").value = trToDate;
+	}
+	// document.getElementById("hzToDate").value = validToDate;
+
+}
+
+/*
+ * function EnableBadge(){ var js_selectCov =
+ * document.getElementById("selectCov").value; var xmlhttp, result;
+ * 
+ * if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+ * xmlhttp = new XMLHttpRequest(); } else {// code for IE6, IE5 xmlhttp = new
+ * ActiveXObject("Microsoft.XMLHTTP"); } xmlhttp.onreadystatechange = function() {
+ * if (xmlhttp.readyState == 4 && xmlhttp.status == 200) { result =
+ * JSON.parse(xmlhttp.responseText);
+ * 
+ * alert("Result From Ajax:::::"+result); } }; var query = "<s:url
+ * action='DLBacklogAction' method='enableBadge'/>"+"?selectCov=" +
+ * js_selectCov; xmlhttp.open("GET", query, false); xmlhttp.send(); if (result
+ * =="enable") {
+ * 
+ * badgeStatus=document.getElementById("badgeNO").disabled=false;
+ * 
+ * document.getElementById("badgeDate").disabled=false;
+ * 
+ * 
+ * document.getElementById("badgeIssuedBy").disabled=false; //
+ * document.getElementById("trFrDate").value=document.getElementById("covIssuDate").value; } }
+ */
+
+/*
+ * function addRow(id) {
+ * 
+ * var serday = parseInt(document.getElementById("serday").value); var sermth =
+ * parseInt(document.getElementById("sermth").value); var seryr =
+ * parseInt(document.getElementById("seryr").value);
+ * 
+ * var servDate = new Date(parseInt(seryr), parseInt(sermth - 1),
+ * parseInt(serday)); //alert("Server Date:::" + servDate); var covs = ""; var
+ * issDate = "";
+ * 
+ * var rowcount = document.getElementById('covTable').rows.length; //alert("row
+ * count" + rowcount);
+ * 
+ * 
+ * for (var i = 1; i < rowcount; i++) { covs += (document.getElementById("cov_" +
+ * i).value) + ":"; issDate += document.getElementById("covIssuDate_" + i).value +
+ * ":"; }
+ * 
+ * var js_selectCov = document.getElementById("selectCov").value; var issuDate =
+ * document.getElementById("dlIssueDate"); var js_covIssuDate =
+ * document.getElementById("covIssuDate");
+ * 
+ * var edDate = issuDate.value.substring(0, 2); var hiphen1 =
+ * issuDate.value.substring(2, 3); var hiphen2 = issuDate.value.substring(5, 6);
+ * var edMonth = issuDate.value.substring(3, 5); var edYear =
+ * issuDate.value.substring(6, 10);
+ * 
+ * var FirstIssueDate=new Date(parseInt(edYear), parseInt(edMonth - 1),
+ * parseInt(edDate));
+ * 
+ * var covIssueDate = js_covIssuDate.value.substring(0, 2); var hiphen1 =
+ * js_covIssuDate.value.substring(2, 3); var hiphen2 =
+ * js_covIssuDate.value.substring(5, 6); var covIssueMonth =
+ * js_covIssuDate.value.substring(3, 5); var covIssueYear =
+ * js_covIssuDate.value.substring(6, 10);
+ * 
+ * var CovIssueDate = new Date(parseInt(covIssueYear), parseInt(covIssueMonth -
+ * 1), parseInt(covIssueDate));
+ * 
+ * 
+ * //alert("cov issue date" + CovIssueDate);
+ * 
+ * 
+ * if((rowcount==1)&&(CovIssueDate.compareTo(FirstIssueDate)<0)){
+ * 
+ * alert("Cov Issue date Must be equal to first issue date");
+ * document.backlogForm.covIssuDate.value = '';
+ * 
+ * return false; }
+ * if((rowcount==1)&&(CovIssueDate.compareTo(FirstIssueDate)>0)){
+ * 
+ * alert("Cov Issue date Must be equal to first issue date");
+ * document.backlogForm.covIssuDate.value = '';
+ * 
+ * return false; }
+ * 
+ * 
+ * var js_issAuthList = document.getElementById("issuAuthList").value; // var
+ * js_testBy=document.getElementById("testBy").value; // var
+ * js_testDate=document.getElementById("testDate");
+ * 
+ * var js_design = document.getElementById("design").value; var js_endorseNO =
+ * document.getElementById("endorseNO").value; var js_endorseDate =
+ * document.getElementById("endorseDate"); // var
+ * js_schoolList=document.getElementById("schoolList").value;
+ * 
+ * var js_badgeNO = document.getElementById("badgeNO").value;
+ * 
+ * var js_badgeDate = document.getElementById("badgeDate");
+ * 
+ * var js_badgeIssuedBy = document.getElementById("badgeIssuedBy").value; var
+ * js_vehicleNO = document.getElementById("vehicleNO").value;
+ * 
+ * 
+ * if (js_selectCov == "-1") { alert("Please Select Class Of Vehicle"); return
+ * false; }
+ * 
+ * if (js_covIssuDate.value == "") {
+ * 
+ * alert("Please Enter COV Issue Date"); js_covIssuDate.focus(); return false; }
+ * 
+ * if (hiphen1 !== "-" && hiphen2 !== "-") { alert("COV Issue Date Must in
+ * dd-MM-yyyy Format \nEx:22-04-1991"); document.backlogForm.covIssuDate.value =
+ * '';
+ * 
+ * return false; } if (js_covIssuDate.value.length != 10) { alert("COV Issue
+ * Date Must in dd-MM-yyyy Format \nEx:22-04-1991");
+ * document.backlogForm.covIssuDate.value = ''; return false; }
+ * 
+ * if (CovIssueDate > servDate) { alert("COV Issue Date Must Be LessThan Or
+ * Equal To Current Date"); document.backlogForm.covIssuDate.value = '';
+ * 
+ * return false; } if(CovIssueDate < FirstIssueDate){
+ * 
+ * alert("COV Issue Date Must Be Greater Than Or Equal To First Issue Date");
+ * document.backlogForm.covIssuDate.value = '';
+ * 
+ * return false; }
+ * document.getElementById("endorseDate").value=js_covIssuDate.value;
+ * 
+ * 
+ * 
+ * if(badgeStatus==false){
+ * 
+ * if(js_badgeNO==""){
+ * 
+ * alert("Please Enter Badge Number"); return false; }
+ * 
+ * document.getElementById("badgeDate").value=js_covIssuDate.value;
+ * badgeStatus=document.getElementById("badgeNO").disabled=true;
+ * 
+ * document.getElementById("badgeDate").disabled=true;
+ * 
+ * 
+ * document.getElementById("badgeIssuedBy").disabled=true; }
+ * 
+ * 
+ * var xmlhttp, result,result1,result2;
+ * 
+ * if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+ * xmlhttp = new XMLHttpRequest(); } else {// code for IE6, IE5 xmlhttp = new
+ * ActiveXObject("Microsoft.XMLHTTP"); } xmlhttp.onreadystatechange = function() {
+ * if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+ * 
+ * result = JSON.parse(xmlhttp.responseText); // alert("result====="+result);
+ * var res=result.split(":"); result1=res[0]; //
+ * alert("result1========"+result1); result2=res[1];
+ * 
+ * if (result1 !="success") {
+ * 
+ * $("#selectCov option[value=" + js_selectCov + "]").removeAttr( 'disabled');
+ * 
+ * alert(result); clearTxtControls();
+ * 
+ * return false; } } }; var query = "DLBacklogAction.do!checkdata?selectCov=" +
+ * js_selectCov + "&covIssuDate=" + js_covIssuDate.value + "&covsa=" + covs +
+ * "&isDa=" + issDate; xmlhttp.open("GET", query, false); xmlhttp.send(); //
+ * countId = parseInt(document.getElementById("covTableCountId").value)+1; //
+ * alert("countId+++++++++++++" + countId); if(result2=="trdata"){
+ * document.getElementById("trFrDate").value=document.getElementById("covIssuDate").value;
+ * 
+ * var trFromDate= document.getElementById("trFrDate");
+ * //alert("trFromDate======>"+trFromDate.value); var day =
+ * trFromDate.value.substring(0, 2); var hiphen1 = trFromDate.value.substring(2,
+ * 3); var hiphen2 = trFromDate.value.substring(5, 6); var month =
+ * trFromDate.value.substring(3, 5); var year = trFromDate.value.substring(6,
+ * 10); // alert(month);
+ * 
+ * if (day <= 31 && day >= 1 && month <= 12 && month >= 1) {
+ * 
+ * var trValiditFromDate = new Date(year, month - 1, day - 1);
+ * trValiditFromDate.setFullYear(trValiditFromDate.getFullYear() + 3);
+ * 
+ * var day = ('0' + trValiditFromDate.getDate()).slice(-2); var month = ('0' +
+ * (trValiditFromDate.getMonth() + 1)).slice(-2); var year =
+ * trValiditFromDate.getFullYear();
+ * 
+ * var trValidToDate = day + "-" + month + "-" + year; //alert("trvalidity to
+ * date"+trValidToDate);
+ * 
+ * document.getElementById("trToDate").value = trValidToDate; //
+ * $("#ntToDate").val( day + "-" + month + "-" + year ); } }
+ * 
+ * 
+ * 
+ * 
+ * if (result1 == "success" ) { $("#covTable") .append( "<tr > " + "
+ * <td align='center'><input type='checkbox' id='checkItem' name='covItem'
+ * value='" + rowcount + "' onClick='checkChkBox()'/>" + "<input type='hidden'
+ * id='checkItemhd' name='covItemhd' value='" + rowcount + "'/>" + "</td> " + "
+ * <td align='left'  style='padding-left: 12px'><input type='text' name='cov_" +
+ * rowcount + "' id='cov_" + rowcount + "' value='" + js_selectCov + "'
+ * readonly='readonly' /> </td> " + "
+ * <td align='left'  style='padding-left: 12px'><input type='text'
+ * name='covIssuDate_" + rowcount + "' id='covIssuDate_" + rowcount + "'
+ * value='" + js_covIssuDate.value + "' readonly='readonly' /> </td> " + "
+ * <td align='left'  style='padding-left: 12px'><input type='text'
+ * name='issAuthList_" + rowcount + "' id='issAuthList_" + rowcount + "'
+ * value='" + js_issAuthList + "' readonly='readonly' /> </td> " + "
+ * <td align='left'  style='padding-left: 12px'><input type='text'
+ * name='endorseNO_" + rowcount + "' id='endorseNO_" + rowcount + "' value='" +
+ * js_endorseNO + "' readonly='readonly' /> </td> " + "
+ * <td align='left'  style='padding-left: 12px'><input type='text'
+ * name='endorseDate_" + rowcount + "' id='endorseDate_" + rowcount + "'
+ * value='" + js_endorseDate.value + "' readonly='readonly' /> </td> " + "
+ * <td align='left'  style='padding-left: 12px'><input type='text'
+ * name='design_" + rowcount + "' id='design_" + rowcount + "' value='" +
+ * js_design + "' readonly='readonly' /> </td> " + // " <td align='left'
+ * style='padding-left: // 12px'><input type='text' name='schoolList_" + //
+ * countId + "' id='schoolList_" + countId + "' // value='"+js_schoolList+"'
+ * readonly='readonly' // /> // </td> "+ "
+ * <td align='left'  style='padding-left: 12px'><input type='text'
+ * name='badgeNO_" + rowcount + "' id='badgeNO_" + rowcount + "' value='" +
+ * js_badgeNO + "' readonly='readonly' /> </td> " + "
+ * <td align='left'  style='padding-left: 12px'><input type='text'
+ * name='badgeDate_" + rowcount + "' id='badgeDate_" + rowcount + "' value='" +
+ * js_badgeDate.value + "' readonly='readonly' /> </td> " + "
+ * <td align='left'  style='padding-left: 12px'><input type='text'
+ * name='badgeIssuedBy_" + rowcount + "' id='badgeIssuedBy_" + rowcount + "'
+ * value='" + js_badgeIssuedBy + "' readonly='readonly' /> </td> " + "
+ * <td align='left'  style='padding-left: 12px'><input type='text'
+ * name='vehicleNO_" + rowcount + "' id='vehicleNO_" + rowcount + "' value='" +
+ * js_vehicleNO + "' readonly='readonly' /> </td> " + " </tr>");
+ * 
+ * 
+ * document.getElementById("covTableCountId").value=countId;
+ * 
+ * alert("add countId "+countId);
+ * 
+ * $("#selectCov option:selected").attr('disabled', 'disabled');
+ * 
+ * clearTxtControls(); } }
+ */
+function clear() {
+	document.getElementById("ndlNo").value = "";
+	document.getElementById("odlNo").value = "";
+	document.getElementById("sdlNo").value = "";
+}
+
+function clearTxtControls()
+
+{
+
+	document.getElementById("selectCov").value = "Select";
+	document.getElementById("covIssuDate").value = "";
+
+	document.getElementById("issuAuthList").value = "-1";
+	document.getElementById("state1").value = "-1";
+
+	document.getElementById("design").value = "-1";
+	document.getElementById("endorseNO").value = "";
+	document.getElementById("endorseDate").value = "";
+
+	document.getElementById("badgeNO").value = "";
+
+	document.getElementById("badgeDate").value = "";
+
+	// document.getElementById("badgeIssuedBy").value = "";
+	document.getElementById("vehicleNO").value = "";
+
+}
+
+function unCheckAll() {
+	var len = document.forms[0].checkItem.length;
+	var checkedId = 0;
+	var count = 0;
+
+	if (len != undefined) {
+		for (var i = 0; i < len; i++) {
+			if (document.forms[0].checkItem[i].checked) {
+				document.forms[0].checkItem[i].checked = false;
+			}
+
+		}
+	} else {
+		if (document.forms[0].checkItem.checked) {
+			document.forms[0].checkItem.checked = false;
+		}
+	}
+}
+var chkboxCOV;
+var tmp;
+var covLen;
+function checkChkBox() {
+
+	var len = document.forms[0].checkItem.length;
+	// alert("document.forms[0].checkItem.length " +
+	// document.forms[0].checkItem.length);
+	var checkedId = 0;
+	var count = 0;
+	if (len != undefined) {
+		for (var i = 0; i < len; i++) {
+			if (document.forms[0].checkItem[i].checked) {
+				count++;
+				if (count == 1) {
+					checkedId = document.forms[0].checkItem[i].value;
+				}
+			}
+
+		}
+	} else {
+
+		if (document.forms[0].checkItem.checked) {
+			count++;
+			if (count == 1) {
+				checkedId = document.forms[0].checkItem.value;
+
+			}
+		} else {
+
+			for (i = 1; i < document.getElementById('covTable').rows.length; i++) {
+				// alert(i + " : " + );
+
+				// $("#selectCov option").eq(i).attr("disabled","true");
+			}
+
+		}
+	}
+	if (count == 1 && checkedId > 0) {
+
+		document.getElementById("addButton").disabled = true;
+		document.getElementById("addButton");
+		document.getElementById("editButton").disabled = false;
+		document.getElementById("editButton");
+		document.getElementById("removeButton").disabled = false;
+		document.getElementById("removeButton");
+
+		chkboxCOV = document.getElementById("cov_" + checkedId).value;
+
+		if (chkboxCOV == "MCWOG") {
+			chkboxCOV = 2;
+		}
+		if (chkboxCOV == "MCWG") {
+			chkboxCOV = 3;
+		}
+		if (chkboxCOV == "LMV") {
+			chkboxCOV = 4;
+		}
+		if (chkboxCOV == "3W-NT") {
+			chkboxCOV = 5;
+		}
+		if (chkboxCOV == "TRCTOR") {
+			chkboxCOV = 6;
+		}
+		if (chkboxCOV == "LMV-GV") {
+			chkboxCOV = 7;
+		}
+		if (chkboxCOV == "3W-CAB") {
+			chkboxCOV = 8;
+		}
+		if (chkboxCOV == "3W-GV") {
+			chkboxCOV = 9;
+		}
+		if (chkboxCOV == "TRANS") {
+			chkboxCOV = 10;
+		}
+		if (chkboxCOV == "DDKR-T") {
+			chkboxCOV = 11;
+		}
+		if (chkboxCOV == "RDRLR") {
+			chkboxCOV = 13;
+		}
+		if (chkboxCOV == "LMV-TT") {
+			chkboxCOV = 15;
+		}
+		if (chkboxCOV == "LMVCAB") {
+			chkboxCOV = 16;
+		}
+		if (chkboxCOV == "PSVBUS") {
+			chkboxCOV = 17;
+		}
+		if (chkboxCOV == "DDKR-P") {
+			chkboxCOV = 18;
+		}
+		if (chkboxCOV == "MCWOGT") {
+			chkboxCOV = 51;
+		}
+		if (chkboxCOV == "MCWOGP") {
+			chkboxCOV = 52;
+		}
+		if (chkboxCOV == "MCWGP") {
+			chkboxCOV = 54;
+		}
+		if (chkboxCOV == "5W-GV") {
+			chkboxCOV = 55;
+		}
+		if (chkboxCOV == "LMVPVT") {
+			chkboxCOV = 56;
+		}
+		if (chkboxCOV == "PWTBUS") {
+			chkboxCOV = 57;
+		}
+		if (chkboxCOV == "MVHART") {
+			chkboxCOV = 58;
+		}
+		if (chkboxCOV == "TRCTRL") {
+			chkboxCOV = 59;
+		}
+		if (chkboxCOV == "BUSVST") {
+			chkboxCOV = 60;
+		}
+		if (chkboxCOV == "LDRXCV") {
+			chkboxCOV = 61;
+		}
+		if (chkboxCOV == "CRANE") {
+			chkboxCOV = 62;
+		}
+		if (chkboxCOV == "FLIFT") {
+			chkboxCOV = 63;
+		}
+		if (chkboxCOV == "BRIGS") {
+			chkboxCOV = 64;
+		}
+		if (chkboxCOV == "CNEQP") {
+			chkboxCOV = 65;
+		}
+		if (chkboxCOV == "MCWGT") {
+			chkboxCOV = 53;
+		}
+		if (chkboxCOV == "OTHER") {
+			chkboxCOV = 14;
+		}
+		if (chkboxCOV == "INVCRG") {
+			chkboxCOV = 12;
+		}
+		if (chkboxCOV == "INVCRG2") {
+			chkboxCOV = 66;
+		}
+		if (chkboxCOV == "INVCRG3") {
+			chkboxCOV = 67;
+		}
+
+		// $("#selectCov option:selected").attr('disabled', 'enabled');
+
+		$("#selectCov option[value=" + chkboxCOV + "]").removeAttr('disabled');
+		// document.getElementById("cov_" + checkedId).value;
+		document.getElementById("selectCov").value = chkboxCOV;
+		document.getElementById("covIssuDate").value = document
+				.getElementById("covIssuDate_" + checkedId).value;
+		document.getElementById("issuAuthList").value = document
+				.getElementById("issAuthList_" + checkedId).value;
+		// document.getElementById("testBy").value=document.getElementById("testBy_"+checkedId).value;
+		// document.getElementById("testDate").value=document.getElementById("testDate_"+checkedId).value;
+
+		document.getElementById("design").value = document
+				.getElementById("design_" + checkedId).value;
+		document.getElementById("endorseNO").value = document
+				.getElementById("endorseNO_" + checkedId).value;
+		document.getElementById("endorseDate").value = document
+				.getElementById("endorseDate_" + checkedId).value;
+		// document.getElementById("schoolList").value=document.getElementById("schoolList_"+checkedId).value;
+		document.getElementById("badgeNO").value = document
+				.getElementById("badgeNO_" + checkedId).value;
+		document.getElementById("badgeDate").value = document
+				.getElementById("badgeDate_" + checkedId).value;
+		// document.getElementById("badgeIssuedBy").value = document
+		// .getElementById("badgeIssuedBy_" + checkedId).value;
+
+		document.getElementById("vehicleNO").value = document
+				.getElementById("vehicleNO_" + checkedId).value;
+	} else if (count > 1) {
+		document.getElementById("addButton").disabled = true;
+		document.getElementById("addButton");
+		document.getElementById("editButton").disabled = true;
+		document.getElementById("editButton");
+		document.getElementById("removeButton").disabled = true;
+		document.getElementById("removeButton");
+
+		clearTxtControls();
+	} else if (count == 0) {
+
+		document.getElementById("addButton").disabled = false;
+		document.getElementById("addButton");
+		document.getElementById("editButton").disabled = true;
+		document.getElementById("editButton");
+		document.getElementById("removeButton").disabled = true;
+		document.getElementById("removeButton");
+		clearTxtControls();
+	}
+
+}
+
+function modifySelectedRow(id) {
+	/* document.getElementById('dob').style.pointerEvents = 'none'; */
+
+	if (1) {
+		// alert("if");
+		var checkedId = 0;
+		var len = document.backlogForm.covItem.length;
+		if (len != undefined) {
+			for (var i = 0; i < len; i++) {
+
+				if (document.backlogForm.covItem[i].checked) {
+					checkedId = document.backlogForm.covItem[i].value;
+					break;
+
+				}
+
+			}
+		} else {
+			if (document.backlogForm.covItem.checked) {
+				checkedId = document.backlogForm.covItem.value;
+			}
+		}
+		if (checkedId > 0) {
+			var ex = document.getElementById("selectCov");
+			// alert("ex value..>" + ex.value);
+
+			if (ex.value == "") {
+				alert("Please Select COV");
+				return false;
+			}
+			// alert($('#selectCov').val());
+			// alert($('#selectCov option').eq(ex.value-1).text());
+
+			var selTex = $('#selectCov  option').eq(ex.value - 1).text();
+			// var selVal = ex[$('#selectCov').val()].value;
+			if (selTex == "" || selTex == "Select") {
+				alert("Please Select COV");
+				return false;
+			}
+			var js_issuAuthList = document.getElementById("issuAuthList").value;
+			var js_covIssuDate = document.getElementById("covIssuDate");
+			var js_endorseNO = document.getElementById("endorseNO").value;
+			var serday = parseInt(document.getElementById("serday").value);
+			var sermth = parseInt(document.getElementById("sermth").value);
+			var seryr = parseInt(document.getElementById("seryr").value);
+			var servDate = new Date(parseInt(seryr), parseInt(sermth - 1),
+					parseInt(serday));
+			var rowcount = document.getElementById('covTable').rows.length;
+			var issuDate = document.getElementById("dlIssueDate");
+			var edDate = issuDate.value.substring(0, 2);
+			var hiphen1 = issuDate.value.substring(2, 3);
+			var hiphen2 = issuDate.value.substring(5, 6);
+			var edMonth = issuDate.value.substring(3, 5);
+			var edYear = issuDate.value.substring(6, 10);
+			var FirstIssueDate = new Date(parseInt(edYear),
+					parseInt(edMonth - 1), parseInt(edDate));
+			var covIssueDate = js_covIssuDate.value.substring(0, 2);
+			var hiphen1 = js_covIssuDate.value.substring(2, 3);
+			var hiphen2 = js_covIssuDate.value.substring(5, 6);
+			var covIssueMonth = js_covIssuDate.value.substring(3, 5);
+			var covIssueYear = js_covIssuDate.value.substring(6, 10);
+			var CovIssueDate = new Date(parseInt(covIssueYear),
+					parseInt(covIssueMonth - 1), parseInt(covIssueDate));
+
+			if (js_covIssuDate.value == "") {
+				alert("Please Enter COV Issue Date");
+				js_covIssuDate.focus();
+				return false;
+
+			}
+			if (hiphen1 !== "-" && hiphen2 !== "-") {
+				alert("COV Issue Date Must  in dd-MM-yyyy Format \nEx:22-04-1991");
+				document.backlogForm.covIssuDate.value = '';
+
+				return false;
+			}
+			if (js_covIssuDate.value.length != 10) {
+				alert("COV Issue Date Must  in dd-MM-yyyy Format \nEx:22-04-1991");
+				document.backlogForm.covIssuDate.value = '';
+				return false;
+			}
+
+			if (CovIssueDate > servDate) {
+				alert("COV Issue Date Must Be LessThan Or Equal To Current Date");
+				document.backlogForm.covIssuDate.value = '';
+				return false;
+			}
+
+			if (CovIssueDate < FirstIssueDate) {
+				alert("COV Issue Date Must Be Greater Than Or Equal To First Issue Date");
+				document.backlogForm.covIssuDate.value = '';
+				return false;
+			}
+
+			if ((rowcount == 2) && (CovIssueDate.compareTo(FirstIssueDate) < 0)) {
+
+				alert("Cov Issue date Must be equal to first issue date");
+				document.backlogForm.covIssuDate.value = '';
+
+				return false;
+
+			}
+			if ((rowcount == 2) && (CovIssueDate.compareTo(FirstIssueDate) > 0)) {
+
+				alert("Cov Issue date Must be equal to first issue date");
+
+				document.backlogForm.covIssuDate.value = '';
+
+				return false;
+
+			}
+			if (js_issuAuthList == "") {
+				alert("Please Select Issue Authority");
+				js_issuAuthList.focus();
+				return false;
+			}
+			if (js_issuAuthList == "select") {
+				alert("Please Select Issue Authority");
+				js_issuAuthList.focus();
+				return false;
+			}
+
+			document.getElementById("endorseDate").value = js_covIssuDate.value;
+
+			$("#selectCov option:selected").attr('disabled', 'disabled');// murali
+			// alert("selTex...>"+selTex);
+			document.getElementById("cov_" + checkedId).value = selTex;
+			document.getElementById("covIssuDate_" + checkedId).value = document
+					.getElementById("covIssuDate").value;
+			document.getElementById("issAuthList_" + checkedId).value = document
+					.getElementById("issuAuthList").value;
+			// document.getElementById("testBy_"+checkedId).value=document.getElementById("testBy").value;
+			// document.getElementById("testDate_"+checkedId).value=document.getElementById("testDate").value;
+			// alert(".....>"+document.getElementById("design").value);
+			if (document.getElementById("design").value != "-1") {
+				document.getElementById("design_" + checkedId).value = document
+						.getElementById("design").value;
+			}
+			document.getElementById("endorseNO_" + checkedId).value = document
+					.getElementById("endorseNO").value;
+			document.getElementById("endorseDate_" + checkedId).value = document
+					.getElementById("endorseDate").value;
+			// document.getElementById("schoolList_"+checkedId).value=document.getElementById("schoolList").value;
+			document.getElementById("badgeNO_" + checkedId).value = document
+					.getElementById("badgeNO").value;
+			document.getElementById("badgeDate_" + checkedId).value = document
+					.getElementById("badgeDate").value;
+			// document.getElementById("badgeIssuedBy_" + checkedId).value =
+			// document
+			// .getElementById("badgeIssuedBy").value;
+
+			document.getElementById("vehicleNO_" + checkedId).value = document
+					.getElementById("vehicleNO").value;
+
+			// alert("Record Successfully Updated");
+
+			document.getElementById("addButton").disabled = false;
+			// document.getElementById("editButton").disabled = false;
+			document.getElementById("editButton").disabled = true;
+			document.getElementById("removeButton").disabled = true;
+			clearTxtControls();
+			unCheckAll();
+		}
+
+	} else {
+		alert("else");
+		return false;
+	}
+}
+
+/** * FUNCTION TO DELETE ROW ** */
+function removeRow(id) {
+
+	document.getElementById('dob').style.pointerEvents = 'none';
+	// document.getElementById("covIssuDate").value="";
+	var opt = confirm("Are you sure want to delete the Selected Rows");
+
+	if (opt) {
+		var objTable = document.getElementById(id);
+		var counter = 0, intialtotalRows = 0;
+		var intialtotalRows = objTable.rows.length;
+		// alert("objTable.rows.length " + objTable.rows.length);
+
+		if (objTable.rows.length > 1) {
+			for (var i = 1; i < objTable.rows.length; i++) {
+				var chk = objTable.rows[i].cells[0].childNodes[0];
+				// alert("chk.checked " + chk.checked);
+				if (chk.checked) {
+
+					// alert("deleted recodrd i val " + i);
+					objTable.deleteRow(i);
+					i--;
+					counter = counter + 1;
+				}
+			}
+
+			if (counter > 0) {
+				var rowcount = document.getElementById('covTable').rows.length;
+
+				if (rowcount == 1) {
+					document.getElementById('dlIssueDate').style.pointerEvents = 'visible';
+					document.getElementById("dlIssueDate").disabled = false;
+					document.getElementById("ntFrDate").value = "";
+					document.getElementById("ntToDate").value = "";
+					document.getElementById("trFrDate").value = "";
+					document.getElementById("trToDate").value = "";
+				}
+				document.getElementById("addButton").disabled = false;
+				// document.getElementById("editButton").disabled =
+				// false;//murali
+				document.getElementById("editButton").disabled = true;
+				document.getElementById("removeButton").disabled = true;
+
+				clearTxtControls();
+			} else if (counter == 0)
+
+			{
+
+				// alert("Please select the row that you want to delete.");
+				document.getElementById("addButton").disabled = false;
+				// document.getElementById("editButton").disabled =
+				// false;//murali
+				document.getElementById("editButton").disabled = true;
+				document.getElementById("removeButton").disabled = true;
+			}
+		} else {
+
+			/** * Alert user if there are no rows being added ** */
+			alert("There are no rows being added");
+		}
+	}
+
+}
+
+/*
+ * function displayRtoList() {
+ * 
+ * 
+ * document.getElementById("dlIssueDate").readOnly=false;
+ * 
+ * 
+ * document.getElementById("ndlNo").readOnly = false;
+ * //document.getElementById("sdlNo").readOnly = false;
+ * document.getElementById("ndlNo").value = "";
+ * document.getElementById("sdlNo").value = "";
+ * 
+ * 
+ * document.backlogForm.action = "DLBacklog.do";
+ * 
+ * document.backlogForm.submit(); }
+ */
+function clearScosta() {
+
+	document.getElementById("dlIssueDate").disabled = false;
+	// document.getElementById("dlIssueDate").value="";
+	// document.getElementById("ndlNo").disabled = true;
+	// document.getElementById("ndlNo").value = "";
+
+	// document.getElementById("sdlNo").value = "";
+
+	var js_rtoCode = document.getElementById("rtoCode").value;
+
+	// document.getElementById("issuAuthList").value=js_rtoCode;//murali30072015
+	
+	var stateOne1 = document.getElementById("state");
+	var rtoOne1 = document.getElementById("rtoCodeissvalue");
+
+	document.backlogForm.state1.value = stateOne1.value;
+	document.backlogForm.issuAuthList.value = rtoOne1.value;
+}
+
+function checkWithApplyRTO()
+{
+	//alert("checkWithApplyRTO----112211333-686876--7777777----888--");
+	
+	var applRto=document.getElementById("rtoCodevalue").value;
+	var applRto1=document.getElementById("rtoCode1").value;
+	//alert("applRto--->"+applRto+"---applRto1--->"+applRto1);
+	
+	document.getElementById("rtoCode").value=applRto;
+	document.getElementById("rtoCodeissvalue").value=applRto1;
+	
+	document.getElementById("state").disabled=true;
+	document.getElementById("rtoCode").disabled=true;
+	document.getElementById("rtoCodeissvalue").disabled=true;
+
+}
+
+function removeIssRto()
+{
+	//alert("removeIssRto--------");
+	document.backlogForm.rtoCodeissvalue.value = '-1';
+	document.backlogForm.rtoCode.value = '-1';
+}
+
+function checkApplyRTO()
+{
+	//alert("0-------->");
+	var js_rtoCode1 = document.getElementById("rtoCodevalue").value;
+	//alert("rtoCodevalue apply rto---12->"+js_rtoCode1);
+	var rtoCode=document.getElementById("rtoCode").value;
+	var rtoCodeissvalue=document.getElementById("rtoCodeissvalue").value;
+	//alert("Issued rtoCode--1->"+rtoCode);
+	if (js_rtoCode1 == "-1") {
+		alert("Please Select Apply to RTO..");
+		document.backlogForm.rtoCodeissvalue.value = '-1';
+		document.backlogForm.rtoCode.value = '-1';
+		
+		//js_rtoCode1.focus();
+		return false;
+	}
+	//alert("rtoCodeissvalue==="+rtoCodeissvalue+"---"+js_rtoCode1);
+	//alert("js_rtoCode1==="+js_rtoCode1+"---"+rtoCode);
+	if(js_rtoCode1.trim()==rtoCode.trim())
+		{
+		//alert("if---");
+		return true;
+		}
+	else
+		{
+		alert("Please select Issued RTO same as Apply to RTO");
+		document.backlogForm.rtoCodeissvalue.value = '-1';
+		document.backlogForm.rtoCode.value = '-1';
+		return false;
+		}
+
+
+}
+function checkApplyRTO1()
+{
+	
+	//alert("1-------->");
+	var js_rtoCode1 = document.getElementById("rtoCodevalue").value;
+	//alert("rtoCodevalue apply rto---12->"+js_rtoCode1);
+	var rtoCode=document.getElementById("rtoCode").value;
+	var rtoCodeissvalue=document.getElementById("rtoCodeissvalue").value;
+	//alert("Issued rtoCode--1->"+rtoCode);
+	if (js_rtoCode1 == "-1") {
+		alert("Please Select Apply to RTO..");
+		document.backlogForm.rtoCodeissvalue.value = '-1';
+		document.backlogForm.rtoCode.value = '-1';
+		
+		//js_rtoCode1.focus();
+		return false;
+	}
+	//alert("rtoCodeissvalue==="+rtoCodeissvalue+"---"+js_rtoCode1);
+	//alert("js_rtoCode1==="+js_rtoCode1+"---"+rtoCode);
+	if(rtoCodeissvalue.trim()==js_rtoCode1.trim())
+		{
+		//alert("if---");
+		return true;
+		}
+	else
+		{
+		alert("Please select Issued RTO same as Apply to RTO");
+		document.backlogForm.rtoCodeissvalue.value = '-1';
+		document.backlogForm.rtoCode.value = '-1';
+		return false;
+		}
+
+
+}
+function getEligbleCovsByIssuDate() {
+
+	var covs = "";
+	var rowcount = document.getElementById('covTable').rows.length;
+	for (var i = 1; i < rowcount; i++) {
+		covs += (document.getElementById("cov_" + i).value) + ":";
+		// alert("Covs---->"+covs);
+
+	}
+
+	var res = covs.split(":");
+	// alert("Ressss--->"+res);
+
+	// alert("am in eligible covslist");
+	var covIssuDate = document.getElementById("covIssuDate");
+	var state1 = document.getElementById("state1").value;
+	//alert("state1---Iss--" + state1.value);
+	var edDate = covIssuDate.value.substring(0, 2);
+	var hiphen1 = covIssuDate.value.substring(2, 3);
+	var hiphen2 = covIssuDate.value.substring(5, 6);
+	var edMonth = covIssuDate.value.substring(3, 5);
+	var edYear = covIssuDate.value.substring(6, 10);
+
+	var dateOfBirth = document.backlogForm.dob;
+
+	var date = dateOfBirth.value.substring(0, 2);
+	var month = dateOfBirth.value.substring(3, 5);
+	var year = dateOfBirth.value.substring(6, 10);
+	var hiphen1 = dateOfBirth.value.substring(2, 3);
+	var hiphen2 = dateOfBirth.value.substring(5, 6);
+
+	var diffAge = 16;
+
+	if (date <= edDate) {
+		diffAge = edYear - year;
+
+	} else if (month < edMonth) {
+
+		diffAge = edYear - year;
+
+	} else if (year < (edYear - 16)) {
+		if (month > edMonth) {
+
+			diffAge = edYear - year - 1;
+
+		} else if (month == edMonth) {
+			if (date > edDate) {
+
+				diffAge = edYear - year - 1;
+
+			}
+
+			else if (date <= edDate) {
+
+				diffAge = edYear - year;
+
+			}
+
+		} else if (month < edMonth) {
+			diffAge = edYear - year;
+
+		}
+
+	}
+	// alert("diffAge"+diffAge);
+	if (year != "") {
+		// alert("am in eligible covslist age diff ajax calls");
+		$.ajax({
+			type : 'POST',
+			url : 'covList.do?age=' + diffAge +'&state1=' + state1 + '&covIssuDate=' + covIssuDate.value ,
+			dataType : 'json',
+			success : function(data) {
+				// alert("data"+data);
+				/* var $select = $('#selectCov'); */
+				var options = "<option key='select'>Select</option>";
+				$.each(data, function(key, value) {
+					// alert(key+"...."+value);
+
+					var bar = res.indexOf("" + value.trim());
+					// console.log(res+"........."+value+ bar);
+					if (bar === -1) {
+						options += "<option value='" + key + "'>" + value
+								+ "</option>";
+					} else {
+						// alert(key+"...."+value);
+
+					}
+
+					// alert(options);
+					// $('<option>').val(key).text(value).appendTo($select);
+				});
+				// alert(options);
+
+				$("#selectCov").html(options);
+
+			}
+		});
+	}
+
+}
+function removeAllOptions(selectbox) {
+	var i;
+	for (i = selectbox.options.length - 1; i >= 0; i--) {
+		selectbox.remove(i);
+	}
+}
+
+function removeItem(res) {
+	var i;
+	for (i = res.options.length - 1; i >= 0; i--) {
+		if (res.options[i].selected)
+			res.remove(i);
+	}
+}
+function getEligbleCovsByDOB() {
+	// var js_age = $("#age").val();
+	// alert("Age--->");
+	var objTable = document.getElementById("covTable");
+	var state1 = document.getElementById("state1").value;
+	//alert("state1----"+state1);
+	var state = document.getElementById("state").value;
+	var covIssuDate = document.getElementById("covIssuDate").value;
+	
+	// alert("State1="+State1);
+	var counter = 0, intialtotalRows = 0;
+	intialtotalRows = objTable.rows.length;
+	// alert("objTable.rows.length " + intialtotalRows);
+
+	if (objTable.rows.length > 1) {
+		for (var i = 1; i < objTable.rows.length; i++) {
+			// var chk = objTable.rows[i].cells[0].childNodes[0];
+			// alert("chk.checked " + chk.checked);alert("js_trToDate")
+
+			// alert("deleted recodrd i val " + i);
+			objTable.deleteRow(i);
+			i--;
+			counter = counter + 1;
+		}
+	}
+
+	// var issuDate = document.getElementById("dlIssueDate");//changed by
+	// 20/10/2015
+	var issuDate = document.getElementById("dlIssueDate");
+	var edDate = issuDate.value.substring(0, 2);
+	var hiphen1 = issuDate.value.substring(2, 3);
+	var hiphen2 = issuDate.value.substring(5, 6);
+	var edMonth = issuDate.value.substring(3, 5);
+	var edYear = issuDate.value.substring(6, 10);
+
+	var dateOfBirth = document.backlogForm.dob;
+
+	var date = dateOfBirth.value.substring(0, 2);
+	var month = dateOfBirth.value.substring(3, 5);
+	var year = dateOfBirth.value.substring(6, 10);
+	var hiphen1 = dateOfBirth.value.substring(2, 3);
+	var hiphen2 = dateOfBirth.value.substring(5, 6);
+
+	var age = 16;
+	var diffAge = 16;
+
+	if (date <= edDate) {
+		diffAge = edYear - year;
+
+	} else if (month < edMonth) {
+
+		diffAge = edYear - year;
+
+	} else if (year < (edYear - 16)) {
+		if (month > edMonth) {
+
+			diffAge = edYear - year - 1;
+
+		} else if (month == edMonth) {
+			if (date > edDate) {
+
+				diffAge = edYear - year - 1;
+
+			}
+
+			else if (date <= edDate) {
+
+				diffAge = edYear - year;
+
+			}
+
+		} else if (month < edMonth) {
+			diffAge = edYear - year;
+
+		}
+
+	}
+	
+	if (year != "") {
+		// alert("In Ajax--");
+		$.ajax({
+			type : 'POST',
+			url : 'covList.do?age=' + diffAge + '&state=' + state + '&covIssuDate=' + covIssuDate +'&state1=' + state1 ,
+			dataType : 'json',
+			success : function(data) {
+
+				var $select = $('#selectCov');
+				var options = "<option key='select'>Select</option>";
+				$.each(data, function(key, value) {
+					// alert(key+""+value);
+					options += "<option value='" + key + "'>" + value
+							+ "</option>";
+					// alert(options);
+					// $('<option>').val(key).text(value).appendTo($select);
+				});
+				// alert(options);
+				$("#selectCov").html(options);
+			}
+		});
+	}
+}
+/*
+ * function enableField() {
+ * 
+ * var field_check = $('input:radio[name=idpdefence]:checked').val();
+ * alert(field_check); if (field_check == 'None' || field_check == '') {
+ * 
+ * document.getElementById("idpno").value="";
+ * document.getElementById("idpIssuDate").value="";
+ * document.getElementById("issuAuthList1").value="";
+ * 
+ * document.getElementById("idpno").disabled = true;
+ * document.getElementById("idpIssuDate").disabled = true;
+ * document.getElementById("issuAuthList1").disabled = true; } else {
+ * document.getElementById("idpno").disabled = false;
+ * document.getElementById("idpIssuDate").disabled = false;
+ * document.getElementById("issuAuthList1").disabled = false; } }
+ */
+
+function calDateOfBirth() {
+
+	var issuDate = document.getElementById("dlIssueDate");
+	var edDate = issuDate.value.substring(0, 2);
+	var hiphen1 = issuDate.value.substring(2, 3);
+	var hiphen2 = issuDate.value.substring(5, 6);
+	var edMonth = issuDate.value.substring(3, 5);
+	var edYear = issuDate.value.substring(6, 10);
+	var serday = parseInt(document.getElementById("serday").value);
+	var sermth = parseInt(document.getElementById("sermth").value);
+	var seryr = parseInt(document.getElementById("seryr").value);
+	var age = document.getElementById("age");
+
+	if (age.value < 16) {
+		alert("Age Must Be Greater Than 16 Years");
+		document.getElementById("age").value = "";
+		age.focus();
+		return false;
+	}
+
+	if (sermth >= 6) {
+		var adob = "01-06-" + (seryr - age.value).toString();
+		// alert("adob===="+adob);
+		document.getElementById("dob").value = adob;// murali
+		var date = adob.substring(0, 2);
+		var hiphen3 = adob.substring(2, 3);
+		var hiphen4 = adob.substring(5, 6);
+		var month = adob.substring(3, 5);
+		var year = adob.substring(6, 10);
+
+		if (year > (edYear - 16)) {
+			alert("The Diff. between Issue Date and DOB must be greater than or equal to 16 Yrs");
+			document.getElementById("dob").disabled = false;
+			document.getElementById("age").disabled = false;
+			document.backlogForm.dob.value = '';
+			document.backlogForm.age.value = '';
+
+			return false;
+
+		}
+		if (year == (edYear - 16)) {
+			if (month > edMonth) {
+				alert("The Diff. between Issue Date and DOB must be greater than or equal to 16 Yrs");
+				document.getElementById("dob").disabled = false;
+				document.getElementById("age").disabled = false;
+				document.backlogForm.dob.value = '';
+				document.backlogForm.age.value = '';
+
+				return false;
+			} else if (month == edMonth) {
+				if (date > edDate) {
+					alert("The Diff. between Issue Date and DOB must be greater than or equal to 16 Yrs");
+					document.getElementById("dob").disabled = false;
+					document.getElementById("age").disabled = false;
+
+					document.backlogForm.dob.value = '';
+					document.backlogForm.age.value = '';
+
+					return false;
+				}
+			}
+		} else {
+			// document.getElementById("dob").value=adob;
+			// document.getElementById("dob").readOnly=false;
+			document.getElementById("age").disabled = false;
+			document.getElementById('dob').style.pointerEvents = 'none';
+		}
+	} else if (sermth < 6) {
+		var adob = "01-06-" + (seryr - age.value).toString();
+
+		var date = adob.substring(0, 2);
+		var hiphen3 = adob.substring(2, 3);
+		var hiphen4 = adob.substring(5, 6);
+		var month = adob.substring(3, 5);
+		var year = adob.substring(6, 10);
+
+		if (year > (edYear - 16)) {
+			alert("The Diff. between Issue Date and DOB must be greater than or equal to 16 Yrs");
+			document.getElementById("dob").disabled = false;
+			document.getElementById("age").disabled = false;
+
+			document.backlogForm.dob.value = '';
+			document.backlogForm.age.value = '';
+
+			return false;
+
+		}
+
+		if (year == (edYear - 16)) {
+			if (month > edMonth) {
+				alert("The Diff. between Issue Date and DOB must be greater than or equal to 16 Yrs");
+				document.getElementById("dob").disabled = false;
+				document.getElementById("age").disabled = false;
+
+				document.backlogForm.dob.value = '';
+				document.backlogForm.age.value = '';
+
+				return false;
+			} else if (month == edMonth) {
+				if (date > edDate) {
+					alert("The Diff. between Issue Date and DOB must be greater than or equal to 16 Yrs");
+					document.getElementById("dob").disabled = false;
+					document.getElementById("age").disabled = false;
+					document.backlogForm.dob.value = '';
+					document.backlogForm.age.value = '';
+
+					return false;
+				}
+			}
+
+		}
+
+		else {
+			document.getElementById("dob").value = "01-06-"
+					+ (seryr - 1 - age.value).toString();
+			// document.getElementById("dob").readOnly=true;
+			// document.getElementById("age").disabled = true;//changed
+			document.getElementById('dob').style.pointerEvents = 'none';
+
+		}
+	}
+
+}
+/*
+ * function calDateOfBirth() {
+ * 
+ * //var serverDate=document.getElementById('serverDate').value;
+ * 
+ * //alert(".."+serverDate) var
+ * currentMonth=parseInt(serverDate.substring(3,5)); var
+ * currentYear=parseInt(serverDate.substring(6,10));
+ * 
+ * var age=document.getElementById('age').value;
+ * 
+ * if(age != "") { if(age < 16) { // alert("age..."+age); alert("Minimum Age is
+ * 16 to Apply for Learner's Licence."); document.getElementById('age').focus();
+ * return false; } if(age > 125) { alert("Maximum Age is 125 to Apply for
+ * Learner's Licence."); document.getElementById('age').focus(); return false; }
+ * //alert(".."+currentYear) if(currentMonth>=6) {
+ * document.getElementById('dob').value="01-06-"+(currentYear-age).toString(); }
+ * else if(currentMonth<6) {
+ * document.getElementById('dob').value="01-06-"+(currentYear-1-age).toString(); } } //
+ * alert(".."+document.getElementById('dob').value)
+ * 
+ * calAge(); }
+ */
+
+/*
+ * function Expire() {
+ * 
+ * var serday = parseInt(document.getElementById("serday").value); var sermth =
+ * parseInt(document.getElementById("sermth").value); var seryr =
+ * parseInt(document.getElementById("seryr").value); var servDate = new
+ * Date(parseInt(seryr), parseInt(sermth - 1), parseInt(serday)); var
+ * dateOfBirth = document.backlogForm.dob; var date =
+ * dateOfBirth.value.substring(0, 2); var month = dateOfBirth.value.substring(3,
+ * 5); var year = dateOfBirth.value.substring(6, 10);
+ * 
+ * var expiryDate = new Date(year, month - 1, date - 1);
+ * 
+ * expiryDate.setFullYear(50 + expiryDate.getFullYear()); var day = ('0' +
+ * expiryDate.getDate()).slice(-2); var month = ('0' + (expiryDate.getMonth() +
+ * 1)).slice(-2); var year = expiryDate.getFullYear();
+ * 
+ * var validToDate = day + "-" + month + "-" + year; if(expiryDate<servDate){
+ * alert("Your Licence is expaired please renewal.! ");
+ * document.getElementById("expired").style.display = "block";
+ * js_ntFrDate.focus(); }
+ * 
+ * 
+ * 
+ *  }
+ */
+
+function calAge1() {
+
+	var serday = parseInt(document.getElementById("serday").value);
+	var sermth = parseInt(document.getElementById("sermth").value);
+	var seryr = parseInt(document.getElementById("seryr").value);
+	var servDate = new Date(parseInt(seryr), parseInt(sermth - 1),
+			parseInt(serday));
+	var issuDate = document.getElementById("dlIssueDate");
+
+	var js_ntFrDate = document.getElementById("ntFrDate").value;
+
+	var js_ntToDate = document.getElementById("ntToDate").value;
+
+	var edDate = issuDate.value.substring(0, 2);
+	var hiphen1 = issuDate.value.substring(2, 3);
+	var hiphen2 = issuDate.value.substring(5, 6);
+	var edMonth = issuDate.value.substring(3, 5);
+	var edYear = issuDate.value.substring(6, 10);
+
+	var dateOfBirth = document.backlogForm.dob;
+
+	var date = dateOfBirth.value.substring(0, 2);
+	var month = dateOfBirth.value.substring(3, 5);
+	var year = dateOfBirth.value.substring(6, 10);
+	var hiphen1 = dateOfBirth.value.substring(2, 3);
+	var hiphen2 = dateOfBirth.value.substring(5, 6);
+
+	var age = 16;
+	var diffAge = 16;
+	if (dateOfBirth.value == "") {
+		alert("Please Enter Date of Birth");
+
+		dateOfBirth.focus();
+		return false;
+	}
+	if (hiphen1 !== "-" && hiphen2 !== "-") {
+		alert("Enter Date of Birth in dd-MM-yyyy Format \nEx:22-04-1991");
+		document.backlogForm.dob.value = '';
+
+		dateOfBirth.focus();
+		return false;
+	}
+	if (dateOfBirth.value.length != 10) {
+		alert("Enter Date of Birth in dd-MM-yyyy Format \nEx:22-04-1991");
+		document.backlogForm.dob.value = '';
+
+		dateOfBirth.focus();
+		return false;
+	}
+
+	if (month > 12) {
+		document.backlogForm.dob.value = "";
+
+		alert('Invalid Date of Birth');
+		return false;
+	}
+
+	if (isLeapYear()) {
+		if (date > 29) {
+			document.backlogForm.dob.value = "";
+
+			alert('Invalid Date of Birth');
+			return false;
+		}
+	}
+
+	if (month == 2 && date > 28 && !isLeapYear()) {
+		document.backlogForm.dob.value = "";
+
+		alert('Invalid Date of Birth');
+		return false;
+	}
+
+	if ((month == 1 && date > 31) || (month == 3 && date > 31)
+			|| (month == 4 && date > 30) || (month == 5 && date > 31)
+			|| (month == 6 && date > 30) || (month == 7 && date > 31)
+			|| (month == 8 && date > 31) || (month == 9 && date > 30)
+			|| (month == 10 && date > 31) || (month == 11 && date > 30)
+			|| (month == 12 && date > 31)) {
+		document.backlogForm.dob.value = "";
+
+		alert('Invalid Date of Birth');
+		return false;
+	}
+
+	if (year > (seryr - 16)) {
+		alert("Age must not be less than 16 Years");
+		document.backlogForm.dob.value = '';
+		dateOfBirth.focus();
+		return false;
+	} else if (year == (seryr - 16)) {
+		if (month > sermth) {
+			alert("Age must not be less than 16 Years");
+			document.backlogForm.age.value = '';
+			dateOfBirth.focus();
+			return false;
+		} else if (month == sermth) {
+			if (date > serday) {
+				alert("Age must not be less than 16 Years");
+				document.backlogForm.age.value = '';
+				dateOfBirth.focus();
+				return false;
+			}
+			if (date <= serday) {
+				age = seryr - year;
+				document.backlogForm.age.value = age;
+				return false;
+			}
+		} else if (month < sermth) {
+			age = seryr - year;
+			document.backlogForm.age.value = age;
+			if (!document.getElementById("dob").disabled) {
+				// document.getElementById("dob").disabled = true;//changed
+				// document.getElementById("age").disabled = true;//changed
+			}
+			// document.getElementById("age").readOnly = true;
+		}
+	} else if (year < (seryr - 16)) {
+		if (month > sermth) {
+			age = seryr - year - 1;
+			document.backlogForm.age.value = age;
+			if (!document.getElementById("dob").disabled) {
+				// document.getElementById("dob").disabled = true;//changed
+				// document.getElementById("age").disabled = true;//changed
+			}
+			// document.getElementById("age").readOnly = true;
+
+		} else if (month == sermth) {
+			if (date > serday) {
+				age = seryr - year - 1;
+				document.backlogForm.age.value = age;
+				if (!document.getElementById("dob").disabled) {
+					// document.getElementById("dob").disabled = true;//changed
+					// document.getElementById("age").disabled = true;//changed
+				}
+				// document.getElementById("age").readOnly = true;
+
+			}
+
+			else if (date <= serday) {
+				age = seryr - year;
+
+				document.backlogForm.age.value = age;
+				if (!document.getElementById("dob").disabled) {
+					// document.getElementById("dob").disabled = true;//changed
+					// document.getElementById("age").disabled = true;//changed
+				}
+				// document.getElementById("age").readOnly = true;
+
+			}
+		} else if (month < sermth) {
+			age = seryr - year;
+			document.backlogForm.age.value = age;
+			if (!document.getElementById("dob").disabled) {
+				// document.getElementById("dob").disabled = true;//changed
+				// document.getElementById("age").disabled = true;//changed
+			}
+			// document.getElementById("age").readOnly = true;
+
+		}
+	}
+
+	if (year > (edYear - 16)) {
+		alert("The Diff. between Issue Date and DOB must be greater than or equal to 16 Yrs");
+		document.getElementById("dob").disabled = true;
+		document.getElementById("age").disabled = true;
+		document.getElementById("dlIssueDate").value = '';
+		// document.backlogForm.dob.value = '';
+		// document.backlogForm.age.value = '';
+
+		issuDate.focus();
+
+		return false;
+
+	}
+
+	if (year == (edYear - 16)) {
+		if (month > edMonth) {
+			alert("The Diff. between Issue Date and DOB must be greater than or equal to 16 Yrs");
+			document.getElementById("dob").disabled = true;
+			document.getElementById("age").disabled = true;
+			document.getElementById("dlIssueDate").value = '';
+			// document.backlogForm.dob.value = '';
+			// document.backlogForm.age.value = '';
+
+			issuDate.focus();
+			return false;
+		} else if (month == edMonth) {
+			if (date > edDate) {
+				alert("The Diff. between Issue Date and DOB must be greater than or equal to 16 Yrs");
+				document.getElementById("dlIssueDate").value = '';
+				// document.getElementById("dob").disabled =
+				// true;//murali17082015
+				// document.getElementById("age").disabled =
+				// true;//murali17082015
+
+				// document.backlogForm.dob.value = '';
+				// document.backlogForm.age.value = '';
+
+				issuDate.focus();
+				return false;
+			}
+
+			var edDate = issuDate.value.substring(0, 2);
+			var hiphen1 = issuDate.value.substring(2, 3);
+			var hiphen2 = issuDate.value.substring(5, 6);
+			var edMonth = issuDate.value.substring(3, 5);
+			var edYear = issuDate.value.substring(6, 10);
+
+			var js_ntFrDate = document.getElementById("ntFrDate");
+			document.backlogForm.ntFrDate.value = issuDate.value;
+
+			document.backlogForm.covIssuDate.value = issuDate.value;
+
+			var js_ntToDate = document.getElementById("ntToDate");
+
+			if (issuDate.value == "") {
+				alert("Please Enter DL First Issue Date");
+				issuDate.focus();
+				return false;
+			}
+			if (hiphen1 !== "-" && hiphen2 !== "-") {
+				alert("Please Enter the Date of Issue of the Licence\n in dd-MM-yyyy Format \nEx:22-04-1991");
+				document.backlogForm.dlIssueDate.value = '';
+
+				issuDate.focus();
+				return false;
+			}
+			if (issuDate.value.length != 10) {
+				alert("Please Enter the Date of Issue of the Licence\n in dd-MM-yyyy Format \nEx:22-04-1991");
+				document.backlogForm.dlIssueDate.value = '';
+
+				issuDate.focus();
+				return false;
+			}
+
+			if (date <= edDate) {
+				diffAge = edYear - year;
+
+			}
+		} else if (month < edMonth) {
+
+			diffAge = edYear - year;
+
+		}
+	} else if (year < (edYear - 16)) {
+		if (month > edMonth) {
+
+			diffAge = edYear - year - 1;
+
+		} else if (month == edMonth) {
+			if (date > edDate) {
+
+				diffAge = edYear - year - 1;
+
+			}
+
+			else if (date <= edDate) {
+
+				diffAge = edYear - year;
+
+			}
+
+		} else if (month < edMonth) {
+			diffAge = edYear - year;
+
+		}
+
+	}
+	// alert(diffAge+"diff age");
+	if (diffAge <= 30) {
+
+		// alert("below 30 yearssssssss"+issuDate.value.toString());
+		ntValidToDate(issuDate);
+
+	} else {
+		// alert("above 30");
+
+		ntValidToDate1();
+	}
+
+	function ntValidToDate1() {
+		var serday = parseInt(document.getElementById("serday").value);
+		var sermth = parseInt(document.getElementById("sermth").value);
+		var seryr = parseInt(document.getElementById("seryr").value);
+		var servDate = new Date(parseInt(seryr), parseInt(sermth - 1),
+				parseInt(serday));
+		var date = dateOfBirth.value.substring(0, 2);
+		var month = dateOfBirth.value.substring(3, 5);
+		var year = dateOfBirth.value.substring(6, 10);
+		var hiphen1 = dateOfBirth.value.substring(2, 3);
+		var hiphen2 = dateOfBirth.value.substring(5, 6);
+		var today = new Date();
+		// var serday = today.getDate();
+		// var sermth = today.getMonth() + 1;
+		// var seryr = today.getFullYear();
+
+		var expiryDate = new Date(year, month - 1, date - 1);
+
+		expiryDate.setFullYear(50 + expiryDate.getFullYear());
+		var day = ('0' + expiryDate.getDate()).slice(-2);
+		var month = ('0' + (expiryDate.getMonth() + 1)).slice(-2);
+		var year = expiryDate.getFullYear();
+
+		var validToDate = day + "-" + month + "-" + year;
+
+		var js_ntToDate = document.getElementById("ntToDate");
+		var js_trToDate = document.getElementById("trToDate");
+		var js_ntFrDate = document.getElementById("ntFrDate");
+
+		if (expiryDate < servDate) {
+			// alert("Your Licence is expaired please renewal.! ");
+			document.getElementById("expired").style.display = "block";
+			js_ntFrDate.focus();
+
+		}
+
+		/*
+		 * var NTTodate=js_ntToDate.value; var splitVal = NTTodate.split("-");
+		 * var TransTDate=js_trToDate.value; var
+		 * TransplitVal=TransTDate.split("-"); //var curdate = new Date(); //
+		 * get system date // convert system date to milliseconds from 1-1-1970
+		 * using UTC function of Date object ExpiryDate = Date.UTC( seryr,
+		 * sermth, serday,0,0,0,0); // convert date selected by user also to
+		 * milliseconds from 1-1-1970 NTTodate = Date.UTC( splitVal[2],
+		 * splitVal[1]-1, splitVal[0],0,0,0,0); // month is 0 to 11 not 1 to 12
+		 * TransTDate=Date.UTC( TransplitVal[2], TransplitVal[1]-1,
+		 * TransplitVal[0],0,0,0,0); if(TransTDate>NTTodate) {
+		 * document.getElementById("ntToDate").value = js_ntToDate; } else {
+		 * document.getElementById("ntToDate").value = validToDate; }
+		 */
+		/*
+		 * if ( ExpiryDate > NTTodate) { if (confirm(" Licence is expired please
+		 * confirm...! ") == true) { return true; } else { js_ntFrDate.focus();
+		 * return false; } }
+		 */
+
+		document.getElementById("ntToDate").value = validToDate;
+
+	}
+
+	function ntValidToDate(issuDate) {
+
+		var serday = parseInt(document.getElementById("serday").value);
+		var sermth = parseInt(document.getElementById("sermth").value);
+		var seryr = parseInt(document.getElementById("seryr").value);
+		var servDate = new Date(parseInt(seryr), parseInt(sermth - 1),
+				parseInt(serday));
+
+		var day = issuDate.value.substring(0, 2);
+		var hiphen1 = issuDate.value.substring(2, 3);
+		var hiphen2 = issuDate.value.substring(5, 6);
+		var month = issuDate.value.substring(3, 5);
+		var year = issuDate.value.substring(6, 10);
+
+		if (day <= 31 && day >= 1 && month <= 12 && month >= 1) {
+
+			var expiryDate = new Date(year, month - 1, day - 1);
+			expiryDate.setFullYear(expiryDate.getFullYear() + 20);
+
+			var day = ('0' + expiryDate.getDate()).slice(-2);
+			var month = ('0' + (expiryDate.getMonth() + 1)).slice(-2);
+			var year = expiryDate.getFullYear();
+
+			var validToDate = day + "-" + month + "-" + year;
+			var js_ntToDate = document.getElementById("ntToDate");
+
+			if (expiryDate < servDate) {
+				// alert("Your Licence is expaired please renewal...! ");//No
+				// COV Is Eligible
+
+			}
+			document.getElementById("ntToDate").value = validToDate;
+
+			js_ntToDate.value = '';
+
+		}
+
+	}
+
+}
+
+function haveLicDetailsJs() {
+	//alert('haveLicDetails.............>');
+
+	if ($('#haveLicDetails:checkbox:checked').length == 0) {
+
+		$("#haveLicDetailsDiv").hide();
+		// window.location.reload();
+		var url = "DLBacklog.do?accd=212";
+		document.location.href = url;
+	}
+	if ($('#haveLicDetails:checkbox:checked').length == 1) {
+
+		$("#haveLicDetailsDiv").show();
+
+	}
+
+}
+
+function load_ll_dl_Details() {
+
+ //alert("ll_dl_Details----2------");
+	if ($("#have_state").val() == '-1') {
+		alert('Select State ! ');
+		$("#have_state").focus();
+		return false;
+	}
+
+	if ($("#have_rto_name").val() == '-1') {
+		alert('Select RTO ..! ');
+		$("#have_rto_name").focus();
+		return false;
+	}
+
+	if ($("#have_ll_dl_no").val().trim() == '') {
+		alert(' Enter LL Number !');
+		$("#have_ll_dl_no").focus();
+		return false;
+	}
+	// have_lic_typeValue
+	// have_rto = $("#have_rto").val().trim();
+	// have_ll_dl_no = $("#have_ll_dl_no").val().trim();
+	var have_ll_dl_no = document.getElementById("have_ll_dl_no").value;
+	var have_state = document.getElementById("have_state").value;
+	var have_rto_name = document.getElementById("have_rto_name").value;
+	// alert("have_rto_name---------"+have_rto_name);
+	// alert("-------->"+have_ll_dl_no);
+
+	var arr = [ "fname", "mname", "lname", "relation", "rfname", "rmname",
+			"rlname", "gender", "dob", "age", "bloodgrp", "eduqua", "idfm1",
+			"idfm2", "email", "mobile" ];
+	$.ajax({
+		type : 'POST',
+		url : 'fetchDLBacklogLLReferenceDetails.do?have_ll_dl_no='
+				+ have_ll_dl_no + '&have_rto_name=' + have_rto_name,
+		dataType : 'json',
+		async : false,
+		success : function(data) {
+			//alert(i + " ... " + val + "....>" + data[val.trim()]);
+			//alert(data[0] );
+			//alert(data['testBy']);
+			//alert(data['fname']);
+			 if(data['testBy'] == "true")
+       	  {
+			jQuery.each(arr, function(i, val) {
+				//alert(i + " ... " + val + "....>" + data[val.trim()]);
+             
+				if (val == 'bloodgrp') {
+					$('#blood').val(data[val.trim()].trim());
+				} else if (val.trim() == 'gender') {
+					$('#' + val.trim() + '' + data[val.trim()] + '').attr(
+							'checked', 'true');
+				} else {
+					$('#' + val.trim() + '').val(data[val.trim()]);
+				}
+			});
+       	  }
+              else
+            	  {
+            	  alert("LL Number Not found");
+            	  document.getElementById("have_ll_dl_no").value="";
+            	  }
+
+		
+
+		}
+	});
+
+	return false;
+}
+
+/*function isValidPinOrNot(addressType) {
+	//alert("Pincode Verification-----2---");
+	var pincode=0;
+	var district=0;
+	alert("addressType----------"+addressType);
+	if(addressType=='permanent'){
+		pincode = $("#pmPinCode").val();
+		district=$("#pmDistrict").val();
+	}else if(addressType=='present'){
+		pincode = $("#prPinCode").val();
+		district=$("#prDistrict").val();
+	}
+	$.ajax({
+		type : 'POST',
+		url : 'checkVaidPinInPermAddressinDLBacklog.do?pmDistrict='
+			+ district + '&pmPinCode=' + pincode,
+		data:{
+			pmPinCode :pincode,
+			pmDistrict :district,
+		},
+		dataType : 'json',
+		success : function(data) {
+			if(addressType=='permanent'){
+				if(!data.checkValidPin){
+					alert("Enter Valid Pincode");
+					$("#pmPinCode").val('');
+					$("#pmPinCode").focus();
+				}
+			}else if(addressType=='present'){
+				if(!data.checkValidPin){
+					alert("Enter Valid Pincode");
+					$("#prPinCode").val('');
+					$("#prPinCode").focus();
+				}
+				
+			}
+			
+		}
+	});
+}
+function calHillVal()
+{
+alert("Hill");	
+}*/
+
+function hillToDate()
+{
+	var js_ntFrDate = document.getElementById("hillToDate");
+	
+	var hiphen5 = js_ntFrDate.value.substring(2, 3);
+	var hiphen6 = js_ntFrDate.value.substring(5, 6);
+	
+	
+	if (js_ntFrDate.value != "") {
+		if (hiphen5 !== "-" && hiphen6 !== "-") {
+			alert("Enter Hill Validity To Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.hillToDate.value = '';
+
+			js_ntFrDate.focus();
+			return false;
+		}
+		if (js_ntFrDate.value.length != 10) {
+			alert("Enter Hill Validity To Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.hillToDate.value = '';
+
+			js_ntFrDate.focus();
+			return false;
+		}
+	}
+
+
+}
+
+function calculateHilldate() {
+	var js_ntFrDate = document.getElementById("hillFrDate");
+
+	var ntfDate = js_ntFrDate.value.substring(0, 2);
+	var hiphen5 = js_ntFrDate.value.substring(2, 3);
+	var hiphen6 = js_ntFrDate.value.substring(5, 6);
+	var ntfMonth = js_ntFrDate.value.substring(3, 5);
+	var ntfYear = js_ntFrDate.value.substring(6, 10);
+	
+	
+	if (js_ntFrDate.value != "") {
+		if (hiphen5 !== "-" && hiphen6 !== "-") {
+			alert("Enter Hill Validity From Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.hillFrDate.value = '';
+
+			js_ntToDate.focus();
+			return false;
+		}
+		if (js_ntFrDate.value.length != 10) {
+			alert("Enter Hill Validity From Date in dd-MM-yyyy Format \nEx:22-04-1991");
+			document.backlogForm.hillFrDate.value = '';
+
+			js_ntFrDate.focus();
+			return false;
+		}
+	}
+
+	var ntFromDate = new Date(ntfYear, ntfMonth - 1, ntfDate - 1);
+	ntFromDate.setFullYear(1 + ntFromDate.getFullYear());
+	var day = ('0' + ntFromDate.getDate()).slice(-2);
+	var month = ('0' + (ntFromDate.getMonth() + 1)).slice(-2);
+	var year = ntFromDate.getFullYear();
+
+	var validToDate = day + "-" + month + "-" + year;
+
+	document.getElementById("hillToDate").value = validToDate;
+
+}

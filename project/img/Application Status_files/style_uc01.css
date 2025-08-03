@@ -1,0 +1,436 @@
+
+.div_newll
+{
+	border: 2px solid green;
+	width: 85%;
+}
+
+.div_newllappl
+{
+	border: 2px solid green;
+	width: 90%;
+}
+
+.div_newllappr
+{
+	border: 2px solid green;
+	width: 95%;
+}
+
+.table_dsDetails
+{
+	width: 100%;
+}
+
+.modifications_dsDetails:hover,.modifications_dsDetails:focus
+{
+	color: red !important;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.div_confirmOrAdd
+{
+	border: 2px solid green;
+	width: 70%;
+}
+
+.div_enterOtp
+{
+	border: 2px solid green;
+	width: 50%;
+}
+
+.div_noMoreCovs
+{
+	border: 2px solid green;
+	width: 50%;
+}
+
+.div_applNumber
+{
+	border: 2px solid green;
+	width: 50%;
+}
+
+.div_added
+{
+	border: 2px solid green;
+	width: 50%;
+}
+
+.div_llServices_applNumber
+{
+	border: 2px solid green;
+	width: 50%;
+}
+
+.div_serviceWithdrawn
+{
+	border: 2px solid green;
+	width: 60%;
+}
+
+.div_llServices
+{
+	border: 2px solid green;
+	width: 80%;
+}
+
+.div_llServicesEntry
+{
+	border: 2px solid green;
+	width: 80%;
+}
+
+.table_serviceWithdrawn
+{
+	width: 90%;
+}
+
+.lable_heading
+{
+	font-size: 25px !important;
+}
+
+.padding_left_newll
+{
+	padding-left: 30px !important;
+}
+
+.left
+{
+	text-align: left !important;
+}
+
+.right
+{
+	text-align: right !important;
+}
+
+.center
+{
+	text-align: center !important;
+}
+
+.display_none
+{
+	display: none;
+}
+
+.red
+{
+	color: red !important;
+}
+.white
+{
+	color: #ffffff !important;
+}
+
+.green
+{
+	color: green !important;
+}
+
+.ash
+{
+	color: #666362 !important;
+}
+
+.blue
+{
+	color: blue !important;
+}
+
+.black
+{
+	color: black !important;
+}
+
+.select_relation_newll
+{
+	width: 50%;
+}
+
+.padding-top
+{
+	margin-top: .5%;
+}
+
+.padding-bottom
+{
+	margin-bottom: .5%;
+}
+
+.fieldset-width
+{
+	width: 98%;
+}
+
+.div_tabbedPanel
+{
+	width: 100%;
+}
+
+.multi-select
+{
+	width: 100% !important;
+}
+
+.button-multi-select
+{
+	font-weight: bold;
+}
+
+.div_tabbedPanel
+{
+	width: 90%;
+}
+
+.div_showOrHide
+{
+	background-color: #E1D8CB;
+	text-align: center;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+}
+
+.llServices_exit
+{
+	padding-right: 3%;
+}
+
+.div_showOrHide:hover,.div_showOrHide:focus,.showOrHide:hover,.showOrHide:focus
+{
+	cursor: pointer;
+	background-color: #E1C8A7;
+}
+
+.div_applicantDetails
+{
+	width: 90%;
+}
+
+.div_details
+{
+	border: 1px solid #ccc;
+}
+
+.line
+{
+	border: 1px solid black;
+}
+
+
+.verticalLine
+{
+    border-left: thin solid black;
+}
+
+
+.button
+{
+    font-weight:bolder;
+    font-size: 90%;
+    text-align:center;
+    font-family: Cambria ;
+}
+
+.lable
+{
+    color: white;
+	font-weight:bold;
+	font-size:100%;
+	font-family:Cambria;
+   
+}
+
+.smartlable
+{
+   	color:purple;
+	font-weight:bold;
+	font-size:70%;
+	font-family:Cambria;
+    width: auto;
+}
+
+.boldLabel
+{
+	color: black;
+	/*font-weight:bold;
+	font-size:90%;
+	font-family:Cambria;*/
+}
+
+.tabDetails
+{
+	color: #3300CC;
+	font-size:100%;
+	font-family:Cambria
+}
+
+.smartCard{
+	color:red;
+	font-weight:bold;
+	font-size:80%;
+	font-family:Cambria;
+}
+.presaddrdocinfo{
+	color:red;
+	font-weight:bold;
+	font-size:80%;
+	font-family:Cambria;
+}
+
+.table-ll-dl-details
+{
+	width: 100% !important;
+	vertical-align: middle !important;
+	margin-bottom: 0px !important;
+}
+
+.fieldsetLable-newll-covsRequested
+{
+	 color:#0B614B;
+	 font-weight:bold;
+	 font-size:100%;
+	 font-family:Cambria;
+	 float: none;
+}
+
+.fieldsetLable-llServices
+{
+	 color:#0B614B;
+	 font-weight:bold;
+	 font-size:100%;
+	 font-family:Cambria;
+	 float: none;
+}
+
+.remarks-newllappr
+{
+	width: 100%;
+}
+
+.link_disabled
+{
+	color: #666362;
+	opacity: .5;
+}
+
+.link_homePage
+{
+	text-decoration: none;
+}
+
+.link_homePage:hover,.link_homePage:focus
+{
+	color: blue;
+	text-decoration: underline;
+}
+
+.addressType:hover,.addressType:focus
+{
+	cursor: pointer;
+	color: red !important;
+}
+
+.link_services:hover,.link_services:focus
+{
+	cursor: pointer;
+	color: red !important;
+	text-decoration: underline;
+}
+
+.link
+{
+	text-decoration: underline;
+}
+
+.link:hover,.link:focus
+{
+	cursor: pointer;
+}
+
+.covsDivClass
+{
+	height: 190px;
+	overflow: auto;
+}
+
+.testDetails
+{
+	height: 190px;
+	overflow: auto;
+}
+
+.reloadCaptcha:hover
+{
+	cursor: pointer;
+}
+
+.fieldsetLable-newll
+{
+	 color:#0B614B;
+	 font-weight:bold;
+	 font-size:100%;
+	 font-family:Cambria;
+	 float: none;
+}
+
+.captcha
+{
+	font-family: cambria;
+	font-weight: bold;
+	float: none;
+	font-size: 200%;
+}
+
+.fieldsetLable-newllappr
+{
+	 color:#0B614B;
+	 font-weight:bold;
+	 font-size:100%;
+	 font-family:Cambria;
+	 float: none;
+}
+
+.fieldsetLable-newllappr-fee
+{
+	 color:#0B614B;
+	 font-weight:bold;
+	 font-size:100%;
+	 font-family:Cambria;
+	 float: none;
+}
+.btnform1
+{
+	background: #ffff00;
+    color: #000000;
+    border-radius: 4px;
+    font-weight: bold;
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+fieldset.scheduler-border-newll {
+    border: 1px #ccc solid  !important;
+    padding: 0 1em 1em !important;
+    margin: 0 0 0 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+}
+legend.scheduler-border-newll {
+    font-size: 14px !important;
+    font-weight: bold !important;
+    text-align: left !important;
+    width:auto;
+    padding:0 5px;
+    border-top:none;
+    border-bottom:none;
+    margin-bottom: auto;
+}
+.padding-top-newll
+{
+	margin-top: .25%;
+}

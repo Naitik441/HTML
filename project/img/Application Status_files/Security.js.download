@@ -1,0 +1,50 @@
+function disableRefresh(e){
+	if(window.event)
+	{
+		if(e.keyCode == 123 || e.keyCode==116 ||(e.keycode==17 || e.ctrlKey ) )
+		{
+			alert("IE");
+			e.keyCode=0;
+			event.returnValue = false;
+			return false;
+		}
+	}
+	else
+	{
+		if(e.which == 123 || e.which ==116 ||(e.which==17||e.ctrlKey ) )
+			
+		{
+			alert("chrome/firefox");
+			e.preventDefault();
+			return false;
+		}
+	}
+}
+
+function autofill(){
+	
+	for (var i=0; i<document.forms.length; i++) {
+		
+document.forms[i].setAttribute("AutoComplete","off");
+  }
+}
+
+function onlyNumerics(e)
+{
+	if(window.event)
+	{
+		if((e.keyCode < 48 || e.keyCode >57 ) && e.keyCode != 8 && e.keyCode !=9 )
+		{
+			event.returnValue = false;
+            return false;
+		}
+	}                            
+	else
+	{
+		if((e.which < 48 || e.which > 57) && e.which !=8 && e.which !=9)
+		{
+			e.preventDefault();
+			return false;
+		}
+	}
+}

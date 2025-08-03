@@ -1,0 +1,46 @@
+
+#c {
+	text-align: center;
+}
+
+#r {
+	resize: none;
+}
+
+#right {
+	text-align: right;
+}
+
+#left {
+	text-align: left;
+}
+.thcolor{
+background-color:maroon;
+
+}
+.redColor
+{
+	color: red;
+}
+.fieldsetLable
+{
+
+	 color:#0B614B;
+	 font-weight:bold;
+	 font-size:100%;
+	 font-family:Cambria;
+	 float: none;
+}
+.button{
+    font-weight:bolder;
+    font-size: 90%;
+    text-align:center;
+    font-family: Cambria ;
+}
+.lable{
+    color: #0B614B;
+/* 	font-weight:bold; */
+	font-size:100%;
+	font-family:Cambria;
+        width: auto;
+}
